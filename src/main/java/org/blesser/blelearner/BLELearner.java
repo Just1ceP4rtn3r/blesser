@@ -43,18 +43,19 @@ import java.util.Random;
 import java.util.logging.*;
 
 public class BLELearner {
-    LearningConfig config;    // learner configuration
+    LearningConfig config; // learner configuration
     boolean combine_query = false;
-    SimpleAlphabet<String> alphabet;    // input alphabet
-
+    SimpleAlphabet<String> alphabet; // input alphabet
 
     // Membership query
     StateLearnerSUL<String, String> sul;
-    MealyLogOracle<String, String> logMemOracle;    //log class ,customized
-    MealyCounterOracle<String, String> statsMemOracle;  //calculate real queries that interact with the system, oracle is used to count
-    MealyCacheOracle<String, String> cachedMemOracle;   //cache membership oracle
-    MealyCounterOracle<String, String> statsCachedMemOracle;    //calculate the number of memebership query in the cache
-    LearningAlgorithm<MealyMachine<?, String, ?, String>, String, Word<String>> learningAlgorithm;  //membership query algorithm
+    MealyLogOracle<String, String> logMemOracle; // log class ,customized
+    MealyCounterOracle<String, String> statsMemOracle; // calculate real queries that interact with the system, oracle
+                                                       // is used to count
+    MealyCacheOracle<String, String> cachedMemOracle; // cache membership oracle
+    MealyCounterOracle<String, String> statsCachedMemOracle; // calculate the number of memebership query in the cache
+    LearningAlgorithm<MealyMachine<?, String, ?, String>, String, Word<String>> learningAlgorithm; // membership query
+                                                                                                   // algorithm
 
     // Equivalence query
     SULOracle<String, String> eqOracle;
@@ -67,14 +68,14 @@ public class BLELearner {
     Logger logble = Logger.getLogger("ble.log");
     FileHandler fileHandler;
 
-    public BLELearner(LearningConfig config) throws Exception{
+    public BLELearner(LearningConfig config) throws Exception {
         this.config = config;
 
-        try{
-            fileHandler = new FileHandler(config.output_dir+"ble.log");
-        }catch (SecurityException e){
+        try {
+            fileHandler = new FileHandler(config.output_dir + "ble.log");
+        } catch (SecurityException e) {
             e.printStackTrace();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -83,7 +84,9 @@ public class BLELearner {
             SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss S");
 
             public String format(LogRecord record) {
-                return format.format(record.getMillis()) + " " + record.getSourceClassName() + "\n" + record.getSourceMethodName() + "\n" + record.getLevel() + ": " + " " + record.getMessage() + "\n";
+                return format.format(record.getMillis()) + " " + record.getSourceClassName() + "\n"
+                        + record.getSourceMethodName() + "\n" + record.getLevel() + ": " + " " + record.getMessage()
+                        + "\n";
             }
         });
         logble.addHandler(fileHandler);
@@ -91,42 +94,47 @@ public class BLELearner {
 
         // Create output directory if it doesn't exist
         Path path = Paths.get(config.output_dir);
-        if(Files.notExists(path)) {
+        if (Files.notExists(path)) {
             Files.createDirectories(path);
         }
 
         configureLogging(config.output_dir);
 
         LearnLogger log = LearnLogger.getLogger(BLELearner.class.getSimpleName());
-        // Check the type of learning we want to do and create corresponding configuration and SUL
-        if(config.type == LearningConfig.TYPE_CONTROLLER) {
+        // Check the type of learning we want to do and create corresponding
+        // configuration and SUL
+        if (config.type == LearningConfig.TYPE_CONTROLLER) {
             log.log(Level.INFO, "Using BLE devices SUL");
 
             // Create the openflow controller SUL
             sul = new SMPSUL(new SMPLearningConfig(config));
-            alphabet = ((SMPSUL)sul).getAlphabet();
+            alphabet = ((SMPSUL) sul).getAlphabet();
         }
 
         loadLearningAlgorithm(config.learning_algorithm, alphabet, sul);
         loadEquivalenceAlgorithm(config.eqtest, alphabet, sul);
     }
 
-    public void loadLearningAlgorithm(String algorithm, SimpleAlphabet<String> alphabet, StateLearnerSUL<String, String> sul) throws Exception {
+    public void loadLearningAlgorithm(String algorithm, SimpleAlphabet<String> alphabet,
+            StateLearnerSUL<String, String> sul) throws Exception {
         // Create the membership oracle
-        //memOracle = new SULOracle<String, String>(sul);
+        // memOracle = new SULOracle<String, String>(sul);
         // Add a logging oracle
-        logMemOracle = new MealyLogOracle<String, String>(sul, LearnLogger.getLogger("learning_queries"), combine_query);
+        logMemOracle = new MealyLogOracle<String, String>(sul, LearnLogger.getLogger("learning_queries"),
+                combine_query);
         // Count the number of queries actually sent to the SUL
         statsMemOracle = new MealyCounterOracle<String, String>(logMemOracle, "membership queries to SUL");
         // Use cache oracle to prevent double queries to the SUL
-        //cachedMemOracle = MealyCacheOracle.createDAGCacheOracle(alphabet, statsMemOracle);
+        // cachedMemOracle = MealyCacheOracle.createDAGCacheOracle(alphabet,
+        // statsMemOracle);
         // Count the number of queries to the cache
         statsCachedMemOracle = new MealyCounterOracle<String, String>(statsMemOracle, "membership queries to cache");
 
         // Instantiate the selected learning algorithm
-        switch(algorithm.toLowerCase()) {
+        switch (algorithm.toLowerCase()) {
             case "lstar":
-                learningAlgorithm = new ExtensibleLStarMealyBuilder<String, String>().withAlphabet(alphabet).withOracle(statsCachedMemOracle).create();
+                learningAlgorithm = new ExtensibleLStarMealyBuilder<String, String>().withAlphabet(alphabet)
+                        .withOracle(statsCachedMemOracle).create();
                 break;
 
             case "dhc":
@@ -134,11 +142,13 @@ public class BLELearner {
                 break;
 
             case "kv":
-                learningAlgorithm = new KearnsVaziraniMealy<String, String>(alphabet, statsCachedMemOracle, true, AcexAnalyzers.BINARY_SEARCH);
+                learningAlgorithm = new KearnsVaziraniMealy<String, String>(alphabet, statsCachedMemOracle, true,
+                        AcexAnalyzers.BINARY_SEARCH);
                 break;
 
             case "ttt":
-                AcexLocalSuffixFinder suffixFinder = new AcexLocalSuffixFinder(AcexAnalyzers.BINARY_SEARCH, true, "Analyzer");
+                AcexLocalSuffixFinder suffixFinder = new AcexLocalSuffixFinder(AcexAnalyzers.BINARY_SEARCH, true,
+                        "Analyzer");
                 learningAlgorithm = new TTTLearnerMealy<String, String>(alphabet, statsCachedMemOracle, suffixFinder);
                 break;
 
@@ -155,35 +165,43 @@ public class BLELearner {
         }
     }
 
-    public void loadEquivalenceAlgorithm(String algorithm, SimpleAlphabet<String> alphabet, StateLearnerSUL<String, String> sul) throws Exception {
-        //TODO We could combine the two cached oracle to save some queries to the SUL
+    public void loadEquivalenceAlgorithm(String algorithm, SimpleAlphabet<String> alphabet,
+            StateLearnerSUL<String, String> sul) throws Exception {
+        // We could combine the two cached oracle to save some queries to the SUL
         // Create the equivalence oracle
-        //eqOracle = new SULOracle<String, String>(sul);
+        // eqOracle = new SULOracle<String, String>(sul);
         // Add a logging oracle
-        logEqOracle = new MealyLogOracle<String, String>(sul, LearnLogger.getLogger("equivalence_queries"), combine_query);
+        logEqOracle = new MealyLogOracle<String, String>(sul, LearnLogger.getLogger("equivalence_queries"),
+                combine_query);
         // Add an oracle that counts the number of queries
         statsEqOracle = new MealyCounterOracle<String, String>(logEqOracle, "equivalence queries to SUL");
         // Use cache oracle to prevent double queries to the SUL
-        //cachedEqOracle = MealyCacheOracle.createDAGCacheOracle(alphabet, statsEqOracle);
+        // cachedEqOracle = MealyCacheOracle.createDAGCacheOracle(alphabet,
+        // statsEqOracle);
         // Count the number of queries to the cache
         statsCachedEqOracle = new MealyCounterOracle<String, String>(statsEqOracle, "equivalence queries to cache");
 
         // Instantiate the selected equivalence algorithm
-        switch(algorithm.toLowerCase()) {
+        switch (algorithm.toLowerCase()) {
             case "wmethod":
-                equivalenceAlgorithm = new WMethodEQOracle.MealyWMethodEQOracle<String, String>(config.max_depth, statsCachedEqOracle);
+                equivalenceAlgorithm = new WMethodEQOracle.MealyWMethodEQOracle<String, String>(config.max_depth,
+                        statsCachedEqOracle);
                 break;
 
             case "modifiedwmethod":
-                equivalenceAlgorithm = new MealyModifiedWMethodEQOracle<String, String>(config.max_depth, statsCachedEqOracle);
+                equivalenceAlgorithm = new MealyModifiedWMethodEQOracle<String, String>(config.max_depth,
+                        statsCachedEqOracle);
                 break;
 
             case "wpmethod":
-                equivalenceAlgorithm = new WpMethodEQOracle.MealyWpMethodEQOracle<String, String>(config.max_depth, statsCachedEqOracle);
+                equivalenceAlgorithm = new WpMethodEQOracle.MealyWpMethodEQOracle<String, String>(config.max_depth,
+                        statsCachedEqOracle);
                 break;
 
             case "randomwords":
-                equivalenceAlgorithm = new RandomWordsEQOracle.MealyRandomWordsEQOracle<String, String>(statsCachedEqOracle, config.min_length, config.max_length, config.nr_queries, new Random(config.seed));
+                equivalenceAlgorithm = new RandomWordsEQOracle.MealyRandomWordsEQOracle<String, String>(
+                        statsCachedEqOracle, config.min_length, config.max_length, config.nr_queries,
+                        new Random(config.seed));
                 break;
 
             default:
@@ -211,30 +229,32 @@ public class BLELearner {
 
         MealyMachine<?, String, ?, String> hypothesis = learningAlgorithm.getHypothesisModel();
 
-        while(learning) {
+        while (learning) {
             // Write outputs
             writeDotModel(hypothesis, alphabet, config.output_dir + "/hypothesis_" + round.getCount() + ".dot");
 
             // Search counter-example
             SimpleProfiler.start("Searching for counter-example");
-            DefaultQuery<String, Word<String>> counterExample = equivalenceAlgorithm.findCounterExample(hypothesis, alphabet);
+            DefaultQuery<String, Word<String>> counterExample = equivalenceAlgorithm.findCounterExample(hypothesis,
+                    alphabet);
             SimpleProfiler.stop("Searching for counter-example");
 
-            if(counterExample == null) {
+            if (counterExample == null) {
                 // No counter-example found, so done learning
                 learning = false;
 
                 // Write outputs
                 writeDotModel(hypothesis, alphabet, config.output_dir + "/learnedModel.dot");
-                //writeAutModel(hypothesis, alphabet, config.output_dir + "/learnedModel.aut");
-            }
-            else {
+                // writeAutModel(hypothesis, alphabet, config.output_dir + "/learnedModel.aut");
+            } else {
                 // Counter example found, update hypothesis and continue learning
                 log.logCounterexample("Counter-example found: " + counterExample.toString());
-                //TODO Add more logging
+                // Add more logging
                 round.increment();
                 log.logPhase("Starting round " + round.getCount());
 
+                // TODO: Overriding the refinement method to refine the hypothesis in any case
+                // (We just need one round of membership queries)
                 SimpleProfiler.start("Learning");
                 learningAlgorithm.refineHypothesis(counterExample);
                 SimpleProfiler.stop("Learning");
@@ -256,14 +276,15 @@ public class BLELearner {
         log.log(Level.INFO, "States in final hypothesis: " + hypothesis.size());
     }
 
-    public static void writeDotModel(MealyMachine<?, String, ?, String> model, SimpleAlphabet<String> alphabet, String filename) throws IOException, InterruptedException {
+    public static void writeDotModel(MealyMachine<?, String, ?, String> model, SimpleAlphabet<String> alphabet,
+            String filename) throws IOException, InterruptedException {
         // Write output to dot-file
         File dotFile = new File(filename);
         PrintStream psDotFile = new PrintStream(dotFile);
         GraphDOT.write(model, alphabet, psDotFile);
         psDotFile.close();
 
-        //TODO Check if dot is available
+        // Check if dot is available
 
         // Convert .dot to .pdf
         Runtime.getRuntime().exec("dot -Tpdf -O " + filename);
@@ -299,7 +320,7 @@ public class BLELearner {
     }
 
     public static void main(String[] args) throws Exception {
-        if(args.length < 1) {
+        if (args.length < 1) {
             System.err.println("Invalid number of parameters");
             System.exit(-1);
         }
@@ -309,6 +330,5 @@ public class BLELearner {
         BLELearner learner = new BLELearner(config);
         learner.learn();
     }
-
 
 }
