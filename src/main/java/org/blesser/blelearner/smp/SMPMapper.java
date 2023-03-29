@@ -11,6 +11,8 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.*;
 
 public class SMPMapper {
@@ -52,12 +54,35 @@ public class SMPMapper {
             SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss S");
 
             public String format(LogRecord record) {
-                return format.format(record.getMillis()) + " " + record.getSourceClassName() + "\n" + record.getSourceMethodName() + "\n" + record.getLevel() + ": " + " " + record.getMessage() + "\n";
+                return format.format(record.getMillis()) + " " + record.getSourceClassName() + "\n"
+                        + record.getSourceMethodName() + "\n" + record.getLevel() + ": " + " " + record.getMessage()
+                        + "\n";
             }
         });
         logble.addHandler(filehandler);
         logble.setUseParentHandlers(false);
     }
+
+    /*
+     * Author: syncxxx
+     * Date: 2023-3-29
+     * Description: init serial connection
+     * Input: none
+     * Output: none
+     */
+    // TODO: UART or other serial port connection
+    public void initSerialConnection() throws UnknownHostException, IOException {
+        socket = new Socket(host, port);
+        socket.setTcpNoDelay(true);
+        socket.setSoTimeout(RECEIVE_MSG_TIMEOUT);
+
+        output = socket.getOutputStream();
+        input = socket.getInputStream();
+    }
+
+    /********************************************************************************
+     * Paramemters setting
+     ********************************************************************************/
 
     public void setHost(String host) {
         this.host = host;
@@ -75,16 +100,102 @@ public class SMPMapper {
         this.REQUIRE_RESTART = restart;
     }
 
-    public void connectSocket() throws UnknownHostException, IOException {
-        socket = new Socket(host, port);
-        socket.setTcpNoDelay(true);
-        socket.setSoTimeout(RECEIVE_MSG_TIMEOUT);
+    /********************************************************************************
+     * Message constructions
+     * 0x01 Pairing Request LE-U, ACL-U
+     * 0x02 Pairing Response LE-U, ACL-U
+     * 0x03 Pairing Confirm LE-U
+     * 0x04 Pairing Random LE-U
+     * 0x05 Pairing Failed LE-U, ACL-U
+     * 0x06 Encryption Information LE-U
+     * 0x07 Central Identification LE-U
+     * 0x08 Identity Information LE-U, ACL-U
+     * 0x09 Identity Address Information LE-U, ACL-U
+     * 0x0A Signing Information LE-U, ACL-U
+     * 0x0B Security Request LE-U
+     * 0x0C Pairing Public Key LE-U
+     * 0x0D Pairing DHKey Check LE-U
+     * 0x0E Pairing Keypress Notification LE-U
+     ********************************************************************************/
 
-        output = socket.getOutputStream();
-        input = socket.getInputStream();
+    // todo:implement concrete packet to string
+    public String receiveMessages() throws Exception {
+        String out = "";
+        return out;
     }
 
-    //todo:override start method
+    void sendMessage(byte[] msg) throws Exception {
+        output.write(msg);
+    }
+
+    /*
+     * Description: send pairing request
+     * Input: fileds =
+     * "IOCap:0x05-OOBflag:0x00-AUTHReq:0x01-InitKeyDist:0x07-RespKeyDist:0x07"
+     * Output: none
+     */
+    public String sendPairingReq(String fields) throws Exception {
+        String[] fields_str = fields.split("-");
+        Map<String, Object> fileds_map = new HashMap<>();
+        for (String s : fields_str) {
+            String[] split1 = s.split(":");
+            String key = split1[0];
+            String value = split1[1];
+            fileds_map.put(key, value);
+            // switch (key) {
+            // case "IOCap":
+            // break;
+            // case "OOBflag":
+            // break;
+            // case "AUTHReq":
+            // break;
+            // case "InitKeyDist":
+            // break;
+            // case "RespKeyDist":
+            // break;
+            // default:
+            // break;
+            // }
+        }
+
+        return receiveMessages();
+    }
+
+    public String sendPairingRes(String fileds) throws Exception {
+
+        byte[] msg = new byte[1];
+        return receiveMessages();
+    }
+
+    public String sendPairingConfirm(String fileds) throws Exception {
+
+        byte[] msg = new byte[1];
+        return receiveMessages();
+    }
+
+    public String sendPairingRandom(String fileds) throws Exception {
+
+        byte[] msg = new byte[1];
+        return receiveMessages();
+    }
+
+    public String sendPairingFailed(String fileds) throws Exception {
+
+        byte[] msg = new byte[1];
+        return receiveMessages();
+    }
+
+    public String sendEncryptionInfo(String fileds) throws Exception {
+
+        byte[] msg = new byte[1];
+        return receiveMessages();
+    }
+
+    /********************************************************************************
+     * Init and reset
+     ********************************************************************************/
+
+    // todo:override start method
     public void start() throws Exception {
         if (cmd != null && !cmd.equals("")) {
             System.out.println(Arrays.toString(cmd.split(" ")));
@@ -101,10 +212,10 @@ public class SMPMapper {
             Thread.sleep(5000);
         }
 
-        connectSocket();
+        initSerialConnection();
     }
 
-    //todo:override reset method
+    // todo:override reset method
     public void reset() throws Exception {
         socket.close();
         if (REQUIRE_RESTART && cmd != null && !cmd.equals("")) {
@@ -127,31 +238,19 @@ public class SMPMapper {
             Thread.sleep(200);
         }
 
-        connectSocket();
+        initSerialConnection();
     }
 
-    //todo:implement concrete packet to string
-    public String receiveMessages() throws Exception {
-        String out = "";
-        return out;
-    }
+    /********************************************************************************
+     * Process input symbol
+     ********************************************************************************/
 
-    void sendMessage(byte[] msg) throws Exception {
-        output.write(msg);
-    }
-
-    //todo:implement BLE packet construction
-    public String sendOFHello() throws Exception {
-        byte[] msg = new byte[1];
-        return receiveMessages();
-    }
-
-
-    //todo:implement string to concrete packet
+    // todo:implement string to concrete packet
     public String processSymbol(String input) throws Exception {
         String inAction = input;
 
-        if (!socket.isConnected() || socket.isClosed()) return "ConnectionClosed";
+        if (!socket.isConnected() || socket.isClosed())
+            return "ConnectionClosed";
         try {
             if (inAction.equals("HELLO")) {
                 return sendOFHello();
