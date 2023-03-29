@@ -19,7 +19,6 @@ public class ModifiedExtensibleLStarMealyBuilder<I, O> {
     private ClosingStrategy<? super I, ? super Word<O>> closingStrategy = BuilderDefaults.closingStrategy();
 
     public ModifiedExtensibleLStarMealyBuilder() {
-        return new ExtensibleLStarMealyBuilder();
     }
 
 }
