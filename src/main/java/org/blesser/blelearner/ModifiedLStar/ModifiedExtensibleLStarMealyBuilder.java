@@ -1,4 +1,4 @@
-package org.blesser.blelearner;
+package org.blesser.blelearner.ModifiedLStar;
 
 import de.learnlib.algorithms.lstargeneric.mealy.ExtensibleLStarMealyBuilder;
 import de.learnlib.algorithms.lstargeneric.mealy.ExtensibleLStarMealy;
