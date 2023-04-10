@@ -7,7 +7,7 @@ Blesser is a stateful fuzzer tool designed to help developers and security resea
 
 Blesser is a tool designed for software developers and security researchers who need a reliable and efficient fuzzer to help them find vulnerabilities in their software applications. It is based on a stateful model that allows for more targeted and intelligent fuzzing of input data. Blesser is open source and available for free on GitHub.
 
-![](Figures/Architecture.png)
+![](Figures/Architecture.svg)
 
 ## Project Structure
 
