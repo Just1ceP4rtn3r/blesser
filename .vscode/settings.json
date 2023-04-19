@@ -1,5 +1,6 @@
 {
     "nrf-connect.topdir": "${workspaceFolder}",
     "nrf-connect.toolchain.path": "${nrf-connect.toolchain:2.3.0}",
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "python.analysis.typeCheckingMode": "basic"
 }
