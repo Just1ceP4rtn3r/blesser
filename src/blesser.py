@@ -1,59 +1,41 @@
-from bluetooth.ble import DiscoveryService
-import sys, os, re
-import datetime, json
-
-from scapy.all import *
+from bluepy.btle import Scanner
 from OuiLookup import OuiLookup
-from collections import OrderedDict
+
+
 
 ChoosenDevice = {}
 
+def bluetooth_classic_scan():
+    """
+    This scan finds ONLY Bluetooth Classic (non-BLE) devices
+    """
+    print('Performing classic bluetooth inquiry scan...')
 
-# 123
-
-
-# def bluetooth_classic_scan():
-#     """
-#     This scan finds ONLY Bluetooth Classic (non-BLE) devices
-#     """
-#     print('Performing classic bluetooth inquiry scan...')
-
-#     nearby_devices = bluetooth.discover_devices(duration=8,
-#                                                 lookup_names=True,
-#                                                 flush_cache=True,
-#                                                 lookup_class=False)
-
-#     print("Found {} devices".format(len(nearby_devices)))
-
-#     for addr, name in nearby_devices:
-#         try:
-#             print("   {} - {}".format(addr, name))
-#         except UnicodeEncodeError:
-#             print("   {} - {}".format(addr, name.encode("utf-8", "replace")))
-
-#     while (True):
-#         user_input = int(input("\nChoose Device : "))
-#         if user_input < len(nearby_devices) or user_input > -1:
-#             idx = user_input
-#             break
-#         else:
-#             print("[-] Out of range.")
-
-#     addr_chosen = nearby_devices[idx][0]
-
-#     return addr_chosen
+    choosen_device =''
+    while True:
+        try:
+            #10.0 sec scanning
+            ble_list = Scanner().scan(3.0)
+            for dev in ble_list: 
+                oui = OuiLookup().query(dev.addr)
+                name = ""
+                for (adtype, desc, value) in dev.getScanData():
+                    if(desc == "Complete Local Name"):
+                        name = value
+                        break
+                print(f"Device {name}, oui {oui}, MAC {dev.addr} ({dev.addrType}), RSSI={dev.rssi} dB")
+            IN = input()
+            if(len(IN) != 17):
+                continue
+            else:
+                choosen_device = IN
+        except:
+            raise Exception("Error occured")
 
 
 # main
 if __name__ == '__main__':
-    # addr_chosen = bluetooth_classic_scan()
-    # print(addr_chosen)
-
-    service = DiscoveryService()
-    devices = service.discover(2)
-
-    for address, name in devices.items():
-        print("Name: {}, address: {}".format(name, address))
+    bluetooth_classic_scan()
 
     # with open('device.json', 'w') as outfile:
     #     json.dump(ChoosenDevice, outfile)
