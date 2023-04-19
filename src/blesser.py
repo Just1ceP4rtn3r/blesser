@@ -1,4 +1,4 @@
-import bluetooth
+from bluetooth.ble import DiscoveryService
 import sys, os, re
 import datetime, json
 
@@ -9,42 +9,51 @@ from collections import OrderedDict
 ChoosenDevice = {}
 
 
-def bluetooth_classic_scan():
-    """
-    This scan finds ONLY Bluetooth Classic (non-BLE) devices
-    """
-    print('Performing classic bluetooth inquiry scan...')
+# 123
 
-    nearby_devices = bluetooth.discover_devices(duration=8,
-                                                lookup_names=True,
-                                                flush_cache=True,
-                                                lookup_class=False)
 
-    print("Found {} devices".format(len(nearby_devices)))
+# def bluetooth_classic_scan():
+#     """
+#     This scan finds ONLY Bluetooth Classic (non-BLE) devices
+#     """
+#     print('Performing classic bluetooth inquiry scan...')
 
-    for addr, name in nearby_devices:
-        try:
-            print("   {} - {}".format(addr, name))
-        except UnicodeEncodeError:
-            print("   {} - {}".format(addr, name.encode("utf-8", "replace")))
+#     nearby_devices = bluetooth.discover_devices(duration=8,
+#                                                 lookup_names=True,
+#                                                 flush_cache=True,
+#                                                 lookup_class=False)
 
-    while (True):
-        user_input = int(input("\nChoose Device : "))
-        if user_input < len(nearby_devices) or user_input > -1:
-            idx = user_input
-            break
-        else:
-            print("[-] Out of range.")
+#     print("Found {} devices".format(len(nearby_devices)))
 
-    addr_chosen = nearby_devices[idx][0]
+#     for addr, name in nearby_devices:
+#         try:
+#             print("   {} - {}".format(addr, name))
+#         except UnicodeEncodeError:
+#             print("   {} - {}".format(addr, name.encode("utf-8", "replace")))
 
-    return addr_chosen
+#     while (True):
+#         user_input = int(input("\nChoose Device : "))
+#         if user_input < len(nearby_devices) or user_input > -1:
+#             idx = user_input
+#             break
+#         else:
+#             print("[-] Out of range.")
+
+#     addr_chosen = nearby_devices[idx][0]
+
+#     return addr_chosen
 
 
 # main
 if __name__ == '__main__':
-    addr_chosen = bluetooth_classic_scan()
-    print(addr_chosen)
+    # addr_chosen = bluetooth_classic_scan()
+    # print(addr_chosen)
+
+    service = DiscoveryService()
+    devices = service.discover(2)
+
+    for address, name in devices.items():
+        print("Name: {}, address: {}".format(name, address))
 
     # with open('device.json', 'w') as outfile:
     #     json.dump(ChoosenDevice, outfile)
