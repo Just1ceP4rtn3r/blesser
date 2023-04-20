@@ -93,6 +93,9 @@ class SMPSocket:
     def close(self):
         self.socket.close()
 
+    def reset(self):
+        pass
+
 
 #########################
 # Mutator & Executor Module
