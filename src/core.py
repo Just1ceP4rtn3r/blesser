@@ -26,7 +26,8 @@ SMP_CODE = {
 #########################
 class SMPStateMachine(StateMachine):
     '''
-    This class is an "initial" state machine derived with Active Automata Learning mechanism for the SMP protocol
+    1. 由dot文件生成状态机
+    2. 保存mapper（state->packet）
     '''
 
     def __init__(self, dot):
@@ -97,6 +98,11 @@ class SMPSocket:
 # Mutator & Executor Module
 #########################
 class SMPMutator:
+    '''
+    1. 初始语料库+初始概率
+    2. 基于现有的概率，选择method、packet、state等进行真实的变异
+    '''
+
     # TODO: Initiate the mutator with {alphabet/real packet, spec constraints}
     def __init__(self, alphabet, spec_constraints):
         self.socket = socket
