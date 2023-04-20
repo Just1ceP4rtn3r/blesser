@@ -5,7 +5,7 @@ from OuiLookup import OuiLookup
 
 ChoosenDevice = {}
 
-def bluetooth_classic_scan():
+def BluetoothScan():
     """
     This scan finds ONLY Bluetooth Classic (non-BLE) devices
     """
@@ -35,7 +35,7 @@ def bluetooth_classic_scan():
 
 # main
 if __name__ == '__main__':
-    bluetooth_classic_scan()
+    BluetoothScan()
 
     # with open('device.json', 'w') as outfile:
     #     json.dump(ChoosenDevice, outfile)
