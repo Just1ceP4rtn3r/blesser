@@ -99,6 +99,7 @@ We welcome contributions to Blesser! If you'd like to contribute to the project,
 - [ ] EQ如果找到了反例，是否需要优化（例如证明反例的新状态是否与假设模型中的某个状态一致）
 - [ ] 有没有意义做Peripheral对Central进行Fuzzing测试
 - [ ] Out Of Bound (OOB)这种连接如何自动化
+- [ ] 优化方式：如果前面的状态中协商了等级A的能力，后续变异增加使用其他等级能力的概率
 
 
 
