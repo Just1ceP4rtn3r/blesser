@@ -100,6 +100,7 @@ We welcome contributions to Blesser! If you'd like to contribute to the project,
 - [ ] 有没有意义做Peripheral对Central进行Fuzzing测试
 - [ ] Out Of Bound (OOB)这种连接如何自动化
 - [ ] 优化方式：如果前面的状态中协商了等级A的能力，后续变异增加使用其他等级能力的概率
+- [ ] random的值，是否需要进行重放的变异
 
 
 
