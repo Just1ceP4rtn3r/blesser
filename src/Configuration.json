@@ -1,0 +1,3 @@
+{
+    "Alphabet": "smp_pairing_req, smp_pairing_rsp, smp_pairing_confirm, smp_pairing_random, smp_pairing_failed, smp_encrypt_info, smp_central_ident, smp_ident_info, smp_ident_addr_info, smp_signing_info, smp_security_request, smp_public_key, smp_dhkey_check, smp_keypress_notif"
+}

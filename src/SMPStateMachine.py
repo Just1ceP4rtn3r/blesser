@@ -1,11 +1,13 @@
 from statemachine import StateMachine, State
+
+
 #########################
 # State Machine
 #########################
 class SMPStateMachine(StateMachine):
     ######################################################## States ########################################################
     # Entrypoint, now we have a L2CAP connection
-    not_pair_state = State('Not Pair State', initial=True)  
+    not_pair_state = State('Not Pair State', initial=True)
     # End, close the L2CAP connection
     final_state = State('Final State', final=True)
 
@@ -39,12 +41,15 @@ class SMPStateMachine(StateMachine):
     # reason:0x0E; Cross Transport Key Derivation Generation Not Allowed
     receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x050e)
 
-
     #### code:0x02 Pairing Response ####
     receive_paring_rsp_state = State('Receive Paring Response State')
 
     ######################################################## Transitions ########################################################
-    not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state)
+    not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="")
+
+
+
+
 
 
     '''
@@ -53,9 +58,13 @@ class SMPStateMachine(StateMachine):
     '''
 
     def __init__(self, dot):
+        self.current_req = None
+        self.current_rsp = None
         self.translate(dot)
 
     # TODO: translate the dot file to a state machine with "StateMachine" library)
     def translate(self, dot):
         self.closed_state = State('Not Pair State', initial=True)  # Start
 
+
+    def 
