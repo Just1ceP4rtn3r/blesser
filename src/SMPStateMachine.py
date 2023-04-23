@@ -41,6 +41,7 @@ class SMPStateMachine(StateMachine):
     # reason:0x0E; Cross Transport Key Derivation Generation Not Allowed
     receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x050e)
 
+
     #### code:0x02 Pairing Response ####
     receive_paring_rsp_state = State('Receive Paring Response State')
 
@@ -67,4 +68,4 @@ class SMPStateMachine(StateMachine):
         self.closed_state = State('Not Pair State', initial=True)  # Start
 
 
-    def 
+    
