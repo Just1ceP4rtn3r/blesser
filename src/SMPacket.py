@@ -19,6 +19,8 @@ SMP_CODE = {
     0x0d: "smp_dhkey_check",
     0x0e: "smp_keypress_notif",
 }
+
+
 # BLE SMP protocol packet class
 class SMPacket:
 
@@ -27,7 +29,7 @@ class SMPacket:
         self.packet_type = None
         self.content = []
 
-    def CompareTo(self, packet):
+    def compare_to(self, packet):
         if (self.content == packet.content):
             return True
         else:

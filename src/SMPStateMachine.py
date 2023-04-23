@@ -45,6 +45,7 @@ class SMPStateMachine(StateMachine):
     #### code:0x02 Pairing Response ####
     receive_paring_rsp_state = State('Receive Paring Response State')
 
+
     ######################################################## Transitions ########################################################
     not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="")
 
@@ -68,4 +69,4 @@ class SMPStateMachine(StateMachine):
         self.closed_state = State('Not Pair State', initial=True)  # Start
 
 
-    
+    def receiv_paring_rsp()
