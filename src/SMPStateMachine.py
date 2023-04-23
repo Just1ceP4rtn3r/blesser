@@ -47,7 +47,7 @@ class SMPStateMachine(StateMachine):
 
 
     ######################################################## Transitions ########################################################
-    not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="")
+    not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp")
 
 
 
@@ -62,11 +62,30 @@ class SMPStateMachine(StateMachine):
     def __init__(self, dot):
         self.current_req = None
         self.current_rsp = None
-        self.translate(dot)
+        self.transition_map = {}
+        self.toState_path_map = {}
+        # self.translate(dot)
 
     # TODO: translate the dot file to a state machine with "StateMachine" library)
     def translate(self, dot):
-        self.closed_state = State('Not Pair State', initial=True)  # Start
+        pass
 
+    def find_counterexample(self):
+        new_state = State('new state')
+        trans = self.current_state.to(new_state,event="test/test")
+        pass
 
-    def receiv_paring_rsp()
+    def goto_state(self, state):
+        pass
+
+    def process_fuzzing(self):
+        for state in self.states:
+            self.goto_state(state)
+            for mutated_req in range(100):
+                self.current_req = mutated_req
+                self.current_rsp = None
+                self.find_counterexample()
+
+    #### Conditions/Callbacks ####
+    def receive_paring_rsp(self):
+        
