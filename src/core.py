@@ -1,4 +1,4 @@
-from statemachine import StateMachine, State
+from SMPStateMachine import SMPStateMachine
 
 SMP_CODE = {
     0x01: "smp_pairing_req",
@@ -19,61 +19,6 @@ SMP_CODE = {
     0x0d: "smp_dhkey_check",
     0x0e: "smp_keypress_notif",
 }
-
-
-#########################
-# State Machine
-#########################
-class SMPStateMachine(StateMachine):
-    '''
-    1. 由dot文件生成状态机
-    2. 保存mapper（state->packet）
-    '''
-
-    def __init__(self, dot):
-        self.translate(dot)
-
-    # TODO: translate the dot file to a state machine with "StateMachine" library)
-    def translate(self, dot):
-        self.closed_state = State('Not Pair State', initial=True)  # Start
-
-    #### States ####
-
-    # Basic States
-    closed_state = State('Not Pair State', initial=True)  # Start
-
-    open_state = State('Open State')  # End
-    wait_config_state = State('Wait Config State')
-    wait_connect_state = State('Wait Connect State')
-    wait_connect_rsp_state = State('Wait Connect Rsp State')
-    wait_disconnect_state = State('Wait Disconnect State')
-
-    # Optional States (Alternative MAC/PHY enabled operation)
-    wait_create_state = State('Wait Create State')
-    wait_create_rsp_state = State('Wait Create Rsp State')
-    wait_move_confirm_state = State('Wait Move Confirm State')
-    wait_move_state = State('Wait Move State')
-    wait_move_rsp_state = State('Wait Move Rsp State')
-    wait_confirm_rsp_state = State('Wait Confirm Rsp State')
-
-    # Configurateion States
-    wait_send_config_state = State('Wait Send Config State')
-    wait_config_req_rsp_state = State('Wait Config Req Rsp State')
-    wait_config_req_state = State('Wait Config Req State')
-    wait_config_rsp_state = State('Wait Config Rsp State')
-    wait_control_ind_state = State('Wait Control Ind State')
-    wait_final_rsp_state = State('Wait Final Rsp State')
-    wait_ind_final_rsp_state = State('Wait Ind Final Rsp State')
-
-    #### Transitions ####
-
-    # from open_state
-    open_to_w_discon = open_state.to(wait_disconnect_state)
-    open_to_closed = open_state.to(closed_state)
-    open_to_w_conf = open_state.to(wait_config_state)
-    open_to_w_move = open_state.to(wait_move_state)
-    open_to_w_move_rsp = open_state.to(wait_move_rsp_state)
-    open_to_w_move_confirm = open_state.to(wait_move_confirm_state)
 
 
 #########################
@@ -108,7 +53,8 @@ class SMPMutator:
 
     # TODO: Initiate the mutator with {alphabet/real packet, spec constraints}
     def __init__(self, alphabet, spec_constraints):
-        self.socket = socket
+        pass
+        # self.socket = socket
 
     def MutateConstraints(self):
         # mutate methods probabilities
@@ -179,7 +125,6 @@ def Sanitizer(current_state, req, resp):
 # Feedback Module
 #########################
 def FeedBack():
-    pass
 
 
 def SMPFuzzer():
