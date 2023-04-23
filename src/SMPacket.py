@@ -1,3 +1,6 @@
+import pyshark
+
+
 # BLE SMP protocol packet class
 class SMPacket:
 
@@ -6,7 +9,7 @@ class SMPacket:
         self.packet_type = None
         self.content = []
 
-    def compare_to(self, packet):
+    def CompareTo(self, packet):
         if (self.content == packet.content):
             return True
         else:
