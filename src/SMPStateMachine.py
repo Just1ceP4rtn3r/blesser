@@ -2,6 +2,7 @@ from statemachine import StateMachine, State
 from statemachine.transition import Transition
 import re
 
+
 #########################
 # State Machine
 #########################
@@ -58,14 +59,16 @@ class SMPStateMachine(StateMachine):
     ######################################################## Transitions ########################################################
     not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp")
 
-    receive_paring_rsp_to_receive_pairing_confirm_state = receive_paring_rsp_state.to(receive_pairing_confirm_state,cond="receive_pairing_confirm")
+    receive_paring_rsp_to_receive_pairing_confirm_state = receive_paring_rsp_state.to(receive_pairing_confirm_state,
+                                                                                      cond="receive_pairing_confirm")
 
-    receive_pairing_confirm_state_to_receive_pairing_random_state = receive_pairing_confirm_state.to(receive_pairing_random_state,cond="receive_pairing_random")
+    receive_pairing_confirm_state_to_receive_pairing_random_state = receive_pairing_confirm_state.to(
+        receive_pairing_random_state, cond="receive_pairing_random")
 
-    receive_pairing_random_state_to_receive_pairing_dhkey_check_state = receive_pairing_random_state.to(receive_pairing_dhkey_check_state,cond="receive_pairing_dhkey_check")
+    receive_pairing_random_state_to_receive_pairing_dhkey_check_state = receive_pairing_random_state.to(
+        receive_pairing_dhkey_check_state, cond="receive_pairing_dhkey_check")
 
     receive_pairing_dhkey_check_state_to_final_state = receive_pairing_dhkey_check_state.to(final_state)
-
     '''
     1. 由dot文件生成状态机
     2. 保存mapper（state->packet）
@@ -77,28 +80,27 @@ class SMPStateMachine(StateMachine):
         # {tran_1: (req_1, rsp_1)}
         self.transition_map = {}
         # {state1: [[tran_1, tran_2]], state2: [[tran_3, tran_4]]}
-        self.toState_path_map = {}
+        self.toState_path_map = {self.not_pair_state: []}
         self.translate(dot)
         # state_array: the state that has been traversed
         state_array = []
         self.traverse_state_machine(self.not_pair_state, state_array)
 
     # [can only be called with a state machine] traverse the initial state machine to generate the transition_map & toState_path_map
-    def traverse_state_machine(self, state:State, state_array):
+    def traverse_state_machine(self, state: State, state_array):
         for transition in state.transitions:
             # if the target state has been traversed, then skip it
-            if(transition.target in state_array):
+            if (transition.target in state_array):
                 continue
             if transition.target not in self.toState_path_map:
                 self.toState_path_map[transition.target] = []
             for path in self.toState_path_map[state]:
                 p = path + [transition]
-                if(p not in self.toState_path_map[transition.target]):
+                if (p not in self.toState_path_map[transition.target]):
                     self.toState_path_map[transition.target].append(path + [transition])
 
             state_array.append(transition.target)
             self.traverse_state_machine(transition.target, state_array)
-
 
     # TODO: translate the dot file to a state machine with "StateMachine" library)
     def translate(self, dot):
@@ -115,33 +117,26 @@ class SMPStateMachine(StateMachine):
             transition_match_res = transition_pattern.match(line)
             if state_match_res != None and transition_match_res == None:
                 # State matched
-                self.states.append(State(
-                    name=state_match_res[1],
-                    value={
+                self.states.append(
+                    State(name=state_match_res[1], value={
                         "shape": state_match_res[2],
                         "label": state_match_res[3]
-                    }
-                ))
+                    }))
             elif state_match_res == None and transition_match_res != None:
                 # Transition matched
-                self.transitions.append(Transition(
-                    source=State(name=transition_match_res[1]),
-                    target=State(name=transition_match_res[2]),
-                    event=[transition_match_res[3], transition_match_res[4]]
-                ))
+                self.transitions.append(
+                    Transition(source=State(name=transition_match_res[1]),
+                               target=State(name=transition_match_res[2]),
+                               event=[transition_match_res[3], transition_match_res[4]]))
             elif state_match_res == None and transition_match_res == None:
                 # both not matched
                 transition_match_res = re.match(r'__start0 -> ([a-zA-Z0-9]+);', line)
                 if transition_match_res != None:
-                    self.transitions.append(Transition(
-                        source=State(name="__start0"),
-                        target=State(name=transition_match_res[1])
-                    ))
+                    self.transitions.append(
+                        Transition(source=State(name="__start0"), target=State(name=transition_match_res[1])))
             else:
                 # both matched
-                assert(False)
-
-
+                assert (False)
 
     def find_counterexample(self):
         new_state = State('new state')
@@ -149,7 +144,10 @@ class SMPStateMachine(StateMachine):
         pass
 
     def goto_state(self, state):
-        pass
+        assert (self.current_state == self.not_pair_state)
+        for transition in self.toState_path_map[state]:
+            self.send(transition.event)
+        assert (self.current_state == state)
 
     def process_fuzzing(self):
         for state in self.states:
@@ -187,6 +185,7 @@ class SMPStateMachine(StateMachine):
             return True
         else:
             return False
+
 
 # if __name__ == '__main__':
 #     smp_state_machine = SMPStateMachine("../example1.dot")
