@@ -13,47 +13,40 @@ class SMPStateMachine(StateMachine):
 
     #### code:0x05 Pairing Failed####
     # reason:0x01; Passkey Entry Failed
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x0501)
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Passkey Entry Failed', value=0x0501)
     # reason:0x02; OOB Not Available
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x0502)
+    receive_pairing_failed_state = State('Receive Pairing Failed State;OOB Not Available', value=0x0502)
     # reason:0x03; Authentication Requirements
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x0503)
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Authentication Requirements', value=0x0503)
     # reason:0x04; Confirm Value Failed
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x0504)
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Confirm Value Failed', value=0x0504)
     # reason:0x05; Pairing Not Supported
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x0505)
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Pairing Not Supported', value=0x0505)
     # reason:0x06; Encryption Key Size
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x0506)
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Encryption Key Size', value=0x0506)
     # reason:0x07; Command Not Supported
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x0507)
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Command Not Supported', value=0x0507)
     # reason:0x08; Unspecified Reason
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x0508)
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Unspecified Reason', value=0x0508)
     # reason:0x09; Repeated Attempts
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x0509)
-    # reason:0x0A; Invalid Parameters
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x050a)
-    # reason:0x0B; DHKey Check Failed
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x050b)
-    # reason:0x0C; Numeric Comparison Failed
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x050c)
-    # reason:0x0D; BR/EDR Pairing In Progress
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x050d)
-    # reason:0x0E; Cross Transport Key Derivation Generation Not Allowed
-    receive_pairing_failed_state = State('Receive Pairing Failed State', value=0x050e)
-
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Repeated Attempts', value=0x0509)
+    # reason:0x0a; Invalid Parameters
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Invalid Parameters', value=0x050a)
+    # reason:0x0b; DHKey Check Failed
+    receive_pairing_failed_state = State('Receive Pairing Failed State;DHKey Check Failed', value=0x050b)
+    # reason:0x0c; Numeric Comparison Failed
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Numeric Comparison Failed', value=0x050c)
+    # reason:0x0d; BR/EDR Pairing In Progress
+    receive_pairing_failed_state = State('Receive Pairing Failed State;BR/EDR Pairing In Progress', value=0x050d)
+    # reason:0x0e; Cross Transport Key Derivation/Generation Not Allowed
+    receive_pairing_failed_state = State('Receive Pairing Failed State;Cross Transport Key Derivation/Generation Not Allowed',
+                                         value=0x050e)
 
     #### code:0x02 Pairing Response ####
     receive_paring_rsp_state = State('Receive Paring Response State')
 
-
     ######################################################## Transitions ########################################################
     not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp")
-
-
-
-
-
-
     '''
     1. 由dot文件生成状态机
     2. 保存mapper（state->packet）
@@ -74,7 +67,7 @@ class SMPStateMachine(StateMachine):
 
     def find_counterexample(self):
         new_state = State('new state')
-        trans = self.current_state.to(new_state,event="test/test")
+        trans = self.current_state.to(new_state, event="test/test")
         pass
 
     def goto_state(self, state):
@@ -90,4 +83,8 @@ class SMPStateMachine(StateMachine):
 
     #### Conditions/Callbacks ####
     def receive_paring_rsp(self):
-        pass
+        # TODO：need more detailed packet comparison
+        if (self.current_req.packet_type == "smp_pairing_req" and self.current_rsp.packet_type == "smp_pairing_rsp"):
+            return True
+        else:
+            return False
