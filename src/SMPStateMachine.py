@@ -90,4 +90,4 @@ class SMPStateMachine(StateMachine):
 
     #### Conditions/Callbacks ####
     def receive_paring_rsp(self):
-        
+        pass
