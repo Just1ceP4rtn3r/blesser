@@ -41,6 +41,7 @@ class SMPStateMachine(StateMachine):
     # reason:0x0d; BR/EDR Pairing In Progress
     receive_pairing_failed_state_13 = State('Receive Pairing Failed State;BR/EDR Pairing In Progress', value=0x050d)
     # reason:0x0e; Cross Transport Key Derivation/Generation Not Allowed
+
     receive_pairing_failed_state_14 = State('Receive Pairing Failed State;Cross Transport Key Derivation/Generation Not Allowed',
                                          value=0x050e)
     """
@@ -75,9 +76,26 @@ class SMPStateMachine(StateMachine):
         self.current_rsp = None
         # {tran_1: (req_1, rsp_1)}
         self.transition_map = {}
-        # {state1: [(tran_1, tran_2)], state2: [(tran_3, tran_4)]}
+        # {state1: [[tran_1, tran_2]], state2: [[tran_3, tran_4]]}
         self.toState_path_map = {}
         self.translate(dot)
+
+    # [can only be called with a state machine] traverse the initial state machine to generate the transition_map & toState_path_map
+    def traverse_state_machine(self, state:State, state_array):
+        for transition in state.transitions:
+            # if the target state has been traversed, then skip it
+            if(transition.target in state_array):
+                continue
+            if transition.target not in self.toState_path_map:
+                self.toState_path_map[transition.target] = []
+            for path in self.toState_path_map[state]:
+                p = path + [transition]
+                if(p not in self.toState_path_map[transition.target]):
+                    self.toState_path_map[transition.target].append(path + [transition])
+
+            state_array.append(transition.target)
+            self.traverse_state_machine(transition.target, state_array)
+
 
     # TODO: translate the dot file to a state machine with "StateMachine" library)
     def translate(self, dot):
@@ -119,6 +137,11 @@ class SMPStateMachine(StateMachine):
             else:
                 # both matched
                 assert(False)
+        
+        
+        # state_array: the state that has been traversed
+        state_array = []
+        self.traverse_state_machine(self.not_pair_state, state_array)
 
     def find_counterexample(self):
         new_state = State('new state')
