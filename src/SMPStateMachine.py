@@ -11,7 +11,7 @@ class SMPStateMachine(StateMachine):
     not_pair_state = State('Not Pair State', initial=True)
     # End, close the L2CAP connection
     final_state = State('Final State', final=True)
-    
+
     #### code:0x05 Pairing Failed####
     """
     # reason:0x01; Passkey Entry Failed
@@ -45,7 +45,7 @@ class SMPStateMachine(StateMachine):
     receive_pairing_failed_state_14 = State('Receive Pairing Failed State;Cross Transport Key Derivation/Generation Not Allowed',
                                          value=0x050e)
     """
-                                         
+
     #### code:0x02 Pairing Response ####
     receive_paring_rsp_state = State('Receive Paring Response State')
     #### code:0x0c Pairing Confirm ####
@@ -57,13 +57,13 @@ class SMPStateMachine(StateMachine):
 
     ######################################################## Transitions ########################################################
     not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp")
-    
+
     receive_paring_rsp_to_receive_pairing_confirm_state = receive_paring_rsp_state.to(receive_pairing_confirm_state,cond="receive_pairing_confirm")
-    
+
     receive_pairing_confirm_state_to_receive_pairing_random_state = receive_pairing_confirm_state.to(receive_pairing_random_state,cond="receive_pairing_random")
-    
+
     receive_pairing_random_state_to_receive_pairing_dhkey_check_state = receive_pairing_random_state.to(receive_pairing_dhkey_check_state,cond="receive_pairing_dhkey_check")
-    
+
     receive_pairing_dhkey_check_state_to_final_state = receive_pairing_dhkey_check_state.to(final_state)
 
     '''
@@ -79,6 +79,9 @@ class SMPStateMachine(StateMachine):
         # {state1: [[tran_1, tran_2]], state2: [[tran_3, tran_4]]}
         self.toState_path_map = {}
         self.translate(dot)
+        # state_array: the state that has been traversed
+        state_array = []
+        self.traverse_state_machine(self.not_pair_state, state_array)
 
     # [can only be called with a state machine] traverse the initial state machine to generate the transition_map & toState_path_map
     def traverse_state_machine(self, state:State, state_array):
@@ -104,7 +107,7 @@ class SMPStateMachine(StateMachine):
         self.states.append(State(name="__start0", initial=True))
         dot_file = open(dot, "r")
         lines = dot_file.readlines()
-        dot_file.close()  
+        dot_file.close()
         state_pattern = re.compile(r'\s*([a-z0-9]+) \[shape="([a-z]+)" label="([0-9]+)"\]')
         transition_pattern = re.compile(r'\s*([a-z0-9]+) -> ([a-z0-9\.]+) \[label="([a-zA-Z0-9\.]+) / ([a-zA-Z0-9\.]+)"\]')
         for line in lines:
@@ -137,11 +140,8 @@ class SMPStateMachine(StateMachine):
             else:
                 # both matched
                 assert(False)
-        
-        
-        # state_array: the state that has been traversed
-        state_array = []
-        self.traverse_state_machine(self.not_pair_state, state_array)
+
+
 
     def find_counterexample(self):
         new_state = State('new state')
@@ -161,12 +161,12 @@ class SMPStateMachine(StateMachine):
 
     #### Conditions/Callbacks ####
     def receive_paring_rsp(self):
-        # TODO：need more detailed packet comparison       
+        # TODO：need more detailed packet comparison
         if (self.current_req.packet_type == "smp_pairing_req" and self.current_rsp.packet_type == "smp_pairing_rsp"):
             return True
         else:
             return False
-    
+
     def receive_pairing_confirm(self):
         # TODO：need more detailed packet comparison
         if (self.current_req.packet_type == "smp_pairing_req" and self.current_rsp.packet_type == "smp_pairing_rsp"):
@@ -188,9 +188,9 @@ class SMPStateMachine(StateMachine):
         else:
             return False
 
-if __name__ == '__main__':
-    smp_state_machine = SMPStateMachine("../example1.dot")
-    for state in smp_state_machine.states:
-        print(state)
-    for transition in smp_state_machine.transitions:
-        print(transition)
+# if __name__ == '__main__':
+#     smp_state_machine = SMPStateMachine("../example1.dot")
+#     for state in smp_state_machine.states:
+#         print(state)
+#     for transition in smp_state_machine.transitions:
+#         print(transition)
