@@ -1,0 +1,2121 @@
+# SEGGER J-Link RTT Viewer V7.80c Terminal Log File
+# Compiled: 16:04:41 on Sep 27 2022
+# Logging started @ 13 Apr 2023 10:39:37
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -51)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -58)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -53)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: 4f:c4:27:83:2d:d1 (random) (RSSI -86)
+00> 
+00> NOT Same!
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -58)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -52)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 8)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -42)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -42)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -43)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -43)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -43)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -43)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -43)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -43)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -43)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -43)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -42)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -43)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -48)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -48)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> [00:02:13.672,058] <err> bt_smp.smp_timeout: SMP Timeout
+00> Pairing failed: [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 5)
+00> 
+00> Device found: ee:97:f8:b4:db:75 (random) (RSSI -61)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 73:49:80:02:6b:d8 (random) (RSSI -84)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 4f:c4:27:83:2d:d1 (random) (RSSI -84)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 77:88:32:1a:f9:db (random) (RSSI -87)
+00> 
+00> NOT Same!
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -59)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -55)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -55)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -59)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -60)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -55)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -55)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -55)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -59)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: 4f:c4:27:83:2d:d1 (random) (RSSI -82)
+00> 
+00> NOT Same!
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -49)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -48)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -51)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -53)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -51)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 62)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -55)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -55)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -55)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 62)
+00> 
+00> Device found: 4f:c4:27:83:2d:d1 (random) (RSSI -84)
+00> 
+00> NOT Same!
+00> 
+00> Device found: a4:c1:38:c8:e1:04 (public) (RSSI -63)
+00> 
+00> NOT Same!
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -48)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -49)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> [00:03:28.466,522] <err> bt_smp.smp_timeout: SMP Timeout
+00> Pairing failed: [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 5)
+00> 
+00> Device found: db:e7:e2:bc:e0:6e (random) (RSSI -58)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 77:88:32:1a:f9:db (random) (RSSI -84)
+00> 
+00> NOT Same!
+00> 
+00> Device found: ee:97:f8:b4:db:75 (random) (RSSI -63)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 4f:c4:27:83:2d:d1 (random) (RSSI -68)
+00> 
+00> NOT Same!
+00> 
+00> Device found: a4:c1:38:c8:e1:04 (public) (RSSI -63)
+00> 
+00> NOT Same!
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -53)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -59)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -63)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -55)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -53)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -53)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -54)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -53)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -53)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -53)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -66)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -58)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -56)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -60)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -57)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> [00:04:36.934,143] <err> bt_smp.smp_timeout: SMP Timeout
+00> Pairing failed: [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 5)
+00> 
+00> Device found: 4f:c4:27:83:2d:d1 (random) (RSSI -79)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 77:88:32:1a:f9:db (random) (RSSI -82)
+00> 
+00> NOT Same!
+00> 
+00> Device found: a4:c1:38:c8:e1:04 (public) (RSSI -65)
+00> 
+00> NOT Same!
+00> 
+00> Device found: ee:97:f8:b4:db:75 (random) (RSSI -58)
+00> 
+00> NOT Same!
+00> 
+00> Device found: db:e7:e2:bc:e0:6e (random) (RSSI -60)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 73:49:80:02:6b:d8 (random) (RSSI -86)
+00> 
+00> NOT Same!
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -47)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -44)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -46)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> Paired with [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 22)
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -45)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+00> [00:05:47.178,070] <err> bt_smp.smp_timeout: SMP Timeout
+00> Pairing failed: [cd:c7:df:6e:f0:75 (random)]
+00> 
+00> Disconnected: cd:c7:df:6e:f0:75 (random) (reason 5)
+00> 
+00> Device found: ee:97:f8:b4:db:75 (random) (RSSI -63)
+00> 
+00> NOT Same!
+00> 
+00> Device found: db:e7:e2:bc:e0:6e (random) (RSSI -61)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 4f:c4:27:83:2d:d1 (random) (RSSI -75)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 77:88:32:1a:f9:db (random) (RSSI -84)
+00> 
+00> NOT Same!
+00> 
+00> Device found: a4:c1:38:c8:e1:04 (public) (RSSI -68)
+00> 
+00> NOT Same!
+00> 
+00> Device found: 73:49:80:02:6b:d8 (random) (RSSI -87)
+00> 
+00> NOT Same!
+00> 
+00> Device found: cd:c7:df:6e:f0:75 (random) (RSSI -58)
+00> 
+00> Same!
+00> 
+00> SET security result: [0]
+00> 
+
+# Logging stopped @ 13 Apr 2023 10:45:14
