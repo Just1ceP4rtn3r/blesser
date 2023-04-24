@@ -1,5 +1,5 @@
 from statemachine import StateMachine, State
-import pydot
+from statemachine.transition import Transition
 import re
 
 
@@ -9,7 +9,6 @@ import re
 class SMPStateMachine(StateMachine):
     ######################################################## States ########################################################
     # Entrypoint, now we have a L2CAP connection
-    '''
     not_pair_state = State('Not Pair State', initial=True)
     # End, close the L2CAP connection
     final_state = State('Final State', final=True)
@@ -51,7 +50,7 @@ class SMPStateMachine(StateMachine):
 
     ######################################################## Transitions ########################################################
     not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp")
-    '''
+
 
 
 
@@ -73,18 +72,45 @@ class SMPStateMachine(StateMachine):
 
     # TODO: translate the dot file to a state machine with "StateMachine" library)
     def translate(self, dot):
+        self.states = []
+        self.transitions = []
+        self.states.append(State(name="__start0", initial=True))
         dot_file = open(dot, "r")
         lines = dot_file.readlines()
-        dot_file.close()
+        dot_file.close()  
         state_pattern = re.compile(r'\s*([a-z0-9]+) \[shape="([a-z]+)" label="([0-9]+)"\]')
-        s = 's2 [shape="circle" label="2"];'
-        res = state_pattern.findall(s)
-        if res:
-            print(res)
-        else:
-            print("Not matched")
-            #print("")
-            
+        transition_pattern = re.compile(r'\s*([a-z0-9]+) -> ([a-z0-9\.]+) \[label="([a-zA-Z0-9\.]+) / ([a-zA-Z0-9\.]+)"\]')
+        for line in lines:
+            state_match_res = state_pattern.match(line)
+            transition_match_res = transition_pattern.match(line)
+            if state_match_res != None and transition_match_res == None:
+                # State matched
+                self.states.append(State(
+                    name=state_match_res[1],
+                    value={
+                        "shape": state_match_res[2],
+                        "label": state_match_res[3]
+                    }
+                ))
+            elif state_match_res == None and transition_match_res != None:
+                # Transition matched
+                self.transitions.append(Transition(
+                    source=State(name=transition_match_res[1]),
+                    target=State(name=transition_match_res[2]),
+                    event=[transition_match_res[3], transition_match_res[4]]
+                ))
+            elif state_match_res == None and transition_match_res == None:
+                # both not matched
+                transition_match_res = re.match(r'__start0 -> ([a-zA-Z0-9]+);', line)
+                if transition_match_res != None:
+                    self.transitions.append(Transition(
+                        source=State(name="__start0"),
+                        target=State(name=transition_match_res[1])
+                    ))
+            else:
+                # both matched
+                assert(False)
+       
 
     def find_counterexample(self):
         new_state = State('new state')
@@ -109,3 +135,7 @@ class SMPStateMachine(StateMachine):
 
 if __name__ == "__main__":
     dfa = SMPStateMachine("../example1.dot")
+    for state in dfa.states:
+        print(state)
+    for transition in dfa.transitions:
+        print(transition)
