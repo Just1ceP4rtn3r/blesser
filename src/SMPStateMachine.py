@@ -62,7 +62,9 @@ class SMPStateMachine(StateMachine):
     def __init__(self, dot):
         self.current_req = None
         self.current_rsp = None
+        # {tran_1: (req_1, rsp_1)}
         self.transition_map = {}
+        # {state1: [(tran_1, tran_2)], state2: [(tran_3, tran_4)]}
         self.toState_path_map = {}
         # self.translate(dot)
 

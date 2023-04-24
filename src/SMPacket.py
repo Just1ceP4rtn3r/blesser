@@ -82,6 +82,7 @@ class SMPacket:
             if item in pkt_fields:
                 self.content[item] = smp_pkt.get_field(item+"_raw")[0]
 
+    # 仅比较resp中非随机数的部分
     def CompareTo(self, packet):
         differ = set(self.content.items()) ^ set(packet.content.items())
         if (differ != set()):
