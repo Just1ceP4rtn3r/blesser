@@ -1,4 +1,6 @@
 from statemachine import StateMachine, State
+import pydot
+import re
 
 
 #########################
@@ -7,6 +9,7 @@ from statemachine import StateMachine, State
 class SMPStateMachine(StateMachine):
     ######################################################## States ########################################################
     # Entrypoint, now we have a L2CAP connection
+    '''
     not_pair_state = State('Not Pair State', initial=True)
     # End, close the L2CAP connection
     final_state = State('Final State', final=True)
@@ -48,7 +51,7 @@ class SMPStateMachine(StateMachine):
 
     ######################################################## Transitions ########################################################
     not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp")
-
+    '''
 
 
 
@@ -66,11 +69,22 @@ class SMPStateMachine(StateMachine):
         self.transition_map = {}
         # {state1: [(tran_1, tran_2)], state2: [(tran_3, tran_4)]}
         self.toState_path_map = {}
-        # self.translate(dot)
+        self.translate(dot)
 
     # TODO: translate the dot file to a state machine with "StateMachine" library)
     def translate(self, dot):
-        pass
+        dot_file = open(dot, "r")
+        lines = dot_file.readlines()
+        dot_file.close()
+        state_pattern = re.compile(r'\s*([a-z0-9]+) \[shape="([a-z]+)" label="([0-9]+)"\]')
+        s = 's2 [shape="circle" label="2"];'
+        res = state_pattern.findall(s)
+        if res:
+            print(res)
+        else:
+            print("Not matched")
+            #print("")
+            
 
     def find_counterexample(self):
         new_state = State('new state')
@@ -91,3 +105,7 @@ class SMPStateMachine(StateMachine):
     #### Conditions/Callbacks ####
     def receive_paring_rsp(self):
         pass
+
+
+if __name__ == "__main__":
+    dfa = SMPStateMachine("../example1.dot")
