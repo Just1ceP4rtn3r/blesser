@@ -175,6 +175,10 @@ class SMPMutator:
         # pkt_wait_mutation = ["smp_central_ident"]
         # pkt_suffixes = [] 
     # Corpus store SMPacket Objects
+    # output example:
+        # pkt sequence : ['0142-smp_pairing_req-initiator_key_distribution-0f-max_enc_key_size-10-responder_key_distribution-0f-oob_data_flags-00-authreq-2d-io_capability-04', '0063-smp_pairing_confirm-cfm_value-056cfb62f74f0cc475f81733595cc0bf', '0065-smp_pairing_random-random_value-23e4f061ec00d42c2e5497754a46c804', '0064-smp_encrypt_info-long_term_key-877a5994996da5c26c153d3e9baa9e29']
+        # mutation sequence : ['0058-smp_central_ident-random_value-0e37c9196d2e936f-ediv-b2a2']
+        # suffixes sequence : []
     def pktSeqenceBuilder(self,corpus,pkt_to_state,pkt_wait_mutation,pkt_suffixes):
         
         pkt_sequence = []
