@@ -7,9 +7,18 @@ import re
 # State Machine
 #########################
 class SMPStateMachine(StateMachine):
+
+    current_req = None
+    current_rsp = None
+    # {tran_1: (req_1, rsp_1)}
+    transition_map = {}
+    # {state1: [[tran_1, tran_2]], state2: [[tran_3, tran_4]]}
+    toState_path_map = {}
+
     ######################################################## States ########################################################
     # Entrypoint, now we have a L2CAP connection
     not_pair_state = State('Not Pair State', initial=True)
+    toState_path_map = {not_pair_state: []}
     # End, close the L2CAP connection
     final_state = State('Final State', final=True)
 
@@ -42,7 +51,6 @@ class SMPStateMachine(StateMachine):
     # reason:0x0d; BR/EDR Pairing In Progress
     receive_pairing_failed_state_13 = State('Receive Pairing Failed State;BR/EDR Pairing In Progress', value=0x050d)
     # reason:0x0e; Cross Transport Key Derivation/Generation Not Allowed
-
     receive_pairing_failed_state_14 = State('Receive Pairing Failed State;Cross Transport Key Derivation/Generation Not Allowed',
                                          value=0x050e)
     """
@@ -59,31 +67,33 @@ class SMPStateMachine(StateMachine):
     receive_pairing_dhkey_check_state = State('Receive Paring DHKey State')
 
     ######################################################## Transitions ########################################################
-    not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp")
+    not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp", event="not_pair_to_receive_paring_rsp")
+    transition_map["not_pair_to_receive_paring_rsp"] = (None, None)
 
-    receive_paring_rsp_to_receive_pairing_confirm_state = receive_paring_rsp_state.to(
-        receive_pairing_confirm_state,
-        cond="receive_pairing_confirm",
-    )
+    receive_paring_rsp_state.to(receive_pairing_confirm_state,
+                                cond="receive_pairing_confirm",
+                                event="receive_paring_rsp_to_receive_pairing_confirm_state")
+    transition_map["receive_paring_rsp_to_receive_pairing_confirm_state"] = (None, None)
 
-    receive_pairing_confirm_state_to_receive_pairing_random_state = receive_pairing_confirm_state.to(
-        receive_pairing_random_state, cond="receive_pairing_random")
+    receive_pairing_confirm_state.to(receive_pairing_random_state,
+                                     cond="receive_pairing_random",
+                                     event="receive_pairing_confirm_state_to_receive_pairing_random_state")
+    transition_map["receive_pairing_confirm_state_to_receive_pairing_random_state"] = (None, None)
 
-    receive_pairing_random_state_to_receive_pairing_dhkey_check_state = receive_pairing_random_state.to(
-        receive_pairing_dhkey_check_state, cond="receive_pairing_dhkey_check")
+    receive_pairing_random_state.to(receive_pairing_dhkey_check_state,
+                                    cond="receive_pairing_dhkey_check",
+                                    event="receive_pairing_random_state_to_receive_pairing_dhkey_check_state")
+    transition_map["receive_pairing_random_state_to_receive_pairing_dhkey_check_state"] = (None, None)
 
-    receive_pairing_dhkey_check_state_to_receive_pairing_failed_state = receive_pairing_dhkey_check_state.to(
-        receive_pairing_failed_state, cond="receive_pairing_failed")
+    receive_pairing_dhkey_check_state.to(receive_pairing_failed_state,
+                                         cond="receive_pairing_failed",
+                                         event="receive_pairing_dhkey_check_state_to_receive_pairing_failed_state")
+    transition_map["receive_pairing_dhkey_check_state_to_receive_pairing_failed_state"] = (None, None)
 
-    receive_pairing_failed_state_to_final_state = receive_pairing_failed_state.to(final_state)
+    receive_pairing_failed_state.to(final_state, event="receive_pairing_failed_state_to_final_state")
+    transition_map["receive_pairing_failed_state_to_final_state"] = (None, None)
 
     def __init__(self, dot):
-        self.current_req = None
-        self.current_rsp = None
-        # {tran_1: (req_1, rsp_1)}
-        self.transition_map = {}
-        # {state1: [[tran_1, tran_2]], state2: [[tran_3, tran_4]]}
-        self.toState_path_map = {self.not_pair_state: []}
         self.translate(dot)
         # state_array: the state that has been traversed
         state_array = []
