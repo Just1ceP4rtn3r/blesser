@@ -46,6 +46,8 @@ class SMPStateMachine(StateMachine):
     receive_pairing_failed_state_14 = State('Receive Pairing Failed State;Cross Transport Key Derivation/Generation Not Allowed',
                                          value=0x050e)
     """
+    #### code:0x05 Pairing Failed ####
+    receive_pairing_failed_state = State('Receive Pairing Failed State')
 
     #### code:0x02 Pairing Response ####
     receive_paring_rsp_state = State('Receive Paring Response State')
@@ -59,8 +61,10 @@ class SMPStateMachine(StateMachine):
     ######################################################## Transitions ########################################################
     not_pair_to_receive_paring_rsp = not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp")
 
-    receive_paring_rsp_to_receive_pairing_confirm_state = receive_paring_rsp_state.to(receive_pairing_confirm_state,
-                                                                                      cond="receive_pairing_confirm")
+    receive_paring_rsp_to_receive_pairing_confirm_state = receive_paring_rsp_state.to(
+        receive_pairing_confirm_state,
+        cond="receive_pairing_confirm",
+    )
 
     receive_pairing_confirm_state_to_receive_pairing_random_state = receive_pairing_confirm_state.to(
         receive_pairing_random_state, cond="receive_pairing_random")
@@ -68,11 +72,10 @@ class SMPStateMachine(StateMachine):
     receive_pairing_random_state_to_receive_pairing_dhkey_check_state = receive_pairing_random_state.to(
         receive_pairing_dhkey_check_state, cond="receive_pairing_dhkey_check")
 
-    receive_pairing_dhkey_check_state_to_final_state = receive_pairing_dhkey_check_state.to(final_state)
-    '''
-    1. 由dot文件生成状态机
-    2. 保存mapper（state->packet）
-    '''
+    receive_pairing_dhkey_check_state_to_receive_pairing_failed_state = receive_pairing_dhkey_check_state.to(
+        receive_pairing_failed_state, cond="receive_pairing_failed")
+
+    receive_pairing_failed_state_to_final_state = receive_pairing_failed_state.to(final_state)
 
     def __init__(self, dot):
         self.current_req = None
@@ -167,21 +170,28 @@ class SMPStateMachine(StateMachine):
 
     def receive_pairing_confirm(self):
         # TODO：need more detailed packet comparison
-        if (self.current_req.packet_type == "smp_pairing_req" and self.current_rsp.packet_type == "smp_pairing_rsp"):
+        if (self.current_req.packet_type == "smp_pairing_confirm" and self.current_rsp.packet_type == "smp_pairing_confirm"):
             return True
         else:
             return False
 
     def receive_pairing_random(self):
         # TODO：need more detailed packet comparison
-        if (self.current_req.packet_type == "smp_pairing_req" and self.current_rsp.packet_type == "smp_pairing_rsp"):
+        if (self.current_req.packet_type == "smp_pairing_random" and self.current_rsp.packet_type == "smp_pairing_random"):
             return True
         else:
             return False
 
     def receive_pairing_dhkey_check(self):
         # TODO：need more detailed packet comparison
-        if (self.current_req.packet_type == "smp_pairing_req" and self.current_rsp.packet_type == "smp_pairing_rsp"):
+        if (self.current_req.packet_type == "smp_dhkey_check" and self.current_rsp.packet_type == "smp_dhkey_check"):
+            return True
+        else:
+            return False
+
+    def receive_pairing_failed(self):
+        # TODO：need more detailed packet comparison
+        if (self.current_rsp.packet_type == "smp_pairing_failed"):
             return True
         else:
             return False
