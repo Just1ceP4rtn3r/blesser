@@ -65,10 +65,10 @@ class SMPStateMachine(StateMachine):
 
     #### code:0x02 Pairing Response ####
     receive_pairing_rsp_state = State('Receive Pairing Response State')
-    
+
     #### code:0x03 Pairing Confirm ####
     receive_pairing_confirm_state = State('Receive Pairing Confirm State')
-    
+
     #### code:0x04 Pairing Random ####
     receive_pairing_random_state = State('Receive Pairing Random State')
 
@@ -80,38 +80,40 @@ class SMPStateMachine(StateMachine):
 
     ######################################################## Transitions ########################################################
     not_pair_state.to(receive_pairing_rsp_state, cond="receive_pairing_rsp", event="not_pair_to_receive_pairing_rsp")
-    # parse 
-    smp_pairing_request = SMPacket(sys.path[0]+"/packet_sequence/miband_pairing_request.pcapng")
-    smp_pairing_response = SMPacket(sys.path[0]+"/packet_sequence/miband_pairing_response.pcapng")
+    # parse
+    smp_pairing_request = SMPacket(sys.path[0] + "/packet_sequence/miband_pairing_request.pcapng")
+    smp_pairing_response = SMPacket(sys.path[0] + "/packet_sequence/miband_pairing_response.pcapng")
     transition_map["not_pair_to_receive_pairing_rsp"] = (smp_pairing_request, smp_pairing_response)
 
     receive_pairing_rsp_state.to(receive_pairing_public_key_state,
-                                cond="receive_pairing_public_key",
-                                event="receive_pairing_rsp_to_receive_pairing_public_key")
+                                 cond="receive_pairing_public_key",
+                                 event="receive_pairing_rsp_to_receive_pairing_public_key")
     # TODO: how to get pairing public key
     # smp_sent_pairing_public_key = SMPacket(sys.path[0]+"/packet_sequence/miband_sent_pairing_public_key.pcapng")
-    smp_rcvd_pairing_public_key = SMPacket(sys.path[0]+"/packet_sequence/miband_rcvd_pairing_public_key.pcapng")
+    smp_rcvd_pairing_public_key = SMPacket(sys.path[0] + "/packet_sequence/miband_rcvd_pairing_public_key.pcapng")
     transition_map["receive_pairing_rsp_to_receive_pairing_public_key"] = (None, smp_rcvd_pairing_public_key)
 
     receive_pairing_public_key_state.to(receive_pairing_confirm_state,
-                                cond="receive_pairing_confirm",
-                                event="receive_pairing_public_key_to_receive_pairing_confirm_state")
-    smp_rcvd_pairing_confirm = SMPacket(sys.path[0]+"/packet_sequence/miband_pairing_confirm.pcapng")
+                                        cond="receive_pairing_confirm",
+                                        event="receive_pairing_public_key_to_receive_pairing_confirm_state")
+    smp_rcvd_pairing_confirm = SMPacket(sys.path[0] + "/packet_sequence/miband_pairing_confirm.pcapng")
     transition_map["receive_pairing_public_key_to_receive_pairing_confirm_state"] = (None, smp_rcvd_pairing_confirm)
 
     receive_pairing_confirm_state.to(receive_pairing_random_state,
                                      cond="receive_pairing_random",
                                      event="receive_pairing_confirm_state_to_receive_pairing_random_state")
-    smp_sent_pairing_random = SMPacket(sys.path[0]+"/packet_sequence/miband_sent_pairing_random.pcapng")
-    smp_rcvd_pairing_random = SMPacket(sys.path[0]+"/packet_sequence/miband_rcvd_pairing_random.pcapng")
-    transition_map["receive_pairing_confirm_state_to_receive_pairing_random_state"] = (smp_sent_pairing_random, smp_rcvd_pairing_random)
+    smp_sent_pairing_random = SMPacket(sys.path[0] + "/packet_sequence/miband_sent_pairing_random.pcapng")
+    smp_rcvd_pairing_random = SMPacket(sys.path[0] + "/packet_sequence/miband_rcvd_pairing_random.pcapng")
+    transition_map["receive_pairing_confirm_state_to_receive_pairing_random_state"] = (smp_sent_pairing_random,
+                                                                                       smp_rcvd_pairing_random)
 
     receive_pairing_random_state.to(receive_pairing_dhkey_check_state,
                                     cond="receive_pairing_dhkey_check",
                                     event="receive_pairing_random_state_to_receive_pairing_dhkey_check_state")
-    smp_sent_DHKey_check = SMPacket(sys.path[0]+"/packet_sequence/miband_sent_DHKey_check.pcapng")
-    smp_rcvd_DHKey_check = SMPacket(sys.path[0]+"/packet_sequence/miband_rcvd_DHKey_check.pcapng")
-    transition_map["receive_pairing_random_state_to_receive_pairing_dhkey_check_state"] = (smp_sent_DHKey_check, smp_rcvd_DHKey_check)
+    smp_sent_DHKey_check = SMPacket(sys.path[0] + "/packet_sequence/miband_sent_DHKey_check.pcapng")
+    smp_rcvd_DHKey_check = SMPacket(sys.path[0] + "/packet_sequence/miband_rcvd_DHKey_check.pcapng")
+    transition_map["receive_pairing_random_state_to_receive_pairing_dhkey_check_state"] = (smp_sent_DHKey_check,
+                                                                                           smp_rcvd_DHKey_check)
 
     # receive_pairing_dhkey_check_state.to(receive_pairing_failed_state,
     #                                      cond="receive_pairing_failed",
@@ -129,11 +131,10 @@ class SMPStateMachine(StateMachine):
         state_array = []
         # self.traverse_state_machine(self.not_pair_state, state_array)
         self.traverse_state_machine()
-        for key,value in self.toState_path_map.items():
-            print("to state:",key,"\npath:",value)
+        for key, value in self.toState_path_map.items():
+            print("to state:", key, "\npath:", value)
             print("\n\n")
         super().__init__(self)
-
 
     def traverse_state_machine(self):
         all_transitions_dict = {}
@@ -141,21 +142,21 @@ class SMPStateMachine(StateMachine):
 
         for state in self.states:
             for transition in state.transitions:
-                all_transitions.append((transition.source,transition.target))
-                all_transitions_dict[(transition.source,transition.target)] = transition.event
-        
+                all_transitions.append((transition.source, transition.target))
+                all_transitions_dict[(transition.source, transition.target)] = transition
+
         G = nx.MultiDiGraph()
         G.add_edges_from(all_transitions)
         for state in self.states:
             if state.name == self.not_pair_state.name:
                 continue
             self.toState_path_map[state] = []
-            paths = nx.all_simple_paths(G,self.not_pair_state,state)
+            paths = nx.all_simple_paths(G, self.not_pair_state, state)
             for path in paths:
                 i = 0
-                while i+1 < len(path):
-                    event = all_transitions_dict[(path[i],path[i+1])]
-                    self.toState_path_map[state].append(self.transition_map[event])
+                while i + 1 < len(path):
+                    transition = all_transitions_dict[(path[i], path[i + 1])]
+                    self.toState_path_map[state].append(transition)
                     i = i + 1
 
     # [can only be called with a state machine] traverse the initial state machine to generate the transition_map & toState_path_map
