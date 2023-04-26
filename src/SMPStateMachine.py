@@ -1,6 +1,12 @@
+import os
+import sys
 from statemachine import StateMachine, State
 from statemachine.transition import Transition
 import re
+import networkx as nx
+import warnings
+
+from SMPacket import SMPacket
 
 
 #########################
@@ -55,66 +61,118 @@ class SMPStateMachine(StateMachine):
                                          value=0x050e)
     """
     #### code:0x05 Pairing Failed ####
-    receive_pairing_failed_state = State('Receive Pairing Failed State')
+    # receive_pairing_failed_state = State('Receive Pairing Failed State')
 
     #### code:0x02 Pairing Response ####
-    receive_paring_rsp_state = State('Receive Paring Response State')
-    #### code:0x0c Pairing Confirm ####
-    receive_pairing_confirm_state = State('Receive Paring Confirm State')
+    receive_pairing_rsp_state = State('Receive Pairing Response State')
+    
+    #### code:0x03 Pairing Confirm ####
+    receive_pairing_confirm_state = State('Receive Pairing Confirm State')
+    
     #### code:0x04 Pairing Random ####
-    receive_pairing_random_state = State('Receive Paring Random State')
-    #### code:0x0c Pairing DHKey Check ####
-    receive_pairing_dhkey_check_state = State('Receive Paring DHKey State')
+    receive_pairing_random_state = State('Receive Pairing Random State')
+
+    #### code:0x0c Pairing Public Key ####
+    receive_pairing_public_key_state = State('Receive Pairing Public Key')
+
+    #### code:0x0d Pairing DHKey Check ####
+    receive_pairing_dhkey_check_state = State('Receive Pairing DHKey State')
 
     ######################################################## Transitions ########################################################
-    not_pair_state.to(receive_paring_rsp_state, cond="receive_paring_rsp", event="not_pair_to_receive_paring_rsp")
-    transition_map["not_pair_to_receive_paring_rsp"] = (None, None)
+    not_pair_state.to(receive_pairing_rsp_state, cond="receive_pairing_rsp", event="not_pair_to_receive_pairing_rsp")
+    # parse 
+    smp_pairing_request = SMPacket(sys.path[0]+"/packet_sequence/miband_pairing_request.pcapng")
+    smp_pairing_response = SMPacket(sys.path[0]+"/packet_sequence/miband_pairing_response.pcapng")
+    transition_map["not_pair_to_receive_pairing_rsp"] = (smp_pairing_request, smp_pairing_response)
 
-    receive_paring_rsp_state.to(receive_pairing_confirm_state,
+    receive_pairing_rsp_state.to(receive_pairing_public_key_state,
+                                cond="receive_pairing_public_key",
+                                event="receive_pairing_rsp_to_receive_pairing_public_key")
+    # TODO: how to get pairing public key
+    # smp_sent_pairing_public_key = SMPacket(sys.path[0]+"/packet_sequence/miband_sent_pairing_public_key.pcapng")
+    smp_rcvd_pairing_public_key = SMPacket(sys.path[0]+"/packet_sequence/miband_rcvd_pairing_public_key.pcapng")
+    transition_map["receive_pairing_rsp_to_receive_pairing_public_key"] = (None, smp_rcvd_pairing_public_key)
+
+    receive_pairing_public_key_state.to(receive_pairing_confirm_state,
                                 cond="receive_pairing_confirm",
-                                event="receive_paring_rsp_to_receive_pairing_confirm_state")
-    transition_map["receive_paring_rsp_to_receive_pairing_confirm_state"] = (None, None)
+                                event="receive_pairing_public_key_to_receive_pairing_confirm_state")
+    smp_rcvd_pairing_confirm = SMPacket(sys.path[0]+"/packet_sequence/miband_pairing_confirm.pcapng")
+    transition_map["receive_pairing_public_key_to_receive_pairing_confirm_state"] = (None, smp_rcvd_pairing_confirm)
 
     receive_pairing_confirm_state.to(receive_pairing_random_state,
                                      cond="receive_pairing_random",
                                      event="receive_pairing_confirm_state_to_receive_pairing_random_state")
-    transition_map["receive_pairing_confirm_state_to_receive_pairing_random_state"] = (None, None)
+    smp_sent_pairing_random = SMPacket(sys.path[0]+"/packet_sequence/miband_sent_pairing_random.pcapng")
+    smp_rcvd_pairing_random = SMPacket(sys.path[0]+"/packet_sequence/miband_rcvd_pairing_random.pcapng")
+    transition_map["receive_pairing_confirm_state_to_receive_pairing_random_state"] = (smp_sent_pairing_random, smp_rcvd_pairing_random)
 
     receive_pairing_random_state.to(receive_pairing_dhkey_check_state,
                                     cond="receive_pairing_dhkey_check",
                                     event="receive_pairing_random_state_to_receive_pairing_dhkey_check_state")
-    transition_map["receive_pairing_random_state_to_receive_pairing_dhkey_check_state"] = (None, None)
+    smp_sent_DHKey_check = SMPacket(sys.path[0]+"/packet_sequence/miband_sent_DHKey_check.pcapng")
+    smp_rcvd_DHKey_check = SMPacket(sys.path[0]+"/packet_sequence/miband_rcvd_DHKey_check.pcapng")
+    transition_map["receive_pairing_random_state_to_receive_pairing_dhkey_check_state"] = (smp_sent_DHKey_check, smp_rcvd_DHKey_check)
 
-    receive_pairing_dhkey_check_state.to(receive_pairing_failed_state,
-                                         cond="receive_pairing_failed",
-                                         event="receive_pairing_dhkey_check_state_to_receive_pairing_failed_state")
-    transition_map["receive_pairing_dhkey_check_state_to_receive_pairing_failed_state"] = (None, None)
+    # receive_pairing_dhkey_check_state.to(receive_pairing_failed_state,
+    #                                      cond="receive_pairing_failed",
+    #                                      event="receive_pairing_dhkey_check_state_to_receive_pairing_failed_state")
+    # transition_map["receive_pairing_dhkey_check_state_to_receive_pairing_failed_state"] = (None, None)
 
-    receive_pairing_failed_state.to(final_state, event="receive_pairing_failed_state_to_final_state")
-    transition_map["receive_pairing_failed_state_to_final_state"] = (None, None)
+    # receive_pairing_failed_state.to(final_state, event="receive_pairing_failed_state_to_final_state")
+    # transition_map["receive_pairing_failed_state_to_final_state"] = (None, None)
+    receive_pairing_dhkey_check_state.to(final_state, event="receive_pairing_dhkey_check_state_to_final_state")
+    transition_map["receive_pairing_dhkey_check_state_to_final_state"] = (None, None)
 
     def __init__(self, dot):
-        self.translate(dot)
+        # self.translate(dot)
         # state_array: the state that has been traversed
         state_array = []
-        self.traverse_state_machine(self.not_pair_state, state_array)
+        # self.traverse_state_machine(self.not_pair_state, state_array)
+        self.traverse_state_machine()
+        for key,value in self.toState_path_map.items():
+            print("to state:",key,"\npath:",value)
+            print("\n\n")
         super().__init__(self)
 
-    # [can only be called with a state machine] traverse the initial state machine to generate the transition_map & toState_path_map
-    def traverse_state_machine(self, state: State, state_array):
-        for transition in state.transitions:
-            # if the target state has been traversed, then skip it
-            if (transition.target in state_array):
-                continue
-            if transition.target not in self.toState_path_map:
-                self.toState_path_map[transition.target] = []
-            for path in self.toState_path_map[state]:
-                p = path + [transition]
-                if (p not in self.toState_path_map[transition.target]):
-                    self.toState_path_map[transition.target].append(path + [transition])
 
-            state_array.append(transition.target)
-            self.traverse_state_machine(transition.target, state_array)
+    def traverse_state_machine(self):
+        all_transitions_dict = {}
+        all_transitions = []
+
+        for state in self.states:
+            for transition in state.transitions:
+                all_transitions.append((transition.source,transition.target))
+                all_transitions_dict[(transition.source,transition.target)] = transition.event
+        
+        G = nx.MultiDiGraph()
+        G.add_edges_from(all_transitions)
+        for state in self.states:
+            if state.name == self.not_pair_state.name:
+                continue
+            self.toState_path_map[state] = []
+            paths = nx.all_simple_paths(G,self.not_pair_state,state)
+            for path in paths:
+                i = 0
+                while i+1 < len(path):
+                    event = all_transitions_dict[(path[i],path[i+1])]
+                    self.toState_path_map[state].append(self.transition_map[event])
+                    i = i + 1
+
+    # [can only be called with a state machine] traverse the initial state machine to generate the transition_map & toState_path_map
+    # def traverse_state_machine(self, state: State, state_array):
+    #     for transition in state.transitions:
+    #         # if the target state has been traversed, then skip it
+    #         if (transition.target in state_array):
+    #             continue
+    #         if transition.target not in self.toState_path_map:
+    #             self.toState_path_map[transition.target] = []
+    #         for path in self.toState_path_map[state]:
+    #             p = path + [transition]
+    #             if (p not in self.toState_path_map[transition.target]):
+    #                 self.toState_path_map[transition.target].append(path + [transition])
+
+    #         state_array.append(transition.target)
+    #         self.traverse_state_machine(transition.target, state_array)
 
     # TODO: translate the dot file to a state machine with "StateMachine" library)
     def translate(self, dot):
@@ -172,9 +230,16 @@ class SMPStateMachine(StateMachine):
                 self.find_counterexample()
 
     #### Conditions/Callbacks ####
-    def receive_paring_rsp(self):
+    def receive_pairing_rsp(self):
         # TODO：need more detailed packet comparison
         if (self.current_req.packet_type == "smp_pairing_req" and self.current_rsp.packet_type == "smp_pairing_rsp"):
+            return True
+        else:
+            return False
+
+    def receive_pairing_public_key(self):
+        # TODO：need more detailed packet comparison
+        if (self.current_req.packet_type == "smp_pairing_public_key" and self.current_rsp.packet_type == "smp_pairing_confirm"):
             return True
         else:
             return False
