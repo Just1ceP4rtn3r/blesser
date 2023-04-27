@@ -24,6 +24,7 @@ class SMPFuzzer():
         while (True):
             state = self.mutator.stateSelection()
             self.state_machine.goto_state(state)
+            break
             # generate a muated request
 
             self.socket.send("muated request")
