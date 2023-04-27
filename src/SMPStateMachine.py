@@ -7,6 +7,7 @@ import networkx as nx
 import warnings
 
 from SMPacket import SMPacket
+from core import SMPSocket
 
 
 #########################
@@ -125,8 +126,9 @@ class SMPStateMachine(StateMachine):
     receive_pairing_dhkey_check_state.to(final_state, event="receive_pairing_dhkey_check_state_to_final_state")
     transition_map["receive_pairing_dhkey_check_state_to_final_state"] = (None, None)
 
-    def __init__(self, dot):
+    def __init__(self, dot, socket):
         # self.translate(dot)
+        self.socket = socket
         # state_array: the state that has been traversed
         state_array = []
         # self.traverse_state_machine(self.not_pair_state, state_array)
@@ -211,63 +213,66 @@ class SMPStateMachine(StateMachine):
                 # both matched
                 assert (False)
 
-    def find_counterexample(self):
-        new_state = State('new state')
-        trans = self.current_state.to(new_state, event="test/test")
-        pass
+    # From the current state, check if the req/rsp indicates a new state
+    def is_newstate(self):
+        for transition in self.current_state.transitions:
+            pass
 
+    def create_state(self, name, event):
+        new_state = State(name)
+        self.current_state.to(new_state, event=event)
+
+    # step the statemachine to the next state with a specified transition
+    def step(self, transition):
+        self.current_req = self.transition_map[transition][0]
+        # TODO: send the real packet to the device with SMPsocket; And receive the response
+        self.socket.send(self.current_req)
+        self.current_rsp = self.transition_map[transition][1]
+        if (self.is_newstate()):
+            pass
+        else:
+            self.send(transition.event)
+
+    # move the statemachine to the specified state
     def goto_state(self, state):
         assert (self.current_state == self.not_pair_state)
         for transition in self.toState_path_map[state]:
-            self.send(transition.event)
+            self.step(transition)
+            assert (self.current_state == transition.target)
         assert (self.current_state == state)
-
-    def process_fuzzing(self):
-        for state in self.states:
-            self.goto_state(state)
-            for mutated_req in range(100):
-                self.current_req = mutated_req
-                self.current_rsp = None
-                self.find_counterexample()
 
     #### Conditions/Callbacks ####
     def receive_pairing_rsp(self):
-        # TODO：need more detailed packet comparison
         if (self.current_req.packet_type == "smp_pairing_req" and self.current_rsp.packet_type == "smp_pairing_rsp"):
             return True
         else:
             return False
 
     def receive_pairing_public_key(self):
-        # TODO：need more detailed packet comparison
         if (self.current_req.packet_type == "smp_pairing_public_key" and self.current_rsp.packet_type == "smp_pairing_confirm"):
             return True
         else:
             return False
 
     def receive_pairing_confirm(self):
-        # TODO：need more detailed packet comparison
         if (self.current_req.packet_type == "smp_pairing_confirm" and self.current_rsp.packet_type == "smp_pairing_confirm"):
             return True
         else:
             return False
 
     def receive_pairing_random(self):
-        # TODO：need more detailed packet comparison
         if (self.current_req.packet_type == "smp_pairing_random" and self.current_rsp.packet_type == "smp_pairing_random"):
             return True
         else:
             return False
 
     def receive_pairing_dhkey_check(self):
-        # TODO：need more detailed packet comparison
         if (self.current_req.packet_type == "smp_dhkey_check" and self.current_rsp.packet_type == "smp_dhkey_check"):
             return True
         else:
             return False
 
     def receive_pairing_failed(self):
-        # TODO：need more detailed packet comparison
         if (self.current_rsp.packet_type == "smp_pairing_failed"):
             return True
         else:

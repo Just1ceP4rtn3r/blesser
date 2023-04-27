@@ -1,9 +1,8 @@
 from bluepy.btle import Scanner
 from OuiLookup import OuiLookup
 
-
-
 ChoosenDevice = {}
+
 
 def BluetoothScan():
     """
@@ -11,21 +10,21 @@ def BluetoothScan():
     """
     print('Performing classic bluetooth inquiry scan...')
 
-    choosen_device =''
+    choosen_device = ''
     while True:
         try:
             #10.0 sec scanning
             ble_list = Scanner().scan(3.0)
-            for dev in ble_list: 
+            for dev in ble_list:
                 oui = OuiLookup().query(dev.addr)
                 name = ""
                 for (adtype, desc, value) in dev.getScanData():
-                    if(desc == "Complete Local Name"):
+                    if (desc == "Complete Local Name"):
                         name = value
                         break
                 print(f"Device {name}, oui {oui}, MAC {dev.addr} ({dev.addrType}), RSSI={dev.rssi} dB")
             IN = input()
-            if(len(IN) != 17):
+            if (len(IN) != 17):
                 continue
             else:
                 choosen_device = IN
