@@ -3,7 +3,6 @@
 #########################
 import random
 import string
-from SMPStateMachine import SMPStateMachine
 
 
 class SMPMutator:
@@ -94,6 +93,7 @@ class SMPMutator:
         }
 
         # # state probabilities, ∑ state probabilities = 1?
+        self.state_prob = {}
         for state in state_machine.states:
             self.state_prob[state] = 0.5
 

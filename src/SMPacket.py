@@ -21,69 +21,76 @@ SMP_CODE = {
 }
 
 smp_pkt_field = {
-            "smp_pairing_req": [
-                "io_capability",
-                "oob_data_flags",
-                "authreq",
-                "max_enc_key_size",
-                "initiator_key_distribution",
-                "responder_key_distribution"
-            ], # 0x01
-            "smp_pairing_rsp": [
-                "io_capability",
-                "oob_data_flags",
-                "authreq",
-                "max_enc_key_size",
-                "initiator_key_distribution",
-                "responder_key_distribution",
-            ], # 0x02
-            "smp_pairing_confirm":[
-                "cfm_value",
-            ], # 0x03
-            "smp_pairing_random": [
-                "random_value",
-            ], # 0x04
-            "smp_encrypt_info": [
-                "long_term_key",
-            ], # 0x06
-            "smp_central_ident": [
-                "ediv",
-                "random_value",
-            ], # 0x07
-            "smp_ident_info": [
-                "id_resolving_key",
-            ], # 0x08
-            "smp_ident_addr_info": [
-                "address_type",
-                "bd_addr",
-            ], # 0x09
-            "smp_public_key": [
-                "long_term_key",
-            ], # 0x0c
-            "smp_dhkey_check": [
-                "dhkey_check",
-            ], # 0x0d
+    "smp_pairing_req": [
+        "io_capability", "oob_data_flags", "authreq", "max_enc_key_size", "initiator_key_distribution",
+        "responder_key_distribution"
+    ],  # 0x01
+    "smp_pairing_rsp": [
+        "io_capability",
+        "oob_data_flags",
+        "authreq",
+        "max_enc_key_size",
+        "initiator_key_distribution",
+        "responder_key_distribution",
+    ],  # 0x02
+    "smp_pairing_confirm": ["cfm_value",],  # 0x03
+    "smp_pairing_random": ["random_value",],  # 0x04
+    "smp_encrypt_info": ["long_term_key",],  # 0x06
+    "smp_central_ident": [
+        "ediv",
+        "random_value",
+    ],  # 0x07
+    "smp_ident_info": ["id_resolving_key",],  # 0x08
+    "smp_ident_addr_info": [
+        "address_type",
+        "bd_addr",
+    ],  # 0x09
+    "smp_public_key": ["long_term_key",],  # 0x0c
+    "smp_dhkey_check": ["dhkey_check",],  # 0x0d
 }
+
+
+#########################
+# SMP socket
+#########################
+class SMPSocket:
+
+    def __init__(self):
+        self.socket = 0
+
+    def send(self, data):
+        print(f"send {data}")
+
+    def recv(self):
+        return "123"
+
+    def close(self):
+        pass
+
+    def reset(self):
+        pass
+
 
 # BLE SMP protocol packet class
 class SMPacket:
 
     def __init__(self, packet_cap):
-        entire_pkt =  pyshark.FileCapture(packet_cap, display_filter = 'btsmp',use_json=True,include_raw=True)[0]
+        entire_pkt = pyshark.FileCapture(packet_cap, display_filter='btsmp', use_json=True, include_raw=True)[0]
         smp_pkt = entire_pkt.btsmp
-        opcode = int(smp_pkt.get_field("opcode"),16)
-        
+        opcode = int(smp_pkt.get_field("opcode"), 16)
+
         self.raw_packet = entire_pkt.get_raw_packet()[27:-3]
         self.packet_type = SMP_CODE[opcode]
         self.content = {}
-        
+
         pkt_fields = smp_pkt_field[self.packet_type]
         for item in smp_pkt.field_names:
             if item in pkt_fields:
-                self.content[item] = smp_pkt.get_field(item+"_raw")[0]
+                self.content[item] = smp_pkt.get_field(item + "_raw")[0]
 
-    # 仅比较resp中非随机数的部分
+    # TODO: 仅比较resp中非随机数的部分
     def CompareTo(self, packet):
+        return False
         differ = set(self.content.items()) ^ set(packet.content.items())
         if (differ != set()):
             return True
