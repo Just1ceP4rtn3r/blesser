@@ -18,16 +18,22 @@ class SMPFuzzer():
     def __init__(self):
         self.socket = SMPSocket()
         self.state_machine = SMPStateMachine("SMP.dot", self.socket)
-        self.mutator = SMPMutator(self.state_machine)
+        self.mutator = SMPMutator()
+        self.mutator.calculateStateProb(self.state_machine.states)
 
     def process_fuzzing(self):
         while (True):
             state = self.mutator.stateSelection()
             self.state_machine.goto_state(state)
             break
-            # generate a muated request
+            # TODO: generate a muated request
 
-            self.socket.send("muated request")
+
+
+            self.state_machine.step_with_mutation()
+            self.mutator.calculateStateProb(self.state_machine.states)
+            # reset the socket
+            self.socket.reset()
 
 
 if __name__ == '__main__':

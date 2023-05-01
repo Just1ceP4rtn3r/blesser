@@ -81,36 +81,52 @@ class SMPStateMachine(StateMachine):
 
     ######################################################## Transitions ########################################################
 
-    TESTPACKET = SMPacket(sys.path[0] + "/packet_sequence/miband_pairing_request.pcapng")
+    TESTPACKET = SMPacket("0104002d100f0f")
+    smp_pairing_request = SMPacket("0104002d100f0f")
+    smp_pairing_response = SMPacket("02030009100707")
+    smp_sent_pairing_public_key = SMPacket(
+        "0cf801bfeefe59107b2d672b61ecf017c810825857c3389fb890a11571800908755c09fc2ad0468db08e2233ae11983e84d50eb42b1bcf2d124cb0cb1e0fcf02ab"
+    )
+    smp_rcvd_pairing_public_key = SMPacket(
+        "0c259ab29dd53b256c79b127296ee58518fdd25b958870ff4718013bb056a6dfb863fe7294b220def877ea7858617de1e314cae98891472625fbeb55db3977152d"
+    )
+    smp_rcvd_pairing_confirm = SMPacket("0302b5c6f970394a385fc54f1c7cd527b7")
+    smp_sent_pairing_random = SMPacket("0422744b1273a328ab19f50b4b21646ad6")
+    smp_rcvd_pairing_random = SMPacket("043381d61f4192b61113c5291e0e6dd63d")
+    smp_sent_DHKey_check = SMPacket("0da583413f2b8f75ce73de42a8a5bff0be")
+    smp_rcvd_DHKey_check = SMPacket("0dda53ef23954c2f84fc5f6f42048bf088")
 
     not_pair_state.to(receive_pairing_rsp_state, event="not_pair_to_receive_pairing_rsp")
     # parse
     # smp_pairing_request = SMPacket(sys.path[0] + "/packet_sequence/miband_pairing_request.pcapng")
     # smp_pairing_response = SMPacket(sys.path[0] + "/packet_sequence/miband_pairing_response.pcapng")
-    transition_map["not_pair_to_receive_pairing_rsp"] = (TESTPACKET, TESTPACKET)
+    transition_map["not_pair_to_receive_pairing_rsp"] = (smp_pairing_request, smp_pairing_response)
 
     receive_pairing_rsp_state.to(receive_pairing_public_key_state, event="receive_pairing_rsp_to_receive_pairing_public_key")
     # TODO: how to get pairing public key
     # smp_sent_pairing_public_key = SMPacket(sys.path[0]+"/packet_sequence/miband_sent_pairing_public_key.pcapng")
     # smp_rcvd_pairing_public_key = SMPacket(sys.path[0] + "/packet_sequence/miband_rcvd_pairing_public_key.pcapng")
-    transition_map["receive_pairing_rsp_to_receive_pairing_public_key"] = (TESTPACKET, TESTPACKET)
+    transition_map["receive_pairing_rsp_to_receive_pairing_public_key"] = (smp_sent_pairing_public_key,
+                                                                           smp_rcvd_pairing_public_key)
 
     receive_pairing_public_key_state.to(receive_pairing_confirm_state,
                                         event="receive_pairing_public_key_to_receive_pairing_confirm_state")
     # smp_rcvd_pairing_confirm = SMPacket(sys.path[0] + "/packet_sequence/miband_pairing_confirm.pcapng")
-    transition_map["receive_pairing_public_key_to_receive_pairing_confirm_state"] = (TESTPACKET, TESTPACKET)
+    transition_map["receive_pairing_public_key_to_receive_pairing_confirm_state"] = (None, smp_rcvd_pairing_confirm)
 
     receive_pairing_confirm_state.to(receive_pairing_random_state,
                                      event="receive_pairing_confirm_state_to_receive_pairing_random_state")
     # smp_sent_pairing_random = SMPacket(sys.path[0] + "/packet_sequence/miband_sent_pairing_random.pcapng")
     # smp_rcvd_pairing_random = SMPacket(sys.path[0] + "/packet_sequence/miband_rcvd_pairing_random.pcapng")
-    transition_map["receive_pairing_confirm_state_to_receive_pairing_random_state"] = (TESTPACKET, TESTPACKET)
+    transition_map["receive_pairing_confirm_state_to_receive_pairing_random_state"] = (smp_sent_pairing_random,
+                                                                                       smp_rcvd_pairing_random)
 
     receive_pairing_random_state.to(receive_pairing_dhkey_check_state,
                                     event="receive_pairing_random_state_to_receive_pairing_dhkey_check_state")
     # smp_sent_DHKey_check = SMPacket(sys.path[0] + "/packet_sequence/miband_sent_DHKey_check.pcapng")
     # smp_rcvd_DHKey_check = SMPacket(sys.path[0] + "/packet_sequence/miband_rcvd_DHKey_check.pcapng")
-    transition_map["receive_pairing_random_state_to_receive_pairing_dhkey_check_state"] = (TESTPACKET, TESTPACKET)
+    transition_map["receive_pairing_random_state_to_receive_pairing_dhkey_check_state"] = (smp_sent_DHKey_check,
+                                                                                           smp_rcvd_DHKey_check)
 
     # receive_pairing_dhkey_check_state.to(receive_pairing_failed_state,
     #                                      cond="receive_pairing_failed",
@@ -210,10 +226,28 @@ class SMPStateMachine(StateMachine):
                 assert (False)
 
     # From the current state, check if the req/rsp indicates a new state
+    # TODO: Refine logic
     def is_newstate(self):
         for transition in self.current_state.transitions:
-            if (not self.current_req.CompareTo(self.transition_map[transition.event][0]) and
-                    not self.current_rsp.CompareTo(self.transition_map[transition.event][1])):
+            if (self.current_req is None):
+                if (self.transition_map[transition.event][0] is not None):
+                    return True
+                else:
+                    if (self.current_rsp == self.transition_map[transition.event][1] or
+                            self.current_rsp.CompareTo(self.transition_map[transition.event][1])):
+                        return False
+            if (self.current_rsp is None):
+                if (self.transition_map[transition.event][1] is not None):
+                    return True
+                else:
+                    if (self.current_req == self.transition_map[transition.event][0] or
+                            self.current_req.CompareTo(self.transition_map[transition.event][0])):
+                        return False
+            if (self.current_req is not None and self.current_rsp is not None and
+                    self.transition_map[transition.event][0] is not None and
+                    self.transition_map[transition.event][1] is not None and
+                    self.current_req.CompareTo(self.transition_map[transition.event][0]) and
+                    self.current_rsp.CompareTo(self.transition_map[transition.event][1])):
                 return False
 
         self.state_count += 1

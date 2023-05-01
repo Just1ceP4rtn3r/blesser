@@ -12,11 +12,11 @@ class SMPMutator:
     '''
 
     # TODO: Initiate the mutator with {alphabet/real packet, spec constraints}
-    def __init__(self, state_machine, alphabet=None, spec_constraints=None):
-        self.MutateConstraints(state_machine)
+    def __init__(self, alphabet=None, spec_constraints=None):
+        self.MutateConstraints()
         # self.socket = socket
 
-    def MutateConstraints(self, state_machine):
+    def MutateConstraints(self):
         # mutate methods probabilities
         self.method_prob = {
             "random": 0.5,
@@ -91,11 +91,14 @@ class SMPMutator:
                 "dhkey_check": 0.5,
             },  # 0x0d
         }
-
         # # state probabilities, ∑ state probabilities = 1?
         self.state_prob = {}
-        for state in state_machine.states:
-            self.state_prob[state] = 0.5
+
+    def calculateStateProb(self, states):
+        for state in states:
+            if state not in self.state_prob:
+                # if we achive a new state
+                self.state_prob[state] = 0.99
 
     def mutate(self, data, corpus):
 
