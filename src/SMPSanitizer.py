@@ -82,7 +82,7 @@ class SMPSanitizer:
     '''
 
     #Todo rtt read bugs
-    def __init__(self, currentState, send, recv，log):
+    def __init__(self, currentState, send, recv, log):
         self.sanitizer(currentState, stateMachine, send, recv) 
 
 
