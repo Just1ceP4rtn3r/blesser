@@ -1,4 +1,7 @@
 import pyshark
+import serial
+import serial.tools.list_ports
+
 
 SMP_CODE = {
     0x01: "smp_pairing_req",
@@ -59,10 +62,20 @@ class SMPSocket:
         self.socket = 0
 
     def send(self, data):
-        print(f"send {data}")
+        ser = serial.Serial("COM11", 115200)
+        write_len = ser.write(data)
+        ser.close()
 
     def recv(self):
-        return "123"
+        ser = serial.Serial("COM11", 115200)
+        real_buf = ''
+        while True:
+            com_input = ser.read()
+            if com_input:
+                real_buf += com_input
+            else:
+                return real_buf
+        ser.close()
 
     def close(self):
         pass
