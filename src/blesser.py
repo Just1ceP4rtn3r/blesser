@@ -5,9 +5,6 @@ ChoosenDevice = {}
 
 
 def BluetoothScan():
-    """
-    This scan finds ONLY Bluetooth Classic (non-BLE) devices
-    """
     print('Performing classic bluetooth inquiry scan...')
 
     choosen_device = ''
