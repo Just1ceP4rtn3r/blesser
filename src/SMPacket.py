@@ -1,7 +1,7 @@
 import pyshark
 import serial
 import serial.tools.list_ports
-
+import sys
 
 SMP_CODE = {
     0x01: "smp_pairing_req",
@@ -84,7 +84,8 @@ class SMPSocket:
         pass
 
 
-# BLE SMP protocol packet class
+# # old BLE SMP protocol packet class
+"""
 class SMPacket:
 
     def __init__(self, packet_cap):
@@ -109,3 +110,55 @@ class SMPacket:
             return True
         else:
             return False
+"""
+            
+# update BLE SMP protocol packet class
+class SMPacket:
+    def __init__(self, entire_pkt , direction):
+        smp_pkt = entire_pkt.btsmp
+        opcode = int(smp_pkt.get_field("opcode"), 16)
+
+        self.raw_packet = entire_pkt.get_raw_packet()[27:-3]
+        self.packet_type = SMP_CODE[opcode]
+        self.content = {}
+        self.direction = direction
+        
+        pkt_fields = smp_pkt_field[self.packet_type]
+        # print("pkt field",pkt_fields)
+        for item in smp_pkt.field_names:
+            if item in pkt_fields:
+                self.content[item] = smp_pkt.get_field(item + "_raw")[0]
+
+    # TODO: 仅比较resp中非随机数的部分
+    def CompareTo(self, packet):
+        return False
+        differ = set(self.content.items()) ^ set(packet.content.items())
+        if (differ != set()):
+            return True
+        else:
+            return False
+
+    # display the smp packet info
+    def PrintSMPacket(self):
+        print("SMP type: {}\t SMP content: {}\t SMP direction:{}".format(self.packet_type,self.content,self.direction))
+
+class SMPacketSequnce:
+    def __init__(self, packet_cap):
+        self.pkt_sequnce = []
+        entire_pkts = pyshark.FileCapture(packet_cap, display_filter='btsmp', use_json=True, include_raw=True)
+        for entire_pkt in entire_pkts:
+            # print(entire_pkt)
+            # print("direction",dir(entire_pkt.nordic_ble.flags_tree.direction))
+            direction_value = entire_pkt.nordic_ble.flags_tree.direction
+            if direction_value == "0":
+                direction = "slave2master"
+            else:
+                direction = "master2slave"
+            self.pkt_sequnce.append(SMPacket(entire_pkt,direction = direction))
+            
+
+# if __name__ == '__main__':
+#     smpacket_seq = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
+#     for smpacket in smpacket_seq.pkt_sequnce:
+#         smpacket.PrintSMPacket()
+    
