@@ -140,7 +140,19 @@ class SMPacket:
 
     # display the smp packet info
     def PrintSMPacket(self):
-        print("SMP type: {}\t SMP content: {}\t SMP direction:{}".format(self.packet_type,self.content,self.direction))
+        print("SMP type: {}\t SMP content: {}\t SMP direction:{}\t raw:{}".format(self.packet_type,self.content,self.direction,self.raw_packet))
+
+    def to_raw(self):
+        
+        for key,value in SMP_CODE.items():
+            if value == self.packet_type:
+                opcode = key
+        hex_string = "0"+str(opcode)
+        for field in smp_pkt_field[self.packet_type]:
+            hex_string += self.content[field]
+        result = bytearray.fromhex(hex_string)
+        return result
+
 
 class SMPacketSequnce:
     def __init__(self, packet_cap):
@@ -157,8 +169,9 @@ class SMPacketSequnce:
             self.pkt_sequnce.append(SMPacket(entire_pkt,direction = direction))
             
 
-# if __name__ == '__main__':
-#     smpacket_seq = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
-#     for smpacket in smpacket_seq.pkt_sequnce:
-#         smpacket.PrintSMPacket()
+if __name__ == '__main__':
+    smpacket_seq = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
+    for smpacket in smpacket_seq.pkt_sequnce:
+        smpacket.PrintSMPacket()
+        print(smpacket.to_raw())
     
