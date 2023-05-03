@@ -1,6 +1,7 @@
 from SMPMutator import SMPMutator
 from SMPStateMachine import SMPStateMachine
-from SMPacket import SMPSocket
+from SMPacket import SMPSocket, SMPSocket_TEST
+import random
 
 
 #########################
@@ -16,7 +17,7 @@ def Sanitizer(current_state, req, resp):
 class SMPFuzzer():
 
     def __init__(self):
-        self.socket = SMPSocket()
+        self.socket = SMPSocket_TEST()
         self.state_machine = SMPStateMachine("SMP.dot", self.socket)
         self.mutator = SMPMutator()
         self.mutator.calculateStateProb(self.state_machine.states)
@@ -25,15 +26,13 @@ class SMPFuzzer():
         while (True):
             state = self.mutator.stateSelection()
             self.state_machine.goto_state(state)
-            break
             # TODO: generate a muated request
-
-
-
-            self.state_machine.step_with_mutation()
+            req = random.choice(self.state_machine.corpus)
+            self.state_machine.step_with_mutation(req)
             self.mutator.calculateStateProb(self.state_machine.states)
             # reset the socket
             self.socket.reset()
+            self.state_machine.reset()
 
 
 if __name__ == '__main__':

@@ -25,9 +25,9 @@ class SMPStateMachine(StateMachine):
     ######################################################## States ########################################################
     # Entrypoint, now we have a L2CAP connection
     not_pair_state = State('Not Pair State', initial=True)
-    toState_path_map = {not_pair_state: []}
+    toState_path_map = {not_pair_state.name: []}
     # End, close the L2CAP connection
-    final_state = State('Final State', final=True)
+    final_state = State('Final State')
 
     #### code:0x05 Pairing Failed####
     """
@@ -95,6 +95,10 @@ class SMPStateMachine(StateMachine):
     smp_rcvd_pairing_random = SMPacket("043381d61f4192b61113c5291e0e6dd63d")
     smp_sent_DHKey_check = SMPacket("0da583413f2b8f75ce73de42a8a5bff0be")
     smp_rcvd_DHKey_check = SMPacket("0dda53ef23954c2f84fc5f6f42048bf088")
+    corpus = [
+        smp_pairing_request, smp_pairing_response, smp_sent_pairing_public_key, smp_rcvd_pairing_public_key,
+        smp_rcvd_pairing_confirm, smp_sent_pairing_random, smp_rcvd_pairing_random, smp_sent_DHKey_check, smp_rcvd_DHKey_check
+    ]
 
     not_pair_state.to(receive_pairing_rsp_state, event="not_pair_to_receive_pairing_rsp")
     # parse
@@ -138,6 +142,9 @@ class SMPStateMachine(StateMachine):
     receive_pairing_dhkey_check_state.to(final_state, event="receive_pairing_dhkey_check_state_to_final_state")
     transition_map["receive_pairing_dhkey_check_state_to_final_state"] = (TESTPACKET, TESTPACKET)
 
+    final_state.to(not_pair_state, event="final_state_to_not_pair_state")
+    transition_map["final_state_to_not_pair_state"] = (None, None)
+
     def __init__(self, dot, socket):
         # self.translate(dot)
         self.socket = socket
@@ -164,13 +171,13 @@ class SMPStateMachine(StateMachine):
         for state in self.states:
             if state.name == self.not_pair_state.name:
                 continue
-            self.toState_path_map[state] = []
+            self.toState_path_map[state.name] = []
             paths = nx.all_simple_paths(G, self.not_pair_state, state)
             for path in paths:
                 i = 0
                 while i + 1 < len(path):
                     transition = all_transitions_dict[(path[i], path[i + 1])]
-                    self.toState_path_map[state].append(transition)
+                    self.toState_path_map[state.name].append(transition)
                     i = i + 1
 
     # [can only be called with a state machine] traverse the initial state machine to generate the transition_map & toState_path_map
@@ -251,7 +258,7 @@ class SMPStateMachine(StateMachine):
                 return False
 
         self.state_count += 1
-        self.create_state(f"state_{self.state_count}", f"{self.current_state.name}_to_state_{self.state_count}")
+        self.create_state(f"state_{self.state_count}", f"{self.current_state.name}_to_{self.state_count}")
         return True
 
     # TODO: How to merge the same state?
@@ -260,25 +267,47 @@ class SMPStateMachine(StateMachine):
         self.current_state.to(new_state, event=event)
         self.transition_map[event] = (self.current_req, self.current_rsp)
 
-    def step_with_mutation(self):
-        pass
+    def step_with_mutation(self, mutation_packet):
+        self.current_req = mutation_packet
+        # TODO: send the real packet to the device with SMPsocket; And receive the response
+        if (self.current_req != None):
+            self.socket.send(self.current_req.raw_packet)
+        resp = self.socket.recv()
+        self.current_rsp = SMPacket(resp.hex())
+        if (not self.is_newstate()):
+            print("Found new state\n\n\n")
 
     # step the statemachine to the next state with an existing transition
     def step_with_transition(self, transition):
         self.current_req = self.transition_map[transition.event][0]
         # TODO: send the real packet to the device with SMPsocket; And receive the response
-        self.socket.send(self.current_req)
-        self.current_rsp = self.transition_map[transition.event][1]
+        if (self.current_req != None):
+            self.socket.send(self.current_req.raw_packet)
+        resp = self.socket.recv()
+        self.current_rsp = SMPacket(resp.hex())
         if (not self.is_newstate()):
             self.send(transition.event)
 
     # move the statemachine to the specified state
     def goto_state(self, state):
         assert (self.current_state == self.not_pair_state)
-        for transition in self.toState_path_map[state]:
+        for transition in self.toState_path_map[state.name]:
             self.step_with_transition(transition)
             assert (self.current_state == transition.target)
         assert (self.current_state == state)
+
+    def reset(self):
+        if (self.current_state.name == self.not_pair_state.name):
+            return
+        elif(self.current_state.name != self.final_state.name):
+            events = [t.event for t in self.current_state.transitions]
+            if (f"{self.current_state.name}_to_{self.final_state.name}" in events):
+                self.send(f"{self.current_state.name}_to_{self.final_state.name}")
+            else:
+                self.current_state.to(self.final_state, event=f"{self.current_state.name}_to_{self.final_state.name}")
+                self.transition_map[f"{self.current_state.name}_to_{self.final_state.name}"] = (None, None)
+                self.send(f"{self.current_state.name}_to_{self.final_state.name}")
+        self.send("final_state_to_not_pair_state")
 
 
 # if __name__ == '__main__':

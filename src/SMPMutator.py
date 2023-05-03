@@ -17,7 +17,6 @@ class SMPMutator:
     # TODO: Initiate the mutator with {alphabet/real packet, spec constraints}
     def __init__(self, alphabet=None, spec_constraints=None):
         self.MutateConstraints()
-        # self.socket = socket
 
     def MutateConstraints(self):
         # mutate methods probabilities
@@ -154,7 +153,7 @@ class SMPMutator:
                 mutation_sequence.append(pkt_seq_str)
             return mutation_sequence
     """
-    
+
     def mutate(self, data):
         mutation_sequence = []
 
@@ -164,7 +163,7 @@ class SMPMutator:
             for field in self.field_prob[pkt.packet_type].items():
                 if random.random() < field[1]:
                     mutation_fields.append(field[0])
-            
+
             for key, value in pkt.content.items():
                 if key in mutation_fields:
                     # select mutation method ,now choose from method_prob keys randomly
@@ -193,7 +192,7 @@ class SMPMutator:
                     pkt.content[key] = value
             mutation_sequence.append(pkt)
         return mutation_sequence
-            
+
     # TODO: translate statemachine path to pkt sequence (pkt type list or SMPacket Oject list)
     # example:
     # pkt_to_state = ["smp_pairing_req","smp_pairing_confirm","smp_pairing_random","smp_encrypt_info"]
@@ -343,7 +342,6 @@ class SMPMutator:
             for i in range(origin_len - len(value)):
                 value = "0" + value
         return value
-    
 
 
 # if __name__ == '__main__':
@@ -352,7 +350,7 @@ class SMPMutator:
 #     seed = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
 #     pkt_to_state = [seed.pkt_sequnce[0],seed.pkt_sequnce[2],seed.pkt_sequnce[4],seed.pkt_sequnce[6]]
 #     pkt_wait_mutation = [seed.pkt_sequnce[8]]
-    
+
 #     print("------------------------------------------before mutatation------------------------------------------")
 #     for smpacket in pkt_wait_mutation:
 #         smpacket.PrintSMPacket()
@@ -362,5 +360,3 @@ class SMPMutator:
 #     for smpacket in mutation_sequence:
 #         smpacket.raw_packet = smpacket.to_raw()
 #         smpacket.PrintSMPacket()
-        
-        
