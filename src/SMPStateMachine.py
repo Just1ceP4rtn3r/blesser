@@ -279,12 +279,9 @@ class SMPStateMachine(StateMachine):
         self.current_rsp = SMPacket(resp.hex())
         print(self.current_rsp.content)
 
-        if self.current_state == self.not_pair_state:
-            if (len(self.current_rsp.content["data"]) >= 5) and  (self.current_rsp.content["data"][2] & 0b00000011 == 0 ) and (self.current_rsp.content["data"][5] != 0):
-                print('error')
-        # self.current_rsp.
-        # self.current_req
-        # self.current_rsp
+        # if self.current_state == self.not_pair_state:
+        #     if (len(self.current_rsp.content["data"]) >= 5) and  (self.current_rsp.content["data"][2] & 0b00000011 == 0 ) and (self.current_rsp.content["data"][5] != 0):
+        #         print('error')
 
         if (not self.is_newstate()):
             print("Found new state\n\n\n")
