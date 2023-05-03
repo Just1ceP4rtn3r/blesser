@@ -17,7 +17,7 @@ def Sanitizer(current_state, req, resp):
 class SMPFuzzer():
 
     def __init__(self):
-        self.socket = SMPSocket_TEST()
+        self.socket = SMPSocket()
         self.state_machine = SMPStateMachine("SMP.dot", self.socket)
         self.mutator = SMPMutator()
         self.mutator.calculateStateProb(self.state_machine.states)
