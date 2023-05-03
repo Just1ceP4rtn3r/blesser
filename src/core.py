@@ -24,8 +24,9 @@ class SMPFuzzer():
 
     def process_fuzzing(self):
         while (True):
-            state = self.mutator.stateSelection()
-            self.state_machine.goto_state(state)
+            # state = self.mutator.stateSelection()
+            # self.state_machine.goto_state(state)
+            self.state_machine.goto_state(self.state_machine.not_pair_state)
             # TODO: generate a muated request
             req = random.choice(self.state_machine.corpus)
             self.state_machine.step_with_mutation(req)
