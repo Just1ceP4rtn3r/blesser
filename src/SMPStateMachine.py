@@ -259,7 +259,6 @@ class SMPStateMachine(StateMachine):
                     self.current_rsp.CompareTo(self.transition_map[transition.event][1])):
                 return False
 
-
         self.state_count += 1
         self.create_state(f"state_{self.state_count}", f"{self.current_state.name}_to_{self.state_count}")
         return True
@@ -272,7 +271,6 @@ class SMPStateMachine(StateMachine):
 
     def step_with_mutation(self, mutation_packet):
         self.current_req = mutation_packet
-        # TODO: send the real packet to the device with SMPsocket; And receive the response
         if (self.current_req != None):
             self.socket.send(self.current_req.raw_packet)
         resp = self.socket.recv()
@@ -283,6 +281,7 @@ class SMPStateMachine(StateMachine):
         #     if (len(self.current_rsp.content["data"]) >= 5) and  (self.current_rsp.content["data"][2] & 0b00000011 == 0 ) and (self.current_rsp.content["data"][5] != 0):
         #         print('error')
 
+        # TODO: if found new state or sanitizer() == true
         if (not self.is_newstate()):
             print("Found new state\n\n\n")
 
@@ -308,7 +307,7 @@ class SMPStateMachine(StateMachine):
     def reset(self):
         if (self.current_state.name == self.not_pair_state.name):
             return
-        elif(self.current_state.name != self.final_state.name):
+        elif (self.current_state.name != self.final_state.name):
             events = [t.event for t in self.current_state.transitions]
             if (f"{self.current_state.name}_to_{self.final_state.name}" in events):
                 self.send(f"{self.current_state.name}_to_{self.final_state.name}")
