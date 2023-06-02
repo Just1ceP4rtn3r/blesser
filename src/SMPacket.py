@@ -89,21 +89,25 @@ class SMPSocket:
         ser.close()
 
     def recv(self):
-        ser = serial.Serial("COM11", 115200)
-        real_buf = ''
+        ser = serial.Serial("COM11", 115200, timeout=1)
+        real_buf = b''
         while True:
             com_input = ser.read()
             if com_input:
                 real_buf += com_input
             else:
+                if(real_buf == b''):
+                    continue
+                ser.close()
                 return real_buf
-        ser.close()
 
     def close(self):
         pass
 
     def reset(self):
-        pass
+        ser = serial.Serial("COM11", 115200)
+        ser.write(b'\x05')
+        ser.close()
 
 
 class SMPSocket_TEST:

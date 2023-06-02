@@ -95,9 +95,11 @@ class SMPStateMachine(StateMachine):
     smp_rcvd_pairing_random = SMPacket("043381d61f4192b61113c5291e0e6dd63d")
     smp_sent_DHKey_check = SMPacket("0da583413f2b8f75ce73de42a8a5bff0be")
     smp_rcvd_DHKey_check = SMPacket("0dda53ef23954c2f84fc5f6f42048bf088")
+    # TODO: complete the corpus
     corpus = [
-        smp_pairing_request, smp_pairing_response, smp_sent_pairing_public_key, smp_rcvd_pairing_public_key,
-        smp_rcvd_pairing_confirm, smp_sent_pairing_random, smp_rcvd_pairing_random, smp_sent_DHKey_check, smp_rcvd_DHKey_check
+        smp_pairing_request, smp_pairing_response
+        # , smp_sent_pairing_public_key, smp_rcvd_pairing_public_key,
+        # smp_rcvd_pairing_confirm, smp_sent_pairing_random, smp_rcvd_pairing_random, smp_sent_DHKey_check, smp_rcvd_DHKey_check
     ]
 
     not_pair_state.to(receive_pairing_rsp_state, event="not_pair_to_receive_pairing_rsp")
@@ -257,6 +259,7 @@ class SMPStateMachine(StateMachine):
                     self.current_rsp.CompareTo(self.transition_map[transition.event][1])):
                 return False
 
+
         self.state_count += 1
         self.create_state(f"state_{self.state_count}", f"{self.current_state.name}_to_{self.state_count}")
         return True
@@ -274,6 +277,12 @@ class SMPStateMachine(StateMachine):
             self.socket.send(self.current_req.raw_packet)
         resp = self.socket.recv()
         self.current_rsp = SMPacket(resp.hex())
+        print(self.current_rsp.content)
+
+        # if self.current_state == self.not_pair_state:
+        #     if (len(self.current_rsp.content["data"]) >= 5) and  (self.current_rsp.content["data"][2] & 0b00000011 == 0 ) and (self.current_rsp.content["data"][5] != 0):
+        #         print('error')
+
         if (not self.is_newstate()):
             print("Found new state\n\n\n")
 
