@@ -169,7 +169,6 @@ class SMPacket:
 
     # 仅比较resp中非随机数的部分
     def CompareTo(self, packet: SMPSocket):
-        return True
         if (self.packet_type != packet.packet_type):
             return False
         else:
@@ -219,7 +218,6 @@ class SMPacket_V2:
                                                                                   self.direction, self.raw_packet))
 
     def to_raw(self):
-
         for key, value in SMP_CODE.items():
             if value == self.packet_type:
                 opcode = key
@@ -231,7 +229,6 @@ class SMPacket_V2:
 
 
 class SMPacketSequnce:
-
     def __init__(self, packet_cap):
         self.pkt_sequnce = []
         entire_pkts = pyshark.FileCapture(packet_cap, display_filter='btsmp', use_json=True, include_raw=True)

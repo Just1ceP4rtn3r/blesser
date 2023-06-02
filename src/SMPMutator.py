@@ -96,6 +96,7 @@ class SMPMutator:
         # # state probabilities, ∑ state probabilities = 1?
         self.state_prob = {}
 
+    # TODO: change the probability of packet/state/field
     def calculateStateProb(self, states):
         for state in states:
             if state not in self.state_prob:
