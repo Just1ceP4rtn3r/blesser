@@ -128,34 +128,6 @@ class SMPSocket_TEST:
         pass
 
 
-# # old BLE SMP protocol packet class
-"""
-class SMPacket:
-
-    def __init__(self, packet_cap):
-        entire_pkt = pyshark.FileCapture(packet_cap, display_filter='btsmp', use_json=True, include_raw=True)[0]
-        smp_pkt = entire_pkt.btsmp
-        opcode = int(smp_pkt.get_field("opcode"), 16)
-
-        self.raw_packet = entire_pkt.get_raw_packet()[27:-3]
-        self.packet_type = SMP_CODE[opcode]
-        self.content = {}
-
-        pkt_fields = smp_pkt_field[self.packet_type]
-        for item in smp_pkt.field_names:
-            if item in pkt_fields:
-                self.content[item] = smp_pkt.get_field(item + "_raw")[0]
-
-    # TODO: 仅比较resp中非随机数的部分
-    def CompareTo(self, packet):
-        return False
-        differ = set(self.content.items()) ^ set(packet.content.items())
-        if (differ != set()):
-            return True
-        else:
-            return False
-"""
-
 
 # BLE SMP protocol packet class
 class SMPacket:
@@ -170,6 +142,69 @@ class SMPacket:
     def parse(self, data):
         code = struct.unpack("<B", data[:1])[0]
         return (code, data[1:])
+
+    def parse_fields(self, packet_type):
+        if packet_type == "smp_pairing_req":
+            self.io_capability, self.oob_data_flags, self.authreq, self.max_enc_key_size, self.initiator_key_distribution, self.responder_key_distribution = self.parse_pair_req(self.content["data"])
+        elif packet_type == "smp_pairing_rsp":
+            self.io_capability, self.oob_data_flags, self.authreq, self.max_enc_key_size, self.initiator_key_distribution, self.responder_key_distribution = self.parse_pair_rsp(self.content["data"])
+        elif packet_type == "smp_pairing_confirm":
+            self.cfm_value = self.parse_pair_confirm(self.content["data"])
+        elif packet_type == "smp_pairing_random":
+            self.random_value = self.parse_pair_random(self.content["data"])
+        elif packet_type == "smp_encrypt_info":
+            self.long_term_key = self.parse_encrypt_info(self.content["data"])
+        elif packet_type == "smp_central_ident":
+            self.ediv, self.random_value = self.parse_central_ident(self.content["data"])
+        elif packet_type == "smp_ident_info":
+            self.id_resolving_key = self.parse_ident_info(self.content["data"])
+        elif packet_type == "smp_ident_addr_info":
+            self.address_type, self.bd_addr = self.parse_ident_addr_info(self.content["data"])
+        elif packet_type == "smp_public_key":
+            self.long_term_key = self.parse_public_key(self.content["data"])
+        elif packet_type == "smp_dhkey_check":
+            self.dhkey_check = self.parse_dhkey_check(self.content["data"])
+
+    def parse_pair_req(self, data):
+        io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution = struct.unpack("<BBBBBB", data[:6])
+        return (io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution)
+
+    def parse_pair_rsp(self, data):
+        io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution = struct.unpack("<BBBBBB", data[:6])
+        return (io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution)
+
+    def parse_pair_confirm(self, data):
+        cfm_value = data
+        return cfm_value
+
+    def parse_pair_random(self, data):
+        random_value = data
+        return random_value
+
+    def parse_encrypt_info(self, data):
+        long_term_key = data
+        return long_term_key
+
+    def parse_central_ident(self, data):
+        ediv, random_value = struct.unpack("<HB", data[:3])
+        return ediv, random_value
+
+    def parse_ident_info(self, data):
+        id_resolving_key = data
+        return id_resolving_key
+
+    def parse_ident_addr_info(self, data):
+        address_type, bd_addr = struct.unpack("<BH", data[:3])
+        return address_type, bd_addr
+
+    def parse_public_key(self, data):
+        long_term_key = data
+        return long_term_key
+
+    def parse_dhkey_check(self, data):
+        dhkey_check = data
+        return dhkey_check
+
 
     # 仅比较resp中非随机数的部分
     def CompareTo(self, packet: SMPSocket):
@@ -190,7 +225,7 @@ class SMPacket:
 
 
 # update BLE SMP protocol packet class
-class SMPacket_V2:
+class SMPacket_V01:
 
     def __init__(self, entire_pkt, direction):
         smp_pkt = entire_pkt.btsmp
