@@ -96,7 +96,7 @@ class SMPSocket:
             if com_input:
                 real_buf += com_input
             else:
-                if(real_buf == b''):
+                if (real_buf == b''):
                     continue
                 ser.close()
                 return real_buf
@@ -128,9 +128,11 @@ class SMPSocket_TEST:
         pass
 
 
-
 # BLE SMP protocol packet class
 class SMPacket:
+    raw_packet = None
+    content = {}
+    packet_type = None
 
     def __init__(self, hex_data):
         # smp_pairing_req = "0104002d100f0f"
@@ -138,6 +140,7 @@ class SMPacket:
         fields = self.parse(self.raw_packet)
         self.content = {"code": fields[0], "data": fields[1]}
         self.packet_type = self.content["code"]
+        self.parse_fields(SMP_CODE[self.packet_type])
 
     def parse(self, data):
         code = struct.unpack("<B", data[:1])[0]
@@ -145,33 +148,41 @@ class SMPacket:
 
     def parse_fields(self, packet_type):
         if packet_type == "smp_pairing_req":
-            self.io_capability, self.oob_data_flags, self.authreq, self.max_enc_key_size, self.initiator_key_distribution, self.responder_key_distribution = self.parse_pair_req(self.content["data"])
+            self.content["io_capability"], self.content["oob_data_flags"], self.content["authreq"], self.content[
+                "max_enc_key_size"], self.content["initiator_key_distribution"], self.content[
+                    "responder_key_distribution"] = self.parse_pair_req(self.content["data"])
         elif packet_type == "smp_pairing_rsp":
-            self.io_capability, self.oob_data_flags, self.authreq, self.max_enc_key_size, self.initiator_key_distribution, self.responder_key_distribution = self.parse_pair_rsp(self.content["data"])
+            self.content["io_capability"], self.content["oob_data_flags"], self.content["authreq"], self.content[
+                "max_enc_key_size"], self.content["initiator_key_distribution"], self.content[
+                    "responder_key_distribution"] = self.parse_pair_rsp(self.content["data"])
         elif packet_type == "smp_pairing_confirm":
-            self.cfm_value = self.parse_pair_confirm(self.content["data"])
+            self.content["cfm_value"] = self.parse_pair_confirm(self.content["data"])
         elif packet_type == "smp_pairing_random":
-            self.random_value = self.parse_pair_random(self.content["data"])
+            self.content["random_value"] = self.parse_pair_random(self.content["data"])
         elif packet_type == "smp_encrypt_info":
-            self.long_term_key = self.parse_encrypt_info(self.content["data"])
+            self.content["long_term_key"] = self.parse_encrypt_info(self.content["data"])
         elif packet_type == "smp_central_ident":
-            self.ediv, self.random_value = self.parse_central_ident(self.content["data"])
+            self.content["ediv"], self.content["random_value"] = self.parse_central_ident(self.content["data"])
         elif packet_type == "smp_ident_info":
-            self.id_resolving_key = self.parse_ident_info(self.content["data"])
+            self.content["id_resolving_key"] = self.parse_ident_info(self.content["data"])
         elif packet_type == "smp_ident_addr_info":
-            self.address_type, self.bd_addr = self.parse_ident_addr_info(self.content["data"])
+            self.content["address_type"], self.content["bd_addr"] = self.parse_ident_addr_info(self.content["data"])
         elif packet_type == "smp_public_key":
-            self.long_term_key = self.parse_public_key(self.content["data"])
+            self.content["long_term_key"] = self.parse_public_key(self.content["data"])
         elif packet_type == "smp_dhkey_check":
-            self.dhkey_check = self.parse_dhkey_check(self.content["data"])
+            self.content["dhkey_check"] = self.parse_dhkey_check(self.content["data"])
 
     def parse_pair_req(self, data):
-        io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution = struct.unpack("<BBBBBB", data[:6])
-        return (io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution)
+        io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution = struct.unpack(
+            "<BBBBBB", data[:6])
+        return (io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution,
+                responder_key_distribution)
 
     def parse_pair_rsp(self, data):
-        io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution = struct.unpack("<BBBBBB", data[:6])
-        return (io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution)
+        io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution = struct.unpack(
+            "<BBBBBB", data[:6])
+        return (io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution,
+                responder_key_distribution)
 
     def parse_pair_confirm(self, data):
         cfm_value = data
@@ -186,7 +197,7 @@ class SMPacket:
         return long_term_key
 
     def parse_central_ident(self, data):
-        ediv, random_value = struct.unpack("<HB", data[:3])
+        ediv, random_value = struct.unpack("<H8s", data[:10])
         return ediv, random_value
 
     def parse_ident_info(self, data):
@@ -194,7 +205,7 @@ class SMPacket:
         return id_resolving_key
 
     def parse_ident_addr_info(self, data):
-        address_type, bd_addr = struct.unpack("<BH", data[:3])
+        address_type, bd_addr = struct.unpack("<B6s", data[:7])
         return address_type, bd_addr
 
     def parse_public_key(self, data):
@@ -205,9 +216,8 @@ class SMPacket:
         dhkey_check = data
         return dhkey_check
 
-
     # 仅比较resp中非随机数的部分
-    def CompareTo(self, packet: SMPSocket):
+    def CompareTo(self, packet):
         if (self.packet_type != packet.packet_type):
             return False
         else:
@@ -268,6 +278,7 @@ class SMPacket_V01:
 
 
 class SMPacketSequnce:
+
     def __init__(self, packet_cap):
         self.pkt_sequnce = []
         entire_pkts = pyshark.FileCapture(packet_cap, display_filter='btsmp', use_json=True, include_raw=True)
@@ -282,8 +293,6 @@ class SMPacketSequnce:
             self.pkt_sequnce.append(SMPacket(entire_pkt, direction=direction))
 
 
-# if __name__ == '__main__':
-#     smpacket_seq = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
-#     for smpacket in smpacket_seq.pkt_sequnce:
-#         smpacket.PrintSMPacket()
-#         print(smpacket.to_raw())
+if __name__ == '__main__':
+    testp = SMPacket("0756be784bc11345c6fb16")
+    print(testp.content)
