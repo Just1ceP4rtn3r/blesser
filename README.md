@@ -42,6 +42,11 @@ luaCopy codeblesser/
 
 ### Installation
 
+```bash
+$ sudo apt-get install python-pip libglib2.0-dev
+```
+
+
 To install Blesser, follow these steps:
 
 1.  Clone the Blesser repository from GitHub:
