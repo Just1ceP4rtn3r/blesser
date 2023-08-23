@@ -5592,9 +5592,10 @@ int bt_smp_send_packet(struct bt_conn *conn, uint8_t *packet, int len, int p)
 		legacy_send_pairing_confirm(smp);
 	} else if (packet[0] == 0x04) {
 		smp_send_pairing_random(smp);
-	} else if (packet[0] == 0x05) {
-		smp_error(smp, BT_SMP_reset);
-	} //6、7 both in legacy_distribute_keys()
+	}
+    // else if (packet[0] == 0x05) {
+	// 	smp_error(smp, BT_SMP_reset);
+	// } //6、7 both in legacy_distribute_keys()
 	else if (packet[0] == 0x06) {
 		legacy_distribute_keys(smp);
 	// } else if (packet[0] == 0x07) {

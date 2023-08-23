@@ -234,7 +234,7 @@ class SMPacket:
         #     return False
 
 
-# update BLE SMP protocol packet class
+# [deprecated] update BLE SMP protocol packet class
 class SMPacket_V01:
 
     def __init__(self, entire_pkt, direction):
@@ -277,6 +277,7 @@ class SMPacket_V01:
         return result
 
 
+# [deprecated]
 class SMPacketSequnce:
 
     def __init__(self, packet_cap):
