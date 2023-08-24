@@ -70,7 +70,8 @@ void thread_send_smp(void){
 					printk("%x ", app_buf[i]);
 				}
 				printk("\nend app_buf\nStart send over conn\n");
-				bt_conn_send_smp_packet(default_conn, app_buf, recv_len, 1);
+
+				// bt_conn_send_smp_packet(default_conn, app_buf, recv_len, 1);
             } else {
                 printk("Conn NULL\n");
             }
