@@ -21,9 +21,27 @@
 #include <zephyr/drivers/uart.h>
 #include "../Include/Instruction.h"
 
+/*
+* func parse()
+* 参数: struct Instruction *instruction, uint8_t *recv, int len
+*       Instruction类型结构体的指针,      uart收到的数据的指针, uart收到的数据的长度
+* 返回值: 函数执行完后返回0
+*/
+int parse(struct BlesserInstruction *instruction, uint8_t *recv, int len){
+    instruction->mutation_count = recv[0];
+    int i = 0;
+    int j = 1;
+    while(i < instruction->mutation_count && j < len){
+        instruction->mutations[i].cmd_id = recv[j++];
+        instruction->mutations[i++].field_id = recv[j++];
+    }
+    for(i=0; j < len; i++, j++){
+        instruction->mutation_values[i] = recv[j];
+    }
+    return 0;
+}
 
-
-struct Instruction CMD_FROM_BLESSER;
+struct BlesserInstruction CMD_FROM_BLESSER;
 
 //uart config
 /* 1000 msec = 1 sec */
@@ -64,6 +82,7 @@ void thread_blesser_backend(void){
 			if(default_conn){
 				parse(&CMD_FROM_BLESSER, app_buf, recv_len);
 				// do fuzz with instruction
+                bt_conn_set_security(default_conn, BT_SECURITY_L2);
 				recv_flag = 0;
 			} else {
 				printk("[ERROR]: connection is NULL\n");
@@ -72,7 +91,7 @@ void thread_blesser_backend(void){
 		k_mutex_unlock(&app_buf_mutex);
         k_msleep(100);
 	}
-	
+
 }
 K_THREAD_DEFINE(thread_blesser_backend_id, 1024, thread_blesser_backend, NULL, NULL, NULL, 10, 0, 0);
 static void uart_cb(const struct device *dev, struct uart_event *evt, void *user_data)
