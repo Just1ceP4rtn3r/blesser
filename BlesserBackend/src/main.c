@@ -62,8 +62,7 @@ void thread_blesser_backend(void){
 		k_mutex_lock(&app_buf_mutex, K_FOREVER);
 		if(recv_flag){
 			if(default_conn){
-				struct BlesserInstruction frontendInstruction;
-				parse(&frontendInstruction, app_buf, recv_len);
+				parse(&CMD_FROM_BLESSER, app_buf, recv_len);
 				// do fuzz with instruction
 				recv_flag = 0;
 			} else {
