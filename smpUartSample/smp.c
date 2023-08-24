@@ -5574,6 +5574,7 @@ int bt_smp_start_security_mine(struct bt_conn *conn, int len)
 {
 	return smp_send_pairing_req_mine(conn, len);
 }
+// syncxxx-2023-8-23
 int bt_smp_send_packet(struct bt_conn *conn, uint8_t *packet, int len, int p)
 { // struct smp_recv_handler *handler
 	// int err;
