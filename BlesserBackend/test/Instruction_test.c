@@ -11,9 +11,12 @@ void main()
     for(int i =0 ; i< CMD_FROM_BLESSER.mutation_count; i++)
     {
         struct mutation mut = CMD_FROM_BLESSER.mutations[i];
-
+        uint8_t *mut_values = CMD_FROM_BLESSER.mutation_values;
         char cmd_id = mut.cmd_id;
         char field_id = mut.field_id;
+
+        int offset = 0;
+
 
         // "smp_pairing_req": [
         //     "io_capability",
@@ -29,38 +32,54 @@ void main()
             {
                 case 0:
                 {
-                    printf("io_capability: \n");
+                    uint8_t _v;
+                    memcpy(&_v, &mut_values[offset], sizeof(_v));
+                    offset += sizeof(_v);
+                    printf("io_capability: %u\n", _v);
                     break;
                 }
                 case 1:
                 {
-                    printf("oob_data_flags: \n");
+                    uint8_t _v;
+                    memcpy(&_v, &mut_values[offset], sizeof(_v));
+                    offset += sizeof(_v);
+                    printf("oob_data_flags: %u\n", _v);
                     break;
                 }
                 case 2:
                 {
-                    printf("authreq: \n");
+                    uint8_t _v;
+                    memcpy(&_v, &mut_values[offset], sizeof(_v));
+                    offset += sizeof(_v);
+                    printf("authreq: %u\n", _v);
                     break;
                 }
                 case 3:
                 {
-                    printf("max_enc_key_size: \n");
+                    uint8_t _v;
+                    memcpy(&_v, &mut_values[offset], sizeof(_v));
+                    offset += sizeof(_v);
+                    printf("max_enc_key_size: %u\n", _v);
                     break;
                 }
                 case 4:
                 {
-                    printf("initiator_key_distribution: \n");
+                    uint8_t _v;
+                    memcpy(&_v, &mut_values[offset], sizeof(_v));
+                    offset += sizeof(_v);
+                    printf("initiator_key_distribution: %u\n", _v);
                     break;
                 }
                 case 5:
                 {
-                    printf("responder_key_distribution: \n");
+                    uint8_t _v;
+                    memcpy(&_v, &mut_values[offset], sizeof(_v));
+                    offset += sizeof(_v);
+                    printf("responder_key_distribution: %u\n", _v);
                     break;
                 }
             }
         }
-
-
     }
 
 }
