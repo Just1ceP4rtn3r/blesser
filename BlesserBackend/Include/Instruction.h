@@ -5,7 +5,7 @@
 struct mutation{
     uint8_t cmd_id;
     uint8_t filed_id;
-}
+};
 
 struct Instruction{
     uint8_t mutation_count;
