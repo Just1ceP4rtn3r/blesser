@@ -26,15 +26,29 @@ SMP_CODE = {
 
 # TODO: 仅比较resp中非随机数的部分
 SMP_COMPARABLE_CODE = {
-    0x01: ["io_capability"],
-    0x02: [],
+    0x01: ["io_capability",
+           "oob_data_flags",
+           "authreq",
+           "max_enc_key_size",
+           "initiator_key_distribution",
+           "responder_key_distribution"
+    ],
+    0x02: ["io_capability",
+           "oob_data_flags",
+           "authreq",
+           "max_enc_key_size",
+           "initiator_key_distribution",
+           "responder_key_distribution"
+    ],
     0x03: [],
     0x04: [],
-    0x05: [],
+    0x05: ["reason"],
     0x06: [],
     0x07: [],
     0x08: [],
-    0x09: [],
+    0x09: ["address_type",
+           "bd_addr"
+    ],
     0x0a: [],
     # Peripheral -> Central; The Security Request command is used by the Peripheral to request that the Central initiates security with the requested security properties, see Section 2.4.6. The Security Request command is defined in Figure 3.17.
     0x0b: [],
@@ -47,7 +61,11 @@ SMP_COMPARABLE_CODE = {
 
 smp_pkt_field = {
     "smp_pairing_req": [
-        "io_capability", "oob_data_flags", "authreq", "max_enc_key_size", "initiator_key_distribution",
+        "io_capability",
+        "oob_data_flags",
+        "authreq",
+        "max_enc_key_size",
+        "initiator_key_distribution",
         "responder_key_distribution"
     ],  # 0x01
     "smp_pairing_rsp": [
@@ -60,6 +78,7 @@ smp_pkt_field = {
     ],  # 0x02
     "smp_pairing_confirm": ["cfm_value",],  # 0x03
     "smp_pairing_random": ["random_value",],  # 0x04
+    "smp_pairing_fail": ["reason"],  # 0x05
     "smp_encrypt_info": ["long_term_key",],  # 0x06
     "smp_central_ident": [
         "ediv",
