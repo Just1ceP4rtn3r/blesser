@@ -46,6 +46,7 @@ smp_pkt_field = {
 struct mutation{
     char cmd_id;
     char field_id;
+    char mutation_values[MAX_MUTATION_VALUES_LEN];
 };
 
 /*
@@ -57,5 +58,4 @@ struct mutation{
 struct BlesserInstruction{
     char mutation_count;
     struct mutation mutations[MAX_MUTATION_COUNT];
-    char mutation_values[MAX_MUTATION_VALUES_LEN];
 };

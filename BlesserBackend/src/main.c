@@ -28,15 +28,42 @@
 * 返回值: 函数执行完后返回0
 */
 int parse(struct BlesserInstruction *instruction, uint8_t *recv, int len){
-    instruction->mutation_count = recv[0];
-    int i = 0;
-    int j = 1;
-    while(i < instruction->mutation_count && j < len){
-        instruction->mutations[i].cmd_id = recv[j++];
-        instruction->mutations[i++].field_id = recv[j++];
-    }
-    for(i=0; j < len; i++, j++){
-        instruction->mutation_values[i] = recv[j];
+    size_t offset = 0;
+    instruction->mutation_count = 0;
+    short mapper[16][6]={
+        {},
+        {1, 1, 1, 1, 1, 1},
+        {1, 1, 1, 1, 1, 1},
+        {16},
+        {16},
+        {1},
+        {16},
+        {2, 8},
+        {16},
+        {1, 6},
+        {16},
+        {1},
+        {32, 32},
+        {16},
+        {1},
+        {}
+    };
+    while (offset < len) {
+        instruction->mutations[instruction->mutation_count].cmd_id = *(char *)(recv+offset);
+        instruction->mutations[instruction->mutation_count].field_id = *(char *)(recv+offset+1);
+        int value_size =  mapper[instruction->mutations[instruction->mutation_count].cmd_id][instruction->mutations[instruction->mutation_count].field_id];
+        memcpy(instruction->mutations[instruction->mutation_count].mutation_values, recv+offset+2, value_size);
+
+        printk("%u, %u, ", instruction->mutations[instruction->mutation_count].cmd_id,instruction->mutations[instruction->mutation_count].field_id);
+        for(int i=0;i<value_size;i++)
+        {
+            printk("%x ", instruction->mutations[instruction->mutation_count].mutation_values[i]);
+        }
+        printk("\n");
+
+        instruction->mutation_count++;
+
+        offset += 1+1+value_size;
     }
     return 0;
 }
