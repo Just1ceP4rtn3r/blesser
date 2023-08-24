@@ -23,7 +23,7 @@
 
 
 
-struct INST CMD_FROM_BLESSER;
+struct Instruction CMD_FROM_BLESSER;
 
 //uart config
 /* 1000 msec = 1 sec */
