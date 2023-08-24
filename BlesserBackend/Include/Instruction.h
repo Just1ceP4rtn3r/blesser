@@ -1,4 +1,3 @@
-#define uint8_t char
 #define MAX_MUTATION_COUNT 20
 #define MAX_MUTATION_VALUES_LEN 100
 
@@ -45,8 +44,8 @@ smp_pkt_field = {
 * 即BT_SMP_CMD_PAIRING_REQ->io_capability，mutation的值在BlesserInstruction的mutation_values字段中保存
 */
 struct mutation{
-    uint8_t cmd_id;
-    uint8_t field_id;
+    char cmd_id;
+    char field_id;
 };
 
 /*
@@ -56,7 +55,7 @@ struct mutation{
 * mutation_values[]: mutations的值
 */
 struct BlesserInstruction{
-    uint8_t mutation_count;
+    char mutation_count;
     struct mutation mutations[MAX_MUTATION_COUNT];
-    uint8_t mutation_values[MAX_MUTATION_VALUES_LEN];
+    char mutation_values[MAX_MUTATION_VALUES_LEN];
 };
