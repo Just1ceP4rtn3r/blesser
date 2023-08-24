@@ -137,9 +137,15 @@ static void device_found(const bt_addr_le_t *addr, int8_t rssi, uint8_t type,
 	printk("Device found: %s (RSSI %d)\n", addr_str, rssi);
 
 	/* connect only to devices in close proximity */
-	if (rssi < -70) {
-		return;
-	}
+	// if (rssi < -70) {
+	// 	return;
+	// }
+
+    if (strcmp(addr_str, "F4:5A:DE:3A:CC:5F (random)"))
+    {
+        printk("Not same\n");
+        return;
+    }
 
 	if (bt_le_scan_stop()) {
 		return;
