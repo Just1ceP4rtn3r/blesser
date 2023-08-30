@@ -1844,6 +1844,30 @@ static int smp_error(struct bt_smp* smp, uint8_t reason)
     rsp = net_buf_add(buf, sizeof(*rsp));
     rsp->reason = reason;
 
+// syncxxx-8-24 变异
+    extern struct BlesserInstruction CMD_FROM_BLESSER;
+    for (int i = 0; i < CMD_FROM_BLESSER.mutation_count; i++)
+    {
+        struct mutation mut = CMD_FROM_BLESSER.mutations[i];
+        char            cmd_id = mut.cmd_id;
+        char            field_id = mut.field_id;
+
+        uint8_t* mut_values = mut.mutation_values;
+
+        //"smp_pairing_fail": ["reason"],  # 0x05
+        if (cmd_id == 0x05)
+        {
+            switch (field_id)
+            {
+            case 0: {
+                memcpy(rsp->reason, mut_values, 1);
+                break;
+            }
+            }
+        }
+    }
+
+
     /* SMP timer is not restarted for PairingFailed so don't use smp_send */
     if (bt_l2cap_send(smp->chan.chan.conn, BT_L2CAP_CID_SMP, buf))
     {
@@ -2122,6 +2146,30 @@ static void legacy_distribute_keys(struct bt_smp* smp)
             (void)memset(info->ltk + keys->enc_size, 0, sizeof(info->ltk) - keys->enc_size);
         }
 
+
+    // syncxxx-8-24 变异
+        extern struct BlesserInstruction CMD_FROM_BLESSER;
+        for (int i = 0; i < CMD_FROM_BLESSER.mutation_count; i++)
+        {
+            struct mutation mut = CMD_FROM_BLESSER.mutations[i];
+            char            cmd_id = mut.cmd_id;
+            char            field_id = mut.field_id;
+
+            uint8_t* mut_values = mut.mutation_values;
+
+            //"smp_encrypt_info": ["long_term_key",],  # 0x06
+            if (cmd_id == 0x06)
+            {
+                switch (field_id)
+                {
+                case 0: {
+                    memcpy(info->ltk, mut_values, 16);
+                    break;
+                }
+                }
+            }
+        }
+
         smp_send(smp, buf, NULL, NULL);
 
         buf = smp_create_pdu(smp, BT_SMP_CMD_CENTRAL_IDENT, sizeof(*ident));
@@ -2135,6 +2183,37 @@ static void legacy_distribute_keys(struct bt_smp* smp)
         memcpy(ident->rand, rand.rand, sizeof(ident->rand));
         memcpy(ident->ediv, rand.ediv, sizeof(ident->ediv));
 
+    // syncxxx-8-24 变异
+        extern struct BlesserInstruction CMD_FROM_BLESSER;
+        for (int i = 0; i < CMD_FROM_BLESSER.mutation_count; i++)
+        {
+            struct mutation mut = CMD_FROM_BLESSER.mutations[i];
+            char            cmd_id = mut.cmd_id;
+            char            field_id = mut.field_id;
+
+            uint8_t* mut_values = mut.mutation_values;
+
+            // "smp_central_ident": [
+            //     "ediv",
+            //     "random_value",
+            // ],  # 0x07
+            if (cmd_id == 0x07)
+            {
+                switch (field_id)
+                {
+                case 0: {
+                    memcpy(ident->ediv, mut_values, 2);
+                    memcpy(rand.ediv, mut_values, 2);
+                    break;
+                }
+                case 1: {
+                    memcpy(ident->rand, mut_values, 8);
+                    memcpy(rand.rand, mut_values, 8);
+                    break;
+                }
+                }
+            }
+        }
         smp_send(smp, buf, smp_ident_sent, NULL);
 
         if (atomic_test_bit(smp->flags, SMP_FLAG_BOND))
@@ -2185,6 +2264,30 @@ static uint8_t bt_smp_distribute_keys(struct bt_smp* smp)
         id_info = net_buf_add(buf, sizeof(*id_info));
         memcpy(id_info->irk, bt_dev.irk[conn->id], 16);
 
+
+        // syncxxx-8-24 变异
+        extern struct BlesserInstruction CMD_FROM_BLESSER;
+        for (int i = 0; i < CMD_FROM_BLESSER.mutation_count; i++)
+        {
+            struct mutation mut = CMD_FROM_BLESSER.mutations[i];
+            char            cmd_id = mut.cmd_id;
+            char            field_id = mut.field_id;
+
+            uint8_t* mut_values = mut.mutation_values;
+
+            // "smp_ident_info": ["id_resolving_key",],  # 0x08
+            if (cmd_id == 0x08)
+            {
+                switch (field_id)
+                {
+                case 0: {
+                    memcpy(id_info->irk, mut_values, 16);
+                    break;
+                }
+                }
+            }
+        }
+
         smp_send(smp, buf, NULL, NULL);
 
         buf = smp_create_pdu(smp, BT_SMP_CMD_IDENT_ADDR_INFO, sizeof(*id_addr_info));
@@ -2196,6 +2299,37 @@ static uint8_t bt_smp_distribute_keys(struct bt_smp* smp)
 
         id_addr_info = net_buf_add(buf, sizeof(*id_addr_info));
         bt_addr_le_copy(&id_addr_info->addr, &bt_dev.id_addr[conn->id]);
+
+        // syncxxx-8-24 变异
+        extern struct BlesserInstruction CMD_FROM_BLESSER;
+        for (int i = 0; i < CMD_FROM_BLESSER.mutation_count; i++)
+        {
+            struct mutation mut = CMD_FROM_BLESSER.mutations[i];
+            char            cmd_id = mut.cmd_id;
+            char            field_id = mut.field_id;
+
+            uint8_t* mut_values = mut.mutation_values;
+
+            // "smp_ident_addr_info": [
+            //     "address_type",
+            //     "bd_addr",
+            // ],  # 0x09
+            if (cmd_id == 0x09)
+            {
+                switch (field_id)
+                {
+                case 0: {
+                    memcpy(id_addr_info->addr.type, mut_values, 1);
+                    break;
+                }
+                case 1: {
+                    memcpy(id_addr_info->addr.a.val, mut_values, 6);
+                    break;
+                }
+                }
+            }
+        }
+
 
         smp_send(smp, buf, smp_id_sent, NULL);
     }
@@ -2227,6 +2361,7 @@ static uint8_t bt_smp_distribute_keys(struct bt_smp* smp)
             memcpy(keys->local_csrk.val, info->csrk, 16);
             keys->local_csrk.cnt = 0U;
         }
+
 
         smp_send(smp, buf, smp_sign_info_sent, NULL);
     }
@@ -2434,6 +2569,29 @@ static uint8_t legacy_send_pairing_confirm(struct bt_smp* smp)
     {
         net_buf_unref(buf);
         return BT_SMP_ERR_UNSPECIFIED;
+    }
+
+    // syncxxx-8-30 变异
+    extern struct BlesserInstruction CMD_FROM_BLESSER;
+    for (int i = 0; i < CMD_FROM_BLESSER.mutation_count; i++)
+    {
+        struct mutation mut = CMD_FROM_BLESSER.mutations[i];
+        char            cmd_id = mut.cmd_id;
+        char            field_id = mut.field_id;
+
+        uint8_t* mut_values = mut.mutation_values;
+
+        //"smp_pairing_random": ["cfm_value",],  # 0x04
+        if (cmd_id == 0x04)
+        {
+            switch (field_id)
+            {
+            case 0: {
+                memcpy(req->val, mut_values, 16);
+                break;
+            }
+            }
+        }
     }
 
     smp_send(smp, buf, NULL, NULL);
@@ -3193,6 +3351,31 @@ static uint8_t sc_send_public_key(struct bt_smp* smp)
     memcpy(req->x, sc_public_key, sizeof(req->x));
     memcpy(req->y, &sc_public_key[32], sizeof(req->y));
 
+
+// syncxxx-8-24 变异
+    extern struct BlesserInstruction CMD_FROM_BLESSER;
+    for (int i = 0; i < CMD_FROM_BLESSER.mutation_count; i++)
+    {
+        struct mutation mut = CMD_FROM_BLESSER.mutations[i];
+        char            cmd_id = mut.cmd_id;
+        char            field_id = mut.field_id;
+
+        uint8_t* mut_values = mut.mutation_values;
+
+        //"smp_public_key": ["long_term_key",],  # 0x0c
+        if (cmd_id == 0x0c)
+        {
+            switch (field_id)
+            {
+            case 0: {
+                memcpy(req->x, mut_values, 32);
+                memcpy(req->y, &mut_values[32], 32);
+                break;
+            }
+            }
+        }
+    }
+
     smp_send(smp, req_buf, NULL, NULL);
 
     if (IS_ENABLED(CONFIG_BT_USE_DEBUG_KEYS))
@@ -3623,6 +3806,29 @@ static uint8_t sc_smp_send_dhkey_check(struct bt_smp* smp, const uint8_t* e)
 
     req = net_buf_add(buf, sizeof(*req));
     memcpy(req->e, e, sizeof(req->e));
+
+// syncxxx-8-24 变异
+    extern struct BlesserInstruction CMD_FROM_BLESSER;
+    for (int i = 0; i < CMD_FROM_BLESSER.mutation_count; i++)
+    {
+        struct mutation mut = CMD_FROM_BLESSER.mutations[i];
+        char            cmd_id = mut.cmd_id;
+        char            field_id = mut.field_id;
+
+        uint8_t* mut_values = mut.mutation_values;
+
+        //"smp_dhkey_check": ["dhkey_check",],  # 0x0d
+        if (cmd_id == 0x0d)
+        {
+            switch (field_id)
+            {
+            case 0: {
+                memcpy(req->e, mut_values, 16);
+                break;
+            }
+            }
+        }
+    }
 
     smp_send(smp, buf, NULL, NULL);
 
