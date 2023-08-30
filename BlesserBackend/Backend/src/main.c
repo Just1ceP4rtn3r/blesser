@@ -43,7 +43,7 @@ int parse(struct BlesserInstruction *instruction, uint8_t *recv, int len){
         {1, 6},
         {16},
         {1},
-        {32, 32},
+        {64},
         {16},
         {1},
         {}

@@ -26,6 +26,9 @@
 #include <zephyr/sys/byteorder.h>
 #include <zephyr/sys/util.h>
 
+// syncxxx-8-30
+#include <zephyr/drivers/uart.h>
+
 
 #include "common/bt_str.h"
 
@@ -5039,6 +5042,101 @@ static const struct
     {smp_keypress_notif, sizeof(struct bt_smp_keypress_notif)},
 };
 
+// static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
+// {
+//     struct bt_smp*     smp = CONTAINER_OF(chan, struct bt_smp, chan);
+//     struct bt_smp_hdr* hdr;
+//     uint8_t            err;
+
+//     if (buf->len < sizeof(*hdr))
+//     {
+//         LOG_ERR("Too small SMP PDU received");
+//         return 0;
+//     }
+
+//     hdr = net_buf_pull_mem(buf, sizeof(*hdr));
+//     LOG_DBG("Received SMP code 0x%02x len %u", hdr->code, buf->len);
+
+//     /*
+//      * If SMP timeout occurred "no further SMP commands shall be sent over
+//      * the L2CAP Security Manager Channel. A new SM procedure shall only be
+//      * performed when a new physical link has been established."
+//      */
+//     if (atomic_test_bit(smp->flags, SMP_FLAG_TIMEOUT))
+//     {
+//         LOG_WRN("SMP command (code 0x%02x) received after timeout", hdr->code);
+//         return 0;
+//     }
+
+//     /*
+//      * Bluetooth Core Specification Version 5.2, Vol 3, Part H, page 1667:
+//      * If a packet is received with a Code that is reserved for future use
+//      * it shall be ignored.
+//      */
+//     if (hdr->code >= ARRAY_SIZE(handlers))
+//     {
+//         LOG_WRN("Received reserved SMP code 0x%02x", hdr->code);
+//         return 0;
+//     }
+
+//     if (!handlers[hdr->code].func)
+//     {
+//         LOG_WRN("Unhandled SMP code 0x%02x", hdr->code);
+//         smp_error(smp, BT_SMP_ERR_CMD_NOTSUPP);
+//         return 0;
+//     }
+
+//     if (!atomic_test_and_clear_bit(smp->allowed_cmds, hdr->code))
+//     {
+//         LOG_WRN("Unexpected SMP code 0x%02x", hdr->code);
+//         /* Don't send error responses to error PDUs */
+//         if (hdr->code != BT_SMP_CMD_PAIRING_FAIL)
+//         {
+//             smp_error(smp, BT_SMP_ERR_UNSPECIFIED);
+//         }
+//         return 0;
+//     }
+
+//     if (buf->len != handlers[hdr->code].expect_len)
+//     {
+//         LOG_ERR("Invalid len %u for code 0x%02x", buf->len, hdr->code);
+//         smp_error(smp, BT_SMP_ERR_INVALID_PARAMS);
+//         return 0;
+//     }
+
+//     err = handlers[hdr->code].func(smp, buf);
+//     if (err)
+//     {
+//         smp_error(smp, err);
+//     }
+
+//     return 0;
+// }
+
+
+
+/*
+syncxxx-8-30
+1. 删除部分条件判断
+2. 增加UART反馈给状态机
+*/
+static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf)
+{
+    const struct device *uart1 = DEVICE_DT_GET(DT_NODELABEL(uart0));
+	printk("[DBG]: bt_smp_recv_packet called\nbuf len: %d\n", buf->len);
+	// struct bt_smp *smp = CONTAINER_OF(chan, struct bt_smp, chan);
+	// struct net_buf *old_ptr;
+	// int len = buf->len;
+	for (int i = 0; i < buf->len; i++) {
+		printk("%x ", buf->data[i]);
+	}
+	// old_ptr = net_buf_pull_mem(buf, buf->len);
+	// printk("\ntry to send over uart\n");
+	int err = uart_tx(uart1, buf->data, buf->len, SYS_FOREVER_US);
+	net_buf_pull_mem(buf, buf->len);
+	// printk("send finished (%d)", err);
+	return err;
+}
 static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
 {
     struct bt_smp*     smp = CONTAINER_OF(chan, struct bt_smp, chan);
@@ -5059,22 +5157,22 @@ static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
      * the L2CAP Security Manager Channel. A new SM procedure shall only be
      * performed when a new physical link has been established."
      */
-    if (atomic_test_bit(smp->flags, SMP_FLAG_TIMEOUT))
-    {
-        LOG_WRN("SMP command (code 0x%02x) received after timeout", hdr->code);
-        return 0;
-    }
+    // if (atomic_test_bit(smp->flags, SMP_FLAG_TIMEOUT))
+    // {
+    //     LOG_WRN("SMP command (code 0x%02x) received after timeout", hdr->code);
+    //     return 0;
+    // }
 
     /*
      * Bluetooth Core Specification Version 5.2, Vol 3, Part H, page 1667:
      * If a packet is received with a Code that is reserved for future use
      * it shall be ignored.
      */
-    if (hdr->code >= ARRAY_SIZE(handlers))
-    {
-        LOG_WRN("Received reserved SMP code 0x%02x", hdr->code);
-        return 0;
-    }
+    // if (hdr->code >= ARRAY_SIZE(handlers))
+    // {
+    //     LOG_WRN("Received reserved SMP code 0x%02x", hdr->code);
+    //     return 0;
+    // }
 
     if (!handlers[hdr->code].func)
     {
@@ -5083,23 +5181,27 @@ static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
         return 0;
     }
 
-    if (!atomic_test_and_clear_bit(smp->allowed_cmds, hdr->code))
-    {
-        LOG_WRN("Unexpected SMP code 0x%02x", hdr->code);
-        /* Don't send error responses to error PDUs */
-        if (hdr->code != BT_SMP_CMD_PAIRING_FAIL)
-        {
-            smp_error(smp, BT_SMP_ERR_UNSPECIFIED);
-        }
-        return 0;
-    }
+    // if (!atomic_test_and_clear_bit(smp->allowed_cmds, hdr->code))
+    // {
+    //     LOG_WRN("Unexpected SMP code 0x%02x", hdr->code);
+    //     /* Don't send error responses to error PDUs */
+    //     if (hdr->code != BT_SMP_CMD_PAIRING_FAIL)
+    //     {
+    //         smp_error(smp, BT_SMP_ERR_UNSPECIFIED);
+    //     }
+    //     return 0;
+    // }
 
-    if (buf->len != handlers[hdr->code].expect_len)
-    {
-        LOG_ERR("Invalid len %u for code 0x%02x", buf->len, hdr->code);
-        smp_error(smp, BT_SMP_ERR_INVALID_PARAMS);
-        return 0;
-    }
+    // if (buf->len != handlers[hdr->code].expect_len)
+    // {
+    //     LOG_ERR("Invalid len %u for code 0x%02x", buf->len, hdr->code);
+    //     smp_error(smp, BT_SMP_ERR_INVALID_PARAMS);
+    //     return 0;
+    // }
+
+
+    //syncxxx-8-30
+    blesser_uart_response(chan, buf);
 
     err = handlers[hdr->code].func(smp, buf);
     if (err)
