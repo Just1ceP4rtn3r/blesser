@@ -5135,7 +5135,7 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
     int packet_buf_size = sizeof(hdr->code)+buf->len+sizeof(tail);
     packet_buf = (uint8_t *)malloc(packet_buf_size);
     if (packet_buf == NULL) {
-            printk("Memory allocation failed\n");
+            printk("[ERROR]: Memory allocation failed\n");
             return -1;
         }
 
@@ -5147,12 +5147,12 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
 
     // printk("[DBG]: Response Packet %d:\n", sizeof(packet_buf)-sizeof(tail));
     printk("[DBG]: Response Packet %d:\n", packet_buf_size);
-	for (int i = 0; i <  packet_buf_size; i++) {
-		printk("%x ", packet_buf[i]);
-	}
-    printk("\n\n");
+	// for (int i = 0; i <  packet_buf_size; i++) {
+	// 	printk("%x ", packet_buf[i]);
+	// }
+    // printk("\n\n");
 
-	int err = uart_tx(uart1, packet_buf, sizeof(packet_buf), SYS_FOREVER_US);
+	int err = uart_tx(uart1, packet_buf, packet_buf_size, SYS_FOREVER_US);
 
     free(packet_buf);
 	return -1;
