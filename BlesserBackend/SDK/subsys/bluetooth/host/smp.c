@@ -5159,7 +5159,7 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
 	// int err = uart_tx(uart1, packet_buf, sizeof(packet_buf), SYS_FOREVER_US);
 
     free(packet_buf);
-	return err;
+	return -1;
 }
 static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
 {
