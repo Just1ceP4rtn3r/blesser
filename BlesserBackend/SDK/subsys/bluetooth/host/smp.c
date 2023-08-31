@@ -5155,10 +5155,9 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
 	// 	printk("%02x ", packet_buf[i]);
 	// }
     printk("\n\n");
-	// old_ptr = net_buf_pull_mem(buf, buf->len);
-	// printk("\ntry to send over uart\n");
-	int err = uart_tx(uart1, packet_buf, sizeof(packet_buf), SYS_FOREVER_US);
-	// printk("send finished (%d)", err);
+
+	// int err = uart_tx(uart1, packet_buf, sizeof(packet_buf), SYS_FOREVER_US);
+
     free(packet_buf);
 	return err;
 }
