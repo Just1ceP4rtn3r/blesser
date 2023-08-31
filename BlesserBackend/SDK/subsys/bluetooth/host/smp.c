@@ -5139,14 +5139,9 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
             return -1;
         }
 
-    // 使用 strcpy 函数将 a 复制到 c
-    strcpy(packet_buf, &(hdr->code));
-
-    // 使用 strcat 函数将 b 连接到 c
-    strcat(packet_buf, buf->data);
-
-    // 使用 strcat 函数将 tail 连接到 c
-    strcat(packet_buf, tail);
+    memcpy(packet_buf, &(hdr->code), 1);
+    memcpy(packet_buf+1, buf->data, buf->len);
+    memcpy(packet_buf+1+buf->len , tail, 4);
 
 
 
