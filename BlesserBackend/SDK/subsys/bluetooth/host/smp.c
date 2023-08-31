@@ -5123,17 +5123,42 @@ syncxxx-8-30
 static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf)
 {
     const struct device *uart1 = DEVICE_DT_GET(DT_NODELABEL(uart0));
-	printk("[DBG]: bt_smp_recv_packet called\nbuf len: %d\n", buf->len);
+    struct bt_smp_hdr* hdr;
+    uint8_t tail[4] = {0x66, 0x78, 0x78, 0x6b};
+    uint8_t * packet_buf;
+
+
+	// printk("[DBG]: bt_smp_recv_packet called\nbuf len: %d\n", buf->len);
 	// struct bt_smp *smp = CONTAINER_OF(chan, struct bt_smp, chan);
 	// struct net_buf *old_ptr;
 	// int len = buf->len;
-	for (int i = 0; i < buf->len; i++) {
-		printk("%x ", buf->data[i]);
+    hdr = net_buf_pull_mem(buf, sizeof(*hdr));
+
+    packet_buf = (uint8_t *)malloc(sizeof(hdr->code)+buf->len+strlen(tail));
+    if (packet_buf == NULL) {
+            printk("Memory allocation failed\n");
+            return -1;
+        }
+
+    // 使用 strcpy 函数将 a 复制到 c
+    strcpy(packet_buf, &(hdr->code));
+
+    // 使用 strcat 函数将 b 连接到 c
+    strcat(packet_buf, buf->data);
+
+    // 使用 strcat 函数将 tail 连接到 c
+    strcat(packet_buf, tail);
+
+
+
+    printk("[DBG]: Response Packet %d:\n", strlen(packet_buf)-strlen(tail));
+	for (int i = 0; i < strlen(packet_buf)-strlen(tail); i++) {
+		printk("%x ", packet_buf[i]);
 	}
+    printk("\n\n");
 	// old_ptr = net_buf_pull_mem(buf, buf->len);
 	// printk("\ntry to send over uart\n");
-	int err = uart_tx(uart1, buf->data, buf->len, SYS_FOREVER_US);
-	net_buf_pull_mem(buf, buf->len);
+	int err = uart_tx(uart1, packet_buf, strlen(packet_buf), SYS_FOREVER_US);
 	// printk("send finished (%d)", err);
 	return err;
 }

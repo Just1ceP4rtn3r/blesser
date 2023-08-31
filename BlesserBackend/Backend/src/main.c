@@ -125,7 +125,7 @@ static void uart_cb(const struct device *dev, struct uart_event *evt, void *user
 {
 	switch (evt->type) {
 	case UART_RX_RDY:
-        printk("UART_RX_RDY event\nUART_RX_LEN: %d\n", evt->data.rx.len);
+        // printk("UART_RX_RDY event\nUART_RX_LEN: %d\n", evt->data.rx.len);
         memcpy(app_buf, evt->data.rx.buf + evt->data.rx.offset, evt->data.rx.len);
         //memset(app_buf + evt->data.rx.len, 0, 1);
         k_mutex_lock(&app_buf_mutex, K_FOREVER);
