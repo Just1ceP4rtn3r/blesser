@@ -3573,42 +3573,42 @@ static int smp_send_pairing_req(struct bt_conn* conn)
                 uint8_t _v;
                 memcpy(&_v, mut_values, sizeof(_v));
                 req->io_capability = _v;
-                printf("io_capability: %u\n", req->io_capability);
+                // printf("io_capability: %u\n", req->io_capability);
                 break;
             }
             case 1: {
                 uint8_t _v;
                 memcpy(&_v, mut_values, sizeof(_v));
                 req->oob_flag = _v;
-                printf("oob_data_flags: %u\n", _v);
+                // printf("oob_data_flags: %u\n", _v);
                 break;
             }
             case 2: {
                 uint8_t _v;
                 memcpy(&_v, mut_values, sizeof(_v));
                 req->auth_req = _v;
-                printf("authreq: %u\n", _v);
+                // printf("authreq: %u\n", _v);
                 break;
             }
             case 3: {
                 uint8_t _v;
                 memcpy(&_v, mut_values, sizeof(_v));
                 req->max_key_size = _v;
-                printf("max_enc_key_size: %u\n", _v);
+                // printf("max_enc_key_size: %u\n", _v);
                 break;
             }
             case 4: {
                 uint8_t _v;
                 memcpy(&_v, mut_values, sizeof(_v));
                 req->init_key_dist = _v;
-                printf("initiator_key_distribution: %u\n", _v);
+                // printf("initiator_key_distribution: %u\n", _v);
                 break;
             }
             case 5: {
                 uint8_t _v;
                 memcpy(&_v, mut_values, sizeof(_v));
                 req->resp_key_dist = _v;
-                printf("responder_key_distribution: %u\n", _v);
+                // printf("responder_key_distribution: %u\n", _v);
                 break;
             }
             }
