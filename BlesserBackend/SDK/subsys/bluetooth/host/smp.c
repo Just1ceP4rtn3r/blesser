@@ -5132,7 +5132,7 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
 	// struct net_buf *old_ptr;
 	// int len = buf->len;
 
-    packet_buf = (uint8_t *)malloc(sizeof(hdr->code)+buf->len+strlen(tail));
+    packet_buf = (uint8_t *)malloc(sizeof(hdr->code)+buf->len+sizeof(tail));
     if (packet_buf == NULL) {
             printk("Memory allocation failed\n");
             return -1;
@@ -5149,15 +5149,16 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
 
 
 
-    printk("[DBG]: Response Packet %d:\n", strlen(packet_buf)-strlen(tail));
-	for (int i = 0; i < strlen(packet_buf)-strlen(tail); i++) {
+    printk("[DBG]: Response Packet %d:\n", sizeof(packet_buf)-sizeof(tail));
+	for (int i = 0; i < sizeof(packet_buf)-sizeof(tail); i++) {
 		printk("%x ", packet_buf[i]);
 	}
     printk("\n\n");
 	// old_ptr = net_buf_pull_mem(buf, buf->len);
 	// printk("\ntry to send over uart\n");
-	int err = uart_tx(uart1, packet_buf, strlen(packet_buf), SYS_FOREVER_US);
+	int err = uart_tx(uart1, packet_buf, sizeof(packet_buf), SYS_FOREVER_US);
 	// printk("send finished (%d)", err);
+    free(packet_buf);
 	return err;
 }
 static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
@@ -5173,7 +5174,7 @@ static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
     }
 
     hdr = net_buf_pull_mem(buf, sizeof(*hdr));
-    printk("Received SMP code 0x%02x len %u", hdr->code, buf->len);
+    //printk("Received SMP code 0x%02x len %u", hdr->code, buf->len);
 
 
     //syncxxx-8-30
