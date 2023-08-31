@@ -6,7 +6,7 @@ ser = serial.Serial("COM3", 115200)
 
 def send():
     a = input("byte: ")
-    ser.write(bytes.fromhex("0400000102030405060708090a0b0c0d0e0f0100ff"))
+    ser.write(bytes.fromhex("0100f00101f1"))
 
 
 def recv():
