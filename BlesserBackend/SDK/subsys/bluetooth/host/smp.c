@@ -5120,10 +5120,9 @@ syncxxx-8-30
 1. 删除部分条件判断
 2. 增加UART反馈给状态机
 */
-static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf)
+static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf, struct bt_smp_hdr* hdr)
 {
     const struct device *uart1 = DEVICE_DT_GET(DT_NODELABEL(uart0));
-    struct bt_smp_hdr* hdr;
     uint8_t tail[4] = {0x66, 0x78, 0x78, 0x6b};
     uint8_t * packet_buf;
 
@@ -5132,7 +5131,6 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
 	// struct bt_smp *smp = CONTAINER_OF(chan, struct bt_smp, chan);
 	// struct net_buf *old_ptr;
 	// int len = buf->len;
-    hdr = net_buf_pull_mem(buf, sizeof(*hdr));
 
     packet_buf = (uint8_t *)malloc(sizeof(hdr->code)+buf->len+strlen(tail));
     if (packet_buf == NULL) {
@@ -5177,6 +5175,9 @@ static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
     hdr = net_buf_pull_mem(buf, sizeof(*hdr));
     LOG_DBG("Received SMP code 0x%02x len %u", hdr->code, buf->len);
 
+
+    //syncxxx-8-30
+    blesser_uart_response(chan, buf, hdr);
     /*
      * If SMP timeout occurred "no further SMP commands shall be sent over
      * the L2CAP Security Manager Channel. A new SM procedure shall only be
@@ -5225,14 +5226,13 @@ static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
     // }
 
 
-    //syncxxx-8-30
-    blesser_uart_response(chan, buf);
+
 
     err = handlers[hdr->code].func(smp, buf);
-    if (err)
-    {
-        smp_error(smp, err);
-    }
+    // if (err)
+    // {
+    //     smp_error(smp, err);
+    // }
 
     return 0;
 }
