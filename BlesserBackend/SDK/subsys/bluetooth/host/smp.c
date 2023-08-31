@@ -5150,10 +5150,10 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
 
 
     // printk("[DBG]: Response Packet %d:\n", sizeof(packet_buf)-sizeof(tail));
-    printk("[DBG]: Response Packet %d:\n", sizeof(buf->data));
-	// for (int i = 0; i < (sizeof(packet_buf)-sizeof(tail)); i++) {
-	// 	printk("%02x ", packet_buf[i]);
-	// }
+    printk("[DBG]: Response Packet %d:\n", buf->len);
+	for (int i = 0; i <  buf->len; i++) {
+		printk("%x ", buf->data[i]);
+	}
     printk("\n\n");
 
 	// int err = uart_tx(uart1, packet_buf, sizeof(packet_buf), SYS_FOREVER_US);
