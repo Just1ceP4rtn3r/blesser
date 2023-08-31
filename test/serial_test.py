@@ -14,7 +14,7 @@ def recv():
     while True:
         com_input = ser.read_all()
         if (com_input != b""):
-            print(com_input)
+            print(com_input.hex())
 
 
 if __name__ == "__main__":

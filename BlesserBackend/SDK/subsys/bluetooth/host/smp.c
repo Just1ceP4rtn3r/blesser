@@ -5173,7 +5173,7 @@ static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)
     }
 
     hdr = net_buf_pull_mem(buf, sizeof(*hdr));
-    LOG_DBG("Received SMP code 0x%02x len %u", hdr->code, buf->len);
+    printk("Received SMP code 0x%02x len %u", hdr->code, buf->len);
 
 
     //syncxxx-8-30
