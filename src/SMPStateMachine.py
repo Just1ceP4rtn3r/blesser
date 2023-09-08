@@ -13,7 +13,6 @@ from SMPacket import SMPacket, SMPSocket
 # State Machine
 #########################
 class SMPStateMachine(StateMachine):
-
     current_req: SMPacket = None
     current_rsp: SMPacket = None
     # {tranisition.event: (req_1, rsp_1)}
@@ -24,10 +23,16 @@ class SMPStateMachine(StateMachine):
 
     ######################################################## States ########################################################
     # Entrypoint, now we have a L2CAP connection
-    not_pair_state = State('Not Pair State', initial=True)
+    not_pair_state = State('not_pair_state', initial=True)
+
     toState_path_map = {not_pair_state.name: []}
     # End, close the L2CAP connection
-    final_state = State('Final State')
+    final_state = State('final_state')
+
+    # for i in range(100):
+    #     exec(f"state_{i} = 1")
+    #     # exec(f"state_{i} = State('state_{i}')")
+    #     # exec(f"not_pair_state.to(state_{i},event='not_transition')")
 
     #### code:0x05 Pairing Failed####
     """
@@ -65,19 +70,19 @@ class SMPStateMachine(StateMachine):
     # receive_pairing_failed_state = State('Receive Pairing Failed State')
 
     #### code:0x02 Pairing Response ####
-    receive_pairing_rsp_state = State('Receive Pairing Response State')
+    receive_pairing_rsp_state = State('receive_pairing_rsp_state')
 
     #### code:0x03 Pairing Confirm ####
-    receive_pairing_confirm_state = State('Receive Pairing Confirm State')
+    receive_pairing_confirm_state = State('receive_pairing_confirm_state')
 
     #### code:0x04 Pairing Random ####
-    receive_pairing_random_state = State('Receive Pairing Random State')
+    receive_pairing_random_state = State('receive_pairing_random_state')
 
     #### code:0x0c Pairing Public Key ####
-    receive_pairing_public_key_state = State('Receive Pairing Public Key')
+    receive_pairing_public_key_state = State('receive_pairing_public_key_state')
 
     #### code:0x0d Pairing DHKey Check ####
-    receive_pairing_dhkey_check_state = State('Receive Pairing DHKey State')
+    receive_pairing_dhkey_check_state = State('receive_pairing_dhkey_check_state')
 
     ######################################################## Transitions ########################################################
 
@@ -259,14 +264,15 @@ class SMPStateMachine(StateMachine):
                     self.current_rsp.CompareTo(self.transition_map[transition.event][1])):
                 return False
 
+        self.create_state(f"state_{self.state_count}", f"{self.current_state.name}_to_state_{self.state_count}")
         self.state_count += 1
-        self.create_state(f"state_{self.state_count}", f"{self.current_state.name}_to_{self.state_count}")
         return True
 
     # TODO: How to merge the same state?
     def create_state(self, name, event):
         new_state = State(name)
         self.current_state.to(new_state, event=event)
+        self.states.append(new_state)
         self.transition_map[event] = (self.current_req, self.current_rsp)
 
     def step_with_mutation(self, mutation_packet):
@@ -324,8 +330,12 @@ class SMPStateMachine(StateMachine):
 #         f.write(smp_state_machine._graph().__str__())
 
 # if __name__ == '__main__':
-#     smp_state_machine = SMPStateMachine("../example1.dot")
+#     socket = SMPSocket()
+#     smp_state_machine = SMPStateMachine("../example1.dot", socket)
+
+#     # smp_state_machine.not_pair_state.to(smp_state_machine.receive_pairing_dhkey_check_state, event="asdfdsfa")
+
 #     for state in smp_state_machine.states:
 #         print(state)
-# #     for transition in smp_state_machine.transitions:
-# #         print(transition)
+#     with open("test.dot", "w") as f:
+#         f.write(smp_state_machine._graph().__str__())

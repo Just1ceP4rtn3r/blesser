@@ -184,8 +184,7 @@ class SMPSanitizer:
         jlink.close()
 
     # 通过状态机变化检测有趣的信息
-    def stateAnalyse(self, stateMachine, curState):
-
+    def stateAnalyse(self, stateMachine, curState, request, response):
         # 判断的具体条件存疑，
         if (curState == final_state):
             # if (curState.compare(init_state)):
