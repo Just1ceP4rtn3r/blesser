@@ -104,12 +104,20 @@ class SMPMutator:
                 # if we achive a new state
                 self.state_prob[state] = 0.99
 
+    # @Input
+    # mutation_vector: 见core.py定义,保存需要变异的字段id以及变异的值，e.g., 0x01: [{0x00: value}, {field_id: value}]
+    # packet_codes: 允许的变异的packet codes. e.g., [0x01, 0x02]
+    # @Output
+    # new_mutation_vector: 添加变异后的字段，与mutation_vector格式保持一致
     def mutate(self, mutation_vector, packet_codes):
+        # size of each fields of packets. e.g., mut_map[`smp_pairing_req`] = [1, 1, 1, 1, 1, 1]
         mut_map = [[], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [16], [16], [1], [16], [2, 8], [16], [1, 6], [16], [1], [64],
                    [16], [1], []]
         new_mutation_vector = copy.deepcopy(mutation_vector)
         chosen_packet = random.choice(packet_codes)
 
+        # TODO & TO zc:
+        # 使用不同的method对不同的fields进行变异，并保存到new_mutation_vector中
         for idx, size in enumerate(mut_map[chosen_packet]):
             new_mutation_vector[chosen_packet][idx] = b'\x00'
         return (new_mutation_vector, chosen_packet)
