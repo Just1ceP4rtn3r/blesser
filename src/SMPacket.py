@@ -145,7 +145,9 @@ class SMPacket:
         # smp_pairing_req = "0104002d100f0f"
         self.raw_packet = bytes.fromhex(hex_data)
         fields = self.parse(self.raw_packet)
-        self.content = {"code": fields[0], "data": fields[1]}
+        self.code = fields[0]
+        self.data = fields[1]
+        self.content = {"code": fields[0]}
         self.packet_type = self.content["code"]
         self.parse_fields(SMP_CODE[self.packet_type])
 
@@ -157,27 +159,27 @@ class SMPacket:
         if packet_type == "smp_pairing_req":
             self.content["io_capability"], self.content["oob_data_flags"], self.content["authreq"], self.content[
                 "max_enc_key_size"], self.content["initiator_key_distribution"], self.content[
-                    "responder_key_distribution"] = self.parse_pair_req(self.content["data"])
+                    "responder_key_distribution"] = self.parse_pair_req(self.data)
         elif packet_type == "smp_pairing_rsp":
             self.content["io_capability"], self.content["oob_data_flags"], self.content["authreq"], self.content[
                 "max_enc_key_size"], self.content["initiator_key_distribution"], self.content[
-                    "responder_key_distribution"] = self.parse_pair_rsp(self.content["data"])
+                    "responder_key_distribution"] = self.parse_pair_rsp(self.data)
         elif packet_type == "smp_pairing_confirm":
-            self.content["cfm_value"] = self.parse_pair_confirm(self.content["data"])
+            self.content["cfm_value"] = self.parse_pair_confirm(self.data)
         elif packet_type == "smp_pairing_random":
-            self.content["random_value"] = self.parse_pair_random(self.content["data"])
+            self.content["random_value"] = self.parse_pair_random(self.data)
         elif packet_type == "smp_encrypt_info":
-            self.content["long_term_key"] = self.parse_encrypt_info(self.content["data"])
+            self.content["long_term_key"] = self.parse_encrypt_info(self.data)
         elif packet_type == "smp_central_ident":
-            self.content["ediv"], self.content["random_value"] = self.parse_central_ident(self.content["data"])
+            self.content["ediv"], self.content["random_value"] = self.parse_central_ident(self.data)
         elif packet_type == "smp_ident_info":
-            self.content["id_resolving_key"] = self.parse_ident_info(self.content["data"])
+            self.content["id_resolving_key"] = self.parse_ident_info(self.data)
         elif packet_type == "smp_ident_addr_info":
-            self.content["address_type"], self.content["bd_addr"] = self.parse_ident_addr_info(self.content["data"])
+            self.content["address_type"], self.content["bd_addr"] = self.parse_ident_addr_info(self.data)
         elif packet_type == "smp_public_key":
-            self.content["long_term_key"] = self.parse_public_key(self.content["data"])
+            self.content["long_term_key"] = self.parse_public_key(self.data)
         elif packet_type == "smp_dhkey_check":
-            self.content["dhkey_check"] = self.parse_dhkey_check(self.content["data"])
+            self.content["dhkey_check"] = self.parse_dhkey_check(self.data)
 
     def parse_pair_req(self, data):
         io_capability, oob_data_flags, authreq, max_enc_key_size, initiator_key_distribution, responder_key_distribution = struct.unpack(
@@ -204,7 +206,7 @@ class SMPacket:
         return long_term_key
 
     def parse_central_ident(self, data):
-        ediv, random_value = struct.unpack("<H8s", data[:10])
+        ediv, random_value = struct.unpack("<2s8s", data[:10])
         return ediv, random_value
 
     def parse_ident_info(self, data):
@@ -223,6 +225,20 @@ class SMPacket:
         dhkey_check = data
         return dhkey_check
 
+    def get_raw_data(self):
+        raw_data = b''
+        for key, value in self.content.items():
+            if (isinstance(value, bytes)):
+                raw_data += bytes(value)
+            else:
+                t = hex(value)[2:]
+                t = t.zfill(len(t) if (len(t) % 2 == 0) else (len(t) // 2 + 1) * 2)
+                t = bytes.fromhex(t)
+                t = list(t)
+                t.reverse()
+                raw_data += bytes(t)
+        return raw_data
+
     # 仅比较resp中非随机数的部分
     def CompareTo(self, packet):
         if (self.packet_type != packet.packet_type):
@@ -239,6 +255,15 @@ class SMPacket:
         #     return True
         # else:
         #     return False
+
+    def MutatePacket(self, mutation_list):
+        mutation_list = mutation_list[self.code]
+        ret_packet = SMPacket(self.get_raw_data().hex())
+        packet_type = SMP_CODE[ret_packet.content["code"]]
+        for mut in mutation_list:
+            ret_packet.content[smp_pkt_field[packet_type][mut]] = mutation_list[mut]
+        ret_packet.raw_packet = ret_packet.get_raw_data()
+        return ret_packet
 
 
 # [deprecated] update BLE SMP protocol packet class

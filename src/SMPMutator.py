@@ -4,6 +4,7 @@
 import random
 import string
 import sys
+import copy
 
 from SMPacket import SMPacketSequnce
 
@@ -103,59 +104,17 @@ class SMPMutator:
                 # if we achive a new state
                 self.state_prob[state] = 0.99
 
-    # old mutate
-    """
-    def mutate(self, data, corpus):
+    def mutate(self, mutation_vector, packet_codes):
+        mut_map = [[], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [16], [16], [1], [16], [2, 8], [16], [1, 6], [16], [1], [64],
+                   [16], [1], []]
+        new_mutation_vector = copy.deepcopy(mutation_vector)
+        chosen_packet = random.choice(packet_codes)
 
-        mutation_sequence = []
+        for idx, size in enumerate(mut_map[chosen_packet]):
+            new_mutation_vector[chosen_packet][idx] = b'\x00'
+        return (new_mutation_vector, chosen_packet)
 
-        for pkt in data:
-            # get mutation field list according to field probability
-            mutation_fields = []
-            for field in self.field_prob[pkt.packet_type].items():
-                if random.random() < field[1]:
-                    mutation_fields.append(field[0])
-
-            for smpkt in corpus:
-                if smpkt.packet_type == pkt.packet_type:
-                    key_value_list = []
-                    for key, value in smpkt.items():
-                        if key in mutation_fields:
-                            key_value_list.append(key)
-                            # select mutation method ,now choose from method_prob keys randomly
-                            mutation_methods = self.methodSelection(self.method_prob)
-                            for mutation_method in mutation_methods:
-                                if "random" == mutation_method:
-                                    value = self.mutationRandom(value)
-                                elif "increment" == mutation_method:
-                                    value = self.mutatioIncrement(value)
-                                elif "decrement" == mutation_method:
-                                    value = self.mutationDecrement(value)
-                                elif "flip" == mutation_method:
-                                    value = self.mutationFlip(value)
-                                elif "swap" == mutation_method:
-                                    value = self.mutationSwap(value)
-                                elif "insert" == mutation_method:
-                                    value = self.mutationInsert(value)
-                                elif "delete" == mutation_method:
-                                    value = self.mutationDelete(value)
-                                elif "replace" == mutation_method:
-                                    value = self.mutationReplace(value)
-                                elif "shuffle" == mutation_method:
-                                    value = self.mutationShuffle(value)
-                            key_value_list.append(value)
-                        else:
-                            key_value_list.append(key)
-                            key_value_list.append(value)
-                    pkt_seq_str = "-".join(key_value_list)
-                    pkt_type_str = smpkt.packet_type
-                pkt_seq_len = '{0:04}'.format(1 + len(pkt_type_str) + 1 + len(pkt_seq_str))
-                pkt_seq_str = pkt_seq_len + "-" + pkt_type_str + "-" + pkt_seq_str
-                mutation_sequence.append(pkt_seq_str)
-            return mutation_sequence
-    """
-
-    def mutate(self, data):
+    def mutate_old(self, data):
         mutation_sequence = []
 
         for pkt in data:
