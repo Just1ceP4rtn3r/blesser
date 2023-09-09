@@ -117,7 +117,7 @@ class SMPMutator:
         chosen_packet = random.choice(packet_codes)
 
         # TODO & TO zc:
-        # 使用不同的method对不同的fields进行变异，并保存到new_mutation_vector中
+        # 使用不同的method对不同的fields进行变异，并保存到new_mutation_vector中，注意，value为byte类型
         for idx, size in enumerate(mut_map[chosen_packet]):
             new_mutation_vector[chosen_packet][idx] = b'\x00'
         return (new_mutation_vector, chosen_packet)
