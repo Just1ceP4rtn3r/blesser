@@ -17,6 +17,14 @@ class SMPStateMachine(StateMachine):
     current_rsp: SMPacket = None
     # {tranisition.event: (req_1, rsp_1)}
     transition_map = {}
+
+    # {
+    #   target_state: [
+    #                   ("mutation_hex", [transitions,...]),
+    #                 ],
+    # }
+    mutation_map = {}
+
     # {state1: [[tran_1, tran_2]], state2: [[tran_3, tran_4]]}
     toState_path_map = {}
     state_count = 0
@@ -25,7 +33,7 @@ class SMPStateMachine(StateMachine):
     # Entrypoint, now we have a L2CAP connection
     not_pair_state = State('not_pair_state', initial=True)
 
-    toState_path_map = {not_pair_state.name: []}
+    toState_path_map = {not_pair_state.name: [[]]}
     # End, close the L2CAP connection
     final_state = State('final_state')
 
@@ -157,51 +165,51 @@ class SMPStateMachine(StateMachine):
         self.socket = socket
         # state_array: the state that has been traversed
         state_array = []
-        # self.traverse_state_machine(self.not_pair_state, state_array)
-        self.traverse_state_machine()
-        # for key, value in self.toState_path_map.items():
-        #     print("to state:", key, "\npath:", value)
-        #     print("\n\n")
+        self.traverse_state_machine(self.not_pair_state, state_array)
+        # self.traverse_state_machine()
+        for key, value in self.toState_path_map.items():
+            print("to state:", key, "\npath:", value)
+            print("\n\n")
         super().__init__(self)
 
-    def traverse_state_machine(self):
-        all_transitions_dict = {}
-        all_transitions = []
+    # def traverse_state_machine(self):
+    #     all_transitions_dict = {}
+    #     all_transitions = []
 
-        for state in self.states:
-            for transition in state.transitions:
-                all_transitions.append((transition.source, transition.target))
-                all_transitions_dict[(transition.source, transition.target)] = transition
+    #     for state in self.states:
+    #         for transition in state.transitions:
+    #             all_transitions.append((transition.source, transition.target))
+    #             all_transitions_dict[(transition.source, transition.target)] = transition
 
-        G = nx.MultiDiGraph()
-        G.add_edges_from(all_transitions)
-        for state in self.states:
-            if state.name == self.not_pair_state.name:
-                continue
-            self.toState_path_map[state.name] = []
-            paths = nx.all_simple_paths(G, self.not_pair_state, state)
-            for path in paths:
-                i = 0
-                while i + 1 < len(path):
-                    transition = all_transitions_dict[(path[i], path[i + 1])]
-                    self.toState_path_map[state.name].append(transition)
-                    i = i + 1
-
-    # [can only be called with a state machine] traverse the initial state machine to generate the transition_map & toState_path_map
-    # def traverse_state_machine(self, state: State, state_array):
-    #     for transition in state.transitions:
-    #         # if the target state has been traversed, then skip it
-    #         if (transition.target in state_array):
+    #     G = nx.MultiDiGraph()
+    #     G.add_edges_from(all_transitions)
+    #     for state in self.states:
+    #         if state.name == self.not_pair_state.name:
     #             continue
-    #         if transition.target not in self.toState_path_map:
-    #             self.toState_path_map[transition.target] = []
-    #         for path in self.toState_path_map[state]:
-    #             p = path + [transition]
-    #             if (p not in self.toState_path_map[transition.target]):
-    #                 self.toState_path_map[transition.target].append(path + [transition])
+    #         self.toState_path_map[state.name] = []
+    #         paths = nx.all_simple_paths(G, self.not_pair_state, state)
+    #         for path in paths:
+    #             i = 0
+    #             while i + 1 < len(path):
+    #                 transition = all_transitions_dict[(path[i], path[i + 1])]
+    #                 self.toState_path_map[state.name].append(transition)
+    #                 i = i + 1
 
-    #         state_array.append(transition.target)
-    #         self.traverse_state_machine(transition.target, state_array)
+    #[can only be called with a state machine] traverse the initial state machine to generate the transition_map & toState_path_map
+    def traverse_state_machine(self, state: State, state_array):
+        for transition in state.transitions:
+            # if the target state has been traversed, then skip it
+            if (transition.target in state_array):
+                continue
+            if transition.target.name not in self.toState_path_map:
+                self.toState_path_map[transition.target.name] = []
+            for path in self.toState_path_map[state.name]:
+                p = path + [transition]
+                if (p not in self.toState_path_map[transition.target.name]):
+                    self.toState_path_map[transition.target.name].append(path + [transition])
+
+            state_array.append(transition.target)
+            self.traverse_state_machine(transition.target, state_array)
 
     # TODO: translate the dot file to a state machine with "StateMachine" library)
     def translate(self, dot):
@@ -329,13 +337,13 @@ class SMPStateMachine(StateMachine):
 #     with open("test.dot", "w") as f:
 #         f.write(smp_state_machine._graph().__str__())
 
-# if __name__ == '__main__':
-#     socket = SMPSocket()
-#     smp_state_machine = SMPStateMachine("../example1.dot", socket)
+if __name__ == '__main__':
+    socket = SMPSocket()
+    smp_state_machine = SMPStateMachine("../example1.dot", socket)
 
-#     # smp_state_machine.not_pair_state.to(smp_state_machine.receive_pairing_dhkey_check_state, event="asdfdsfa")
+    # smp_state_machine.not_pair_state.to(smp_state_machine.receive_pairing_dhkey_check_state, event="asdfdsfa")
 
-#     for state in smp_state_machine.states:
-#         print(state)
-#     with open("test.dot", "w") as f:
-#         f.write(smp_state_machine._graph().__str__())
+    for state in smp_state_machine.states:
+        print(state)
+    with open("test.dot", "w") as f:
+        f.write(smp_state_machine._graph().__str__())
