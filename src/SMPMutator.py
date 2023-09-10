@@ -94,6 +94,19 @@ class SMPMutator:
                 "dhkey_check": 0.5,
             },  # 0x0d
         }
+        self.code_msgtype_map = {
+            1:"smp_pairing_req",
+            2:"smp_pairing_rsp",
+            3:"smp_pairing_confirm",
+            4:"smp_pairing_random",
+            5:"smp_encrypt_info",
+            6:"smp_encrypt_info",
+            7:"smp_central_ident",
+            8:"smp_ident_info",
+            9:"smp_ident_addr_info",
+            12:"smp_public_key",
+            13:"smp_dhkey_check",
+        }
         # # state probabilities, ∑ state probabilities = 1?
         self.state_prob = {}
 
@@ -115,11 +128,56 @@ class SMPMutator:
                    [16], [1], []]
         new_mutation_vector = copy.deepcopy(mutation_vector)
         chosen_packet = random.choice(packet_codes)
-
+        
+        # get mutation field list according to field probability
+        mutation_fields = []
+        idx = 0
+        for field in self.field_prob[self.code_msgtype_map[chosen_packet]].items():
+            if random.random() < field[1]:
+                # mutation_fields.append(field[0])
+                mutation_fields.append(idx)
+            idx += 1
+        
+        # Selection of mutation method based on probability of mutation methods
+        mutation_methods = self.methodSelection(self.method_prob)
+        
         # TODO & TO zc:
         # 使用不同的method对不同的fields进行变异，并保存到new_mutation_vector中，注意，value为byte类型
-        for idx, size in enumerate(mut_map[chosen_packet]):
-            new_mutation_vector[chosen_packet][idx] = b'\x00'
+        # for idx, size in enumerate(mut_map[chosen_packet]):
+        #     new_mutation_vector[chosen_packet][idx] = b'\x00'
+
+        for field,field_size in (zip(new_mutation_vector[chosen_packet].items(),mut_map[chosen_packet])):
+            field_type = field[0]
+            field_value  = field[1]
+            # 根据概率选择一个数据包之中的某些变异字段，需要变异再去选择对应的变异方法
+            # * 目前方案，从待选的变异方法之中选出一个来进行变异
+            # 可以考虑另一种方法，将选出的变异方法进行组合，对同一个字段进行变异（但是这样未必是更有效的变异）
+            if field_type in mutation_fields:
+                mutation_method = random.choice(mutation_methods)
+                
+                if "random" == mutation_method:
+                    value = self.mutationRandom(field_value)
+                elif "increment" == mutation_method:
+                    value = self.mutatioIncrement(field_value)
+                elif "decrement" == mutation_method:
+                    value = self.mutationDecrement(field_value)
+                elif "flip" == mutation_method:
+                    value = self.mutationFlip(field_value)
+                elif "swap" == mutation_method:
+                    value = self.mutationSwap(field_value)
+                elif "insert" == mutation_method:
+                    value = self.mutationInsert(field_value)
+                elif "delete" == mutation_method:
+                    value = self.mutationDelete(field_value)
+                elif "replace" == mutation_method:
+                    value = self.mutationReplace(field_value)
+                elif "shuffle" == mutation_method:
+                    value = self.mutationShuffle(field_value)
+                # print("value",value)
+
+                new_mutation_vector[chosen_packet][field_type] = value
+
+        print (new_mutation_vector, chosen_packet)
         return (new_mutation_vector, chosen_packet)
 
     def mutate_old(self, data):
@@ -223,108 +281,211 @@ class SMPMutator:
             if random.random() < item[1]:
                 mutation_methods.append(item[0])
         return mutation_methods
-
+    
+    # e.g  b'\xff\xff\xff\x03\x13' -> b'3\xc3\x86W4_'
     def mutationRandom(self, value):
-        max_value = ""
-        for i in range(len(value)):
-            max_value = max_value + "f"
-        max_value = "0x" + max_value
-        value = random.randint(0, int(max_value, 16))
-        return hex(value).replace("0x", "")
-
+        res = b""
+        for _ in value:
+            new_byte = random.randint(0, int('0xff', 16))
+            res +=  chr(new_byte).encode('utf-8')
+        return res
+        # value = value.decode('utf-8')
+        # max_value = ""
+        # for i in range(len(value)):
+        #     max_value = max_value + "f"
+        # max_value = "0x" + max_value
+        # print(max_value)
+        # value = random.randint(0, int(max_value, 16))
+        # return chr(value).encode('utf-8')
+    
+    # e.g b'\xff\xff\xff\x04\x12' -> b'\xf1\xff\xff\x04\x13'
     def mutatioIncrement(self, value):
-        origin_len = len(value)
-        max_value = ""
-        for i in range(len(value)):
-            max_value = max_value + "f"
-        max_value = "0x" + max_value
-        if "0x" + value != max_value:
-            value = hex(int(value, 16) + 1).replace("0x", "")
-        if len(value) < origin_len:
-            for i in range(origin_len - len(value)):
-                value = "0" + value
-        return value
+        try:
+            length = len(value)
+            value = int.from_bytes(value, byteorder='big', signed=False)
+            value += 1
+            return int.to_bytes(value,byteorder='big', length= length,signed=False)
+        except:
+            value -= 1
+            return int.to_bytes(value,byteorder='big', length= length,signed=False)
+        # value = ord(value)
+        # print(chr((value+1)).encode('utf-8'))
+        # max_value = ""
+        # for i in range(len(value)):
+        #     max_value = max_value + "f"
+        # max_value = "0x" + max_value
+        # if "0x" + value != max_value:
+        #     value = hex(int(value, 16) + 1).replace("0x", "")
+        # if len(value) < origin_len:
+        #     for i in range(origin_len - len(value)):
+        #         value = "0" + value
+        # return chr((value+1)).encode('utf-8')
 
+    # e.g b'\xff\xff\xff\x04\x12' -> b'\xf1\xff\xff\x04\x11'
     def mutationDecrement(self, value):
-        origin_len = len(value)
-        if int(value, 16) != 0:
-            value = hex(int(value, 16) - 1).replace("0x", "")
+        try:
+            length = len(value)
+            value = int.from_bytes(value, byteorder='big', signed=False)
+            value -= 1
+            return int.to_bytes(value,byteorder='big', length= length,signed=False)
+        except:
+            value += 1
+            return int.to_bytes(value,byteorder='big', length= length,signed=False)
+        # origin_len = len(value)
+        # if int(value, 16) != 0:
+        #     value = hex(int(value, 16) - 1).replace("0x", "")
 
-        if len(value) < origin_len:
-            for i in range(origin_len - len(value)):
-                value = "0" + value
-        return value
+        # if len(value) < origin_len:
+        #     for i in range(origin_len - len(value)):
+        #         value = "0" + value
+        # return value
 
+
+    # e.g b'\xf1\xff\xff\x04\x12' -> b'\xff\xf1\x04\xff\x12'
     def mutationFlip(self, value):
-        output = ""
-        index = len(value) - 1
-        while (index >= 0):
-            output = output + value[index - 1] + value[index]  #每两位反转一次
-            index = index - 2
-        return value
+        length = len(value)
+        int_list = [value[i] for i in range(length)]
+        if length <= 1:
+            return value
+        for i in range(1,length,2):
+            int_list[i] ,int_list[i-1] = int_list[i-1] ,int_list[i]
+        new_byte = b""
+        for item in int_list:
+            new_byte += int.to_bytes(item,byteorder='big', length=1)
+        return  new_byte
+        # output = ""
+        # value = value.decode()
+        # index = len(value) - 1
+        # print(index)
+        # while (index >= 0):
+        #     output = output + value[index - 1] + value[index]  #每两位反转一次
+        #     index = index - 2
+        # print(output)
+        # print(output.encode('utf-8'))
+        # return value
 
-    # this method need two value , pass
+    # this method need two value, pass
     def mutationSwap(self, value):
         return value
 
-    # len(value) has been changed
+   
+    # e.g. b'\xf1\xff\xff\x04\x12' -> b'\xf1\xff\xff\x04\x12C'
     def mutationInsert(self, value):
-        characters = "abcdef" + string.digits
-        new_value = ""
-        for c in value:
-            randomLetter = "".join(random.choice(characters))
-            new_value += c
-            new_value += randomLetter
-        value = new_value
-        return value
+        length = len(value)
+        int_list = [value[i] for i in range(length)]
+        insert_idx = random.randint(0,length)
+        insert_value = random.randint(0,255)
+        int_list.insert(insert_idx,insert_value)
+        new_byte = b""
+        for item in int_list:
+            new_byte += int.to_bytes(item,byteorder='big', length=1)
+        return  new_byte
+        # characters = "abcdef" + string.digits
+        # new_value = ""
+        # print(value)
+        # for c in value:
+        #     randomLetter = "".join(random.choice(characters))
+        #     new_value += c
+        #     new_value += randomLetter
+        # value = new_value
+        # return value
+    
 
+    # e.g. b'\xf1\xff\xff\x04\x12' -> b'\xff\xff\x04\x12'
     def mutationDelete(self, value):
-        origin_len = len(value)
-        output = ''.join([s for s in value if random.random() < 0.7])
-        value = output
+        length = len(value)
+        int_list = [value[i] for i in range(length)]
+        remove_idx = random.randint(0,length-1)
+        int_list.pop(remove_idx)
+        new_byte = b""
+        for item in int_list:
+            new_byte += int.to_bytes(item,byteorder='big', length=1)
+        return  new_byte
+        # origin_len = len(value)
+        # output = ''.join([s for s in value if random.random() < 0.7])
+        # value = output
 
-        if len(value) < origin_len:
-            for i in range(origin_len - len(value)):
-                value = "0" + value
-        return value
-
+        # if len(value) < origin_len:
+        #     for i in range(origin_len - len(value)):
+        #         value = "0" + value
+        # return value
+    
+    # e.g. b'\xf1\xff\xff\x04\x12' -> b'\xf1\xff\xff\x04\xc0'
     def mutationReplace(self, value):
-        characters = "abcdef" + string.digits
-        origin_len = len(value)
-        index_list = [i for i in range(0, origin_len)]
-        index_num = random.randint(0, origin_len)
-        replace_index_list = random.sample(index_list, index_num)
-        value = list(value)
-        for index in replace_index_list:
-            randomLetter = "".join(random.choice(characters))
-            value[index] = randomLetter
-        value = ''.join(value)
-        return value
+        length = len(value)
+        int_list = [value[i] for i in range(length)]
+        replace_idx = random.randint(0,length-1)
+        replace_value = random.randint(0,255)
+        int_list[replace_idx] = replace_value 
+        new_byte = b""
+        for item in int_list:
+            new_byte += int.to_bytes(item,byteorder='big', length=1)
+        return  new_byte
+        # characters = "abcdef" + string.digits
+        # origin_len = len(value)
+        # index_list = [i for i in range(0, origin_len)]
+        # index_num = random.randint(0, origin_len)
+        # replace_index_list = random.sample(index_list, index_num)
+        # value = list(value)
+        # for index in replace_index_list:
+        #     randomLetter = "".join(random.choice(characters))
+        #     value[index] = randomLetter
+        # value = ''.join(value)
+        # return value
 
+    # e.g. b'\xf1\xff\xff\x04\x12' -> b'\x12\xf1\xff\x04\xff'
     def mutationShuffle(self, value):
-        origin_len = len(value)
-        l = list(value)
-        random.shuffle(l)
-        value = ''.join(l)
-        if len(value) < origin_len:
-            for i in range(origin_len - len(value)):
-                value = "0" + value
-        return value
+        length = len(value)
+        int_list = [value[i] for i in range(length)]
+        random.shuffle(int_list)
+        new_byte = b""
+        for item in int_list:
+            new_byte += int.to_bytes(item,byteorder='big', length=1)
+        return  new_byte
+        # origin_len = len(value)
+        # l = list(value)
+        # random.shuffle(l)
+        # value = ''.join(l)
+        # if len(value) < origin_len:
+        #     for i in range(origin_len - len(value)):
+        #         value = "0" + value
+        # return value
 
 
 # if __name__ == '__main__':
 #     smpmutator = SMPMutator()
+#     mutation_vector = {
+#         0x01: {0: b'\xf1\xff\xff\x04\x12', 1: b'\x00', 2: b'\x2d', 3: b'\x10', 4: b'\x0f', 5: b'\x0f'},
+#         0x02: {0: b'\xff\xff\xff\x03\x13', 1: b'\x00', 2: b'\x05', 3: b'\x10', 4: b'\x0b', 5: b'\x0b'},
+#         0x03: {},
+#         0x04: {},
+#         0x05: {},
+#         0x06: {},
+#         0x07: {},
+#         0x08: {},
+#         0x09: {},
+#         0x0a: {},
+#         # Peripheral -> Central; The Security Request command is used by the Peripheral to request that the Central initiates security with the requested security properties, see Section 2.4.6. The Security Request command is defined in Figure 3.17.
+#         0x0b: {},
+#         # Central -> Peripheral | Peripheral -> Central;
+#         0x0c: {},
+#         # Central -> Peripheral | Peripheral -> Central;
+#         0x0d: {},
+#         0x0e: {},
+#     }
+#     packet_code = [0x01, 0x02]
+#     smpmutator.mutate(mutation_vector,packet_code)
 
-#     seed = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
-#     pkt_to_state = [seed.pkt_sequnce[0],seed.pkt_sequnce[2],seed.pkt_sequnce[4],seed.pkt_sequnce[6]]
-#     pkt_wait_mutation = [seed.pkt_sequnce[8]]
+    # seed = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
+    # pkt_to_state = [seed.pkt_sequnce[0],seed.pkt_sequnce[2],seed.pkt_sequnce[4],seed.pkt_sequnce[6]]
+    # pkt_wait_mutation = [seed.pkt_sequnce[8]]
 
-#     print("------------------------------------------before mutatation------------------------------------------")
-#     for smpacket in pkt_wait_mutation:
-#         smpacket.PrintSMPacket()
+    # print("------------------------------------------before mutatation------------------------------------------")
+    # for smpacket in pkt_wait_mutation:
+    #     smpacket.PrintSMPacket()
 
-#     print("------------------------------------------after mutatation------------------------------------------")
-#     mutation_sequence  = smpmutator.mutate(pkt_wait_mutation)
-#     for smpacket in mutation_sequence:
-#         smpacket.raw_packet = smpacket.to_raw()
-#         smpacket.PrintSMPacket()
+    # print("------------------------------------------after mutatation------------------------------------------")
+    # mutation_sequence  = smpmutator.mutate_old(pkt_wait_mutation)
+    # for smpacket in mutation_sequence:
+    #     smpacket.raw_packet = smpacket.to_raw()
+    #     smpacket.PrintSMPacket()
