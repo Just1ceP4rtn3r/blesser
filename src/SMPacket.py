@@ -22,6 +22,7 @@ SMP_CODE = {
     # Central -> Peripheral | Peripheral -> Central;
     0x0d: "smp_dhkey_check",
     0x0e: "smp_keypress_notif",
+    0x0f: "",
 }
 
 # TODO: 仅比较resp中非随机数的部分

@@ -124,7 +124,7 @@ class SMPMutator:
     # new_mutation_vector: 添加变异后的字段，与mutation_vector格式保持一致
     def mutate(self, mutation_vector, packet_codes):
         # size of each fields of packets. e.g., mut_map[`smp_pairing_req`] = [1, 1, 1, 1, 1, 1]
-        mut_map = [[], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [16], [16], [1], [16], [2, 8], [16], [1, 6], [16], [1], [64],
+        mut_map = [[], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [16], [16], [1], [16], [2, 8], [16], [1, 6], [16], [1], [32,32],
                    [16], [1], []]
         new_mutation_vector = copy.deepcopy(mutation_vector)
         chosen_packet = random.choice(packet_codes)

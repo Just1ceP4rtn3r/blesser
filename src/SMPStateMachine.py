@@ -7,7 +7,9 @@ import networkx as nx
 import warnings
 import random
 
+import SMPSanitizer
 from SMPacket import SMPacket, SMPSocket
+from SMPSanitizer import SMPSanitizer
 
 
 #########################
@@ -311,6 +313,10 @@ class SMPStateMachine(StateMachine):
         print(self.current_rsp.content)
 
         # TODO: if found new state or sanitizer() == true
+        analyse = SMPSanitizer().messageAnalyse(self.current_req.content, self.current_rsp.content)
+        if analyse == False:
+            print("Contrary to documents!")
+            
         if (not self.is_newstate(current_mutation_bytes, current_transitions)):
             print("Found new state\n\n\n")
 
