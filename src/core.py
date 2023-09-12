@@ -116,10 +116,10 @@ class SMPFuzzer():
 
 if __name__ == '__main__':
     fuzzer = SMPFuzzer()
-    # fuzzer.socket.send(b"0100f00101f1")
-    # while (1):
-    #     res = fuzzer.socket.recv()
-    #     print(res)
+    fuzzer.socket.send(bytes.fromhex("0100f00101f1"))
+    while (1):
+        res = fuzzer.socket.recv()
+        print(res)
     # fuzzer.process_fuzzing()
     # fuzzer.test_fuzzing()
 

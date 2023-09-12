@@ -103,6 +103,9 @@ class SMPSocket:
             com_input = ser.read()
             if com_input:
                 real_buf += com_input
+                if (real_buf[-4:] == b"fxxk"):
+                    ser.close()
+                    return real_buf
             else:
                 if (real_buf == b''):
                     continue
