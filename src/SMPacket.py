@@ -2,7 +2,7 @@ import pyshark
 import struct
 import serial
 import serial.tools.list_ports
-import sys
+import time
 
 SMP_CODE = {
     0x01: "smp_pairing_req",
@@ -90,30 +90,30 @@ class SMPSocket:
 
     def __init__(self):
         self.socket = 0
+        self.ser = serial.Serial("COM3", 115200, timeout=3)
 
     def send(self, data):
-        ser = serial.Serial("COM3", 115200)
-        write_len = ser.write(data)
-        ser.close()
+        write_len = self.ser.write(data)
 
     def recv(self):
-        ser = serial.Serial("COM3", 115200, timeout=1)
         real_buf = b''
-        while True:
-            com_input = ser.read()
-            if com_input:
-                real_buf += com_input
-                if (real_buf[-4:] == b"fxxk"):
-                    real_buf = real_buf[:-4]
-                    ser.close()
-                    return real_buf
-            else:
-                if (real_buf == b''):
-                    continue
-                if (real_buf[-4:] == b"fxxk"):
-                    real_buf = real_buf[:-4]
-                    ser.close()
-                    return real_buf
+        try:
+            while True:
+                com_input = self.ser.read()
+                if com_input:
+                    real_buf += com_input
+                    if (real_buf[-4:] == b"fxxk"):
+                        real_buf = real_buf[:-4]
+                        return real_buf
+                else:
+                    return b''
+                    if (real_buf == b''):
+                        continue
+                    if (real_buf[-4:] == b"fxxk"):
+                        real_buf = real_buf[:-4]
+                        return real_buf
+        except Exception:
+            return b''
 
     def close(self):
         pass

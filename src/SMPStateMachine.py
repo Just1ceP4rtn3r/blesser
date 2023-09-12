@@ -19,6 +19,8 @@ class SMPStateMachine(StateMachine):
     current_req: SMPacket = None
     current_rsp: SMPacket = None
 
+    ALLRESP = []
+
     # {tranisition.event: (req_1, rsp_1)}
     transition_map = {}
 
@@ -285,7 +287,7 @@ class SMPStateMachine(StateMachine):
         # TODO: send the real packet to the device with SMPsocket; And receive the response
         # if (self.current_req != None):
         #     self.socket.send(self.current_req.raw_packet)
-        resp = self.socket.recv()
+        resp = self.ALLRESP.pop()
         self.current_rsp = SMPacket(resp.hex())
         print(self.current_rsp.content)
         if (not self.is_newstate()):
@@ -308,7 +310,7 @@ class SMPStateMachine(StateMachine):
 
         # wait for the response of the mutation packet
         self.current_req = mutation_packet
-        resp = self.socket.recv()
+        resp = self.ALLRESP.pop()
         self.current_rsp = SMPacket(resp.hex())
         print(self.current_rsp.content)
 

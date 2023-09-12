@@ -2,6 +2,7 @@ from SMPMutator import SMPMutator
 from SMPStateMachine import SMPStateMachine
 from SMPacket import SMPSocket, SMPSocket_TEST, SMPacket
 import random
+import threading
 from copy import deepcopy
 
 
@@ -10,6 +11,12 @@ from copy import deepcopy
 #########################
 def Sanitizer(current_state, req, resp):
     pass
+
+
+def socket_wait_recv(fuzzer):
+    while (True):
+        packet = fuzzer.socket.recv()
+        print(packet)
 
 
 #########################
@@ -80,12 +87,20 @@ class SMPFuzzer():
                 req = self.state_machine.transition_map[transition.event][0]
                 if (req is not None):
                     packets_mutatable.append(req.code)
-            mutation_vec, mutation_packet_code = self.mutator.mutate(self.bytes_to_vec(tostate_bytes), packets_mutatable, self.state_machine.corpus)
+            mutation_vec, mutation_packet_code = self.mutator.mutate(self.bytes_to_vec(tostate_bytes), packets_mutatable,
+                                                                     self.state_machine.corpus)
             mutation_bytes = self.vec_to_bytes(mutation_vec)
             corpus = self.state_machine.corpus[mutation_packet_code]
             assert (corpus != '')
             mutation_packet = corpus.MutatePacket(mutation_vec)
             self.socket.send(mutation_bytes)
+            while (True):
+                packet = fuzzer.socket.recv()
+                if (packet == b''):
+                    break
+                print(packet)
+                self.state_machine.ALLRESP.insert(0, packet)
+
             self.state_machine.goto_state(state_name, tostate_bytes, mutation_bytes, mutation_packet)
 
             self.mutator.calculateStateProb(list(self.state_machine.toState_path_map.keys()))
@@ -122,6 +137,7 @@ if __name__ == '__main__':
     #     print(res)
 
     fuzzer.process_fuzzing()
+
     # fuzzer.test_fuzzing()
 
     # testp = SMPacket("0756be784bc11345c6fb16")

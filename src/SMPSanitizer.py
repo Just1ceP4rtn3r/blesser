@@ -83,7 +83,7 @@ class SMPSanitizer:
 
     #Todo rtt read bugs
     # def __init__(self, currentState, send, recv, log):
-        # self.sanitizer(currentState, stateMachine, send, recv)
+    # self.sanitizer(currentState, stateMachine, send, recv)
 
     def sanitizer(self, currentState, stateMachine, send, recv):
         pass
@@ -186,48 +186,51 @@ class SMPSanitizer:
 
     def is_bit_set(self, number, n):
         mask = 1 << (n - 1)
+        number = int(number.hex(), 16)
         return (number & mask) != 0
 
     def messageAnalyse(self, request, response):
-        # * 报文级别检测 
+        # * 报文级别检测
 
         # 检测1：If a packet is received with a Code that is reserved for future use it shall be ignored
-        if response["code"] > 0x0e :
+        if response["code"] > 0x0e:
             print("in")
             return False
 
-        # 检测2：This value defines the maximum encryption key size in octets that the device can support. 
+        # 检测2：This value defines the maximum encryption key size in octets that the device can support.
         # The maximum key size shall be in the range 7 to 16 octets.
-        if response["code"] == 0x01 or response["code"] == 0x02 :
-            if response["max_enc_key_size"] < 0x07 :
+        if response["code"] == 0x01 or response["code"] == 0x02:
+            if response["max_enc_key_size"] < 0x07:
                 return False
 
-        # 检测3：The Peripheral shall not set to one any flag in the Initiator Key Distribution / Generation or 
-        # Responder Key Distribution / Generation field of the Pairing Response command that the Central has set 
+        # 检测3：The Peripheral shall not set to one any flag in the Initiator Key Distribution / Generation or
+        # Responder Key Distribution / Generation field of the Pairing Response command that the Central has set
         # to zero in the Initiator Key Distribution / Generation and Responder Key Distribution / Generation fields of the Pairing Request command.
-        if request["code"] == 0x01 and response["code"] == 0x02 :
-            for num in range(1, 5) :
-                if self.is_bit_set(request["initiator_key_distribution"], num) == False and self.is_bit_set(response["initiator_key_distribution"], num) == True:
+        if request["code"] == 0x01 and response["code"] == 0x02:
+            for num in range(1, 5):
+                if self.is_bit_set(request["initiator_key_distribution"], num) == False and self.is_bit_set(
+                        response["initiator_key_distribution"], num) == True:
                     return False
-            for num in range(1, 5) :
-                if self.is_bit_set(request["responder_key_distribution"], num) == False and self.is_bit_set(response["responder_key_distribution"], num) == True:
+            for num in range(1, 5):
+                if self.is_bit_set(request["responder_key_distribution"], num) == False and self.is_bit_set(
+                        response["responder_key_distribution"], num) == True:
                     return False
-                
-        # 检测4：The Bonding_Flags field is a 2-bit field that indicates the type of bonding 
+
+        # 检测4：The Bonding_Flags field is a 2-bit field that indicates the type of bonding
         # being requested by the initiating device as defined in Table. (smp_pairing_req && smp_pairing_rsp)
-        if request["code"] == 0x01 or request["code"] == 0x02 :
-            if self.is_bit_set(request["authreq"], 2) == True :
+        if request["code"] == 0x01 or request["code"] == 0x02:
+            if self.is_bit_set(request["authreq"], 2) == True:
                 return False
-        if response["code"] == 0x01 or response["code"] == 0x02 :
-            if self.is_bit_set(response["authreq"], 2) == True :
+        if response["code"] == 0x01 or response["code"] == 0x02:
+            if self.is_bit_set(response["authreq"], 2) == True:
                 return False
-        
-        # 检测5：If BD_ADDR is a public device address, then AddrType shall be set to 0x00. 
+
+        # 检测5：If BD_ADDR is a public device address, then AddrType shall be set to 0x00.
         # If BD_ADDR is a static random device address then AddrType shall be set to 0x01.
-        if response["code"] == 0x09 :
+        if response["code"] == 0x09:
             if response["authreq"] >= 0x02:
-                return False  
-            
+                return False
+
         return True
 
     # 通过状态机变化检测有趣的信息
@@ -280,6 +283,7 @@ class SMPSanitizer:
         reSetFuzzer()
         resetLog()
         pass
+
 
 # test
 # if __name__ == '__main__':

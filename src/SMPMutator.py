@@ -143,39 +143,40 @@ class SMPMutator:
 
         # TODO & TO zc:
         # 使用不同的method对不同的fields进行变异，并保存到new_mutation_vector中，注意，value为byte类型
-        # for idx, size in enumerate(mut_map[chosen_packet]):
-        #     new_mutation_vector[chosen_packet][idx] = b'\x00'
+        for idx, size in enumerate(mut_map[chosen_packet]):
+            new_mutation_vector[chosen_packet][idx] = b'\x00'
 
-        for field, field_size in (zip(new_mutation_vector[chosen_packet].items(), mut_map[chosen_packet])):
-            field_type = field[0]
-            field_value = field[1]
-            # 根据概率选择一个数据包之中的某些变异字段，需要变异再去选择对应的变异方法
-            # * 目前方案，从待选的变异方法之中选出一个来进行变异
-            # 可以考虑另一种方法，将选出的变异方法进行组合，对同一个字段进行变异（但是这样未必是更有效的变异）
-            if field_type in mutation_fields:
-                mutation_method = random.choice(mutation_methods)
+        # for field, field_size in (zip(new_mutation_vector[chosen_packet].items(), mut_map[chosen_packet])):
+        # for field, field_size in (zip(mutation_fields, mut_map[chosen_packet])):
+        #     field_type = field[0]
+        #     field_value = field[1]
+        #     # 根据概率选择一个数据包之中的某些变异字段，需要变异再去选择对应的变异方法
+        #     # * 目前方案，从待选的变异方法之中选出一个来进行变异
+        #     # 可以考虑另一种方法，将选出的变异方法进行组合，对同一个字段进行变异（但是这样未必是更有效的变异）
+        #     if field_type in mutation_fields:
+        #         mutation_method = random.choice(mutation_methods)
 
-                if "random" == mutation_method:
-                    value = self.mutationRandom(field_value)
-                elif "increment" == mutation_method:
-                    value = self.mutatioIncrement(field_value)
-                elif "decrement" == mutation_method:
-                    value = self.mutationDecrement(field_value)
-                elif "flip" == mutation_method:
-                    value = self.mutationFlip(field_value)
-                elif "swap" == mutation_method:
-                    value = self.mutationSwap(field_value)
-                elif "insert" == mutation_method:
-                    value = self.mutationInsert(field_value)
-                elif "delete" == mutation_method:
-                    value = self.mutationDelete(field_value)
-                elif "replace" == mutation_method:
-                    value = self.mutationReplace(field_value)
-                elif "shuffle" == mutation_method:
-                    value = self.mutationShuffle(field_value)
-                # print("value",value)
+        #         if "random" == mutation_method:
+        #             value = self.mutationRandom(field_value)
+        #         elif "increment" == mutation_method:
+        #             value = self.mutatioIncrement(field_value)
+        #         elif "decrement" == mutation_method:
+        #             value = self.mutationDecrement(field_value)
+        #         elif "flip" == mutation_method:
+        #             value = self.mutationFlip(field_value)
+        #         elif "swap" == mutation_method:
+        #             value = self.mutationSwap(field_value)
+        #         elif "insert" == mutation_method:
+        #             value = self.mutationInsert(field_value)
+        #         elif "delete" == mutation_method:
+        #             value = self.mutationDelete(field_value)
+        #         elif "replace" == mutation_method:
+        #             value = self.mutationReplace(field_value)
+        #         elif "shuffle" == mutation_method:
+        #             value = self.mutationShuffle(field_value)
+        #         # print("value",value)
 
-                new_mutation_vector[chosen_packet][field_type] = value
+        #         new_mutation_vector[chosen_packet][field_type] = value
 
         print(new_mutation_vector, chosen_packet)
         return (new_mutation_vector, chosen_packet)
