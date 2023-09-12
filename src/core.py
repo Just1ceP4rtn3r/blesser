@@ -80,12 +80,12 @@ class SMPFuzzer():
                 req = self.state_machine.transition_map[transition.event][0]
                 if (req is not None):
                     packets_mutatable.append(req.code)
-            mutation_vec, mutation_packet_code = self.mutator.mutate(self.bytes_to_vec(tostate_bytes), packets_mutatable)
+            mutation_vec, mutation_packet_code = self.mutator.mutate(self.bytes_to_vec(tostate_bytes), packets_mutatable, self.state_machine.corpus)
             mutation_bytes = self.vec_to_bytes(mutation_vec)
             corpus = self.state_machine.corpus[mutation_packet_code]
             assert (corpus != '')
             mutation_packet = corpus.MutatePacket(mutation_vec)
-            #self.socket.send(mutation_bytes)
+            self.socket.send(mutation_bytes)
             self.state_machine.goto_state(state_name, tostate_bytes, mutation_bytes, mutation_packet)
 
             self.mutator.calculateStateProb(list(self.state_machine.toState_path_map.keys()))
@@ -116,11 +116,12 @@ class SMPFuzzer():
 
 if __name__ == '__main__':
     fuzzer = SMPFuzzer()
-    fuzzer.socket.send(bytes.fromhex("0100f00101f1"))
-    while (1):
-        res = fuzzer.socket.recv()
-        print(res)
-    # fuzzer.process_fuzzing()
+    # fuzzer.socket.send(bytes.fromhex("0100f00101f1"))
+    # while (1):
+    #     res = fuzzer.socket.recv()
+    #     print(res)
+
+    fuzzer.process_fuzzing()
     # fuzzer.test_fuzzing()
 
     # testp = SMPacket("0756be784bc11345c6fb16")

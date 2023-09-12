@@ -95,17 +95,17 @@ class SMPMutator:
             },  # 0x0d
         }
         self.code_msgtype_map = {
-            1:"smp_pairing_req",
-            2:"smp_pairing_rsp",
-            3:"smp_pairing_confirm",
-            4:"smp_pairing_random",
-            5:"smp_encrypt_info",
-            6:"smp_encrypt_info",
-            7:"smp_central_ident",
-            8:"smp_ident_info",
-            9:"smp_ident_addr_info",
-            12:"smp_public_key",
-            13:"smp_dhkey_check",
+            1: "smp_pairing_req",
+            2: "smp_pairing_rsp",
+            3: "smp_pairing_confirm",
+            4: "smp_pairing_random",
+            5: "smp_encrypt_info",
+            6: "smp_encrypt_info",
+            7: "smp_central_ident",
+            8: "smp_ident_info",
+            9: "smp_ident_addr_info",
+            12: "smp_public_key",
+            13: "smp_dhkey_check",
         }
         # # state probabilities, ∑ state probabilities = 1?
         self.state_prob = {}
@@ -122,13 +122,13 @@ class SMPMutator:
     # packet_codes: 允许的变异的packet codes. e.g., [0x01, 0x02]
     # @Output
     # new_mutation_vector: 添加变异后的字段，与mutation_vector格式保持一致
-    def mutate(self, mutation_vector, packet_codes):
+    def mutate(self, mutation_vector, packet_codes, courpus):
         # size of each fields of packets. e.g., mut_map[`smp_pairing_req`] = [1, 1, 1, 1, 1, 1]
-        mut_map = [[], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [16], [16], [1], [16], [2, 8], [16], [1, 6], [16], [1], [32,32],
+        mut_map = [[], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [16], [16], [1], [16], [2, 8], [16], [1, 6], [16], [1], [32, 32],
                    [16], [1], []]
         new_mutation_vector = copy.deepcopy(mutation_vector)
         chosen_packet = random.choice(packet_codes)
-        
+
         # get mutation field list according to field probability
         mutation_fields = []
         idx = 0
@@ -137,24 +137,24 @@ class SMPMutator:
                 # mutation_fields.append(field[0])
                 mutation_fields.append(idx)
             idx += 1
-        
+
         # Selection of mutation method based on probability of mutation methods
         mutation_methods = self.methodSelection(self.method_prob)
-        
+
         # TODO & TO zc:
         # 使用不同的method对不同的fields进行变异，并保存到new_mutation_vector中，注意，value为byte类型
         # for idx, size in enumerate(mut_map[chosen_packet]):
         #     new_mutation_vector[chosen_packet][idx] = b'\x00'
 
-        for field,field_size in (zip(new_mutation_vector[chosen_packet].items(),mut_map[chosen_packet])):
+        for field, field_size in (zip(new_mutation_vector[chosen_packet].items(), mut_map[chosen_packet])):
             field_type = field[0]
-            field_value  = field[1]
+            field_value = field[1]
             # 根据概率选择一个数据包之中的某些变异字段，需要变异再去选择对应的变异方法
             # * 目前方案，从待选的变异方法之中选出一个来进行变异
             # 可以考虑另一种方法，将选出的变异方法进行组合，对同一个字段进行变异（但是这样未必是更有效的变异）
             if field_type in mutation_fields:
                 mutation_method = random.choice(mutation_methods)
-                
+
                 if "random" == mutation_method:
                     value = self.mutationRandom(field_value)
                 elif "increment" == mutation_method:
@@ -177,7 +177,7 @@ class SMPMutator:
 
                 new_mutation_vector[chosen_packet][field_type] = value
 
-        print (new_mutation_vector, chosen_packet)
+        print(new_mutation_vector, chosen_packet)
         return (new_mutation_vector, chosen_packet)
 
     def mutate_old(self, data):
@@ -281,13 +281,13 @@ class SMPMutator:
             if random.random() < item[1]:
                 mutation_methods.append(item[0])
         return mutation_methods
-    
+
     # e.g  b'\xff\xff\xff\x03\x13' -> b'3\xc3\x86W4_'
     def mutationRandom(self, value):
         res = b""
         for _ in value:
             new_byte = random.randint(0, int('0xff', 16))
-            res +=  chr(new_byte).encode('utf-8')
+            res += chr(new_byte).encode('utf-8')
         return res
         # value = value.decode('utf-8')
         # max_value = ""
@@ -297,17 +297,17 @@ class SMPMutator:
         # print(max_value)
         # value = random.randint(0, int(max_value, 16))
         # return chr(value).encode('utf-8')
-    
+
     # e.g b'\xff\xff\xff\x04\x12' -> b'\xf1\xff\xff\x04\x13'
     def mutatioIncrement(self, value):
         try:
             length = len(value)
             value = int.from_bytes(value, byteorder='big', signed=False)
             value += 1
-            return int.to_bytes(value,byteorder='big', length= length,signed=False)
+            return int.to_bytes(value, byteorder='big', length=length, signed=False)
         except:
             value -= 1
-            return int.to_bytes(value,byteorder='big', length= length,signed=False)
+            return int.to_bytes(value, byteorder='big', length=length, signed=False)
         # value = ord(value)
         # print(chr((value+1)).encode('utf-8'))
         # max_value = ""
@@ -327,10 +327,10 @@ class SMPMutator:
             length = len(value)
             value = int.from_bytes(value, byteorder='big', signed=False)
             value -= 1
-            return int.to_bytes(value,byteorder='big', length= length,signed=False)
+            return int.to_bytes(value, byteorder='big', length=length, signed=False)
         except:
             value += 1
-            return int.to_bytes(value,byteorder='big', length= length,signed=False)
+            return int.to_bytes(value, byteorder='big', length=length, signed=False)
         # origin_len = len(value)
         # if int(value, 16) != 0:
         #     value = hex(int(value, 16) - 1).replace("0x", "")
@@ -340,19 +340,18 @@ class SMPMutator:
         #         value = "0" + value
         # return value
 
-
     # e.g b'\xf1\xff\xff\x04\x12' -> b'\xff\xf1\x04\xff\x12'
     def mutationFlip(self, value):
         length = len(value)
         int_list = [value[i] for i in range(length)]
         if length <= 1:
             return value
-        for i in range(1,length,2):
-            int_list[i] ,int_list[i-1] = int_list[i-1] ,int_list[i]
+        for i in range(1, length, 2):
+            int_list[i], int_list[i - 1] = int_list[i - 1], int_list[i]
         new_byte = b""
         for item in int_list:
-            new_byte += int.to_bytes(item,byteorder='big', length=1)
-        return  new_byte
+            new_byte += int.to_bytes(item, byteorder='big', length=1)
+        return new_byte
         # output = ""
         # value = value.decode()
         # index = len(value) - 1
@@ -368,18 +367,17 @@ class SMPMutator:
     def mutationSwap(self, value):
         return value
 
-   
     # e.g. b'\xf1\xff\xff\x04\x12' -> b'\xf1\xff\xff\x04\x12C'
     def mutationInsert(self, value):
         length = len(value)
         int_list = [value[i] for i in range(length)]
-        insert_idx = random.randint(0,length)
-        insert_value = random.randint(0,255)
-        int_list.insert(insert_idx,insert_value)
+        insert_idx = random.randint(0, length)
+        insert_value = random.randint(0, 255)
+        int_list.insert(insert_idx, insert_value)
         new_byte = b""
         for item in int_list:
-            new_byte += int.to_bytes(item,byteorder='big', length=1)
-        return  new_byte
+            new_byte += int.to_bytes(item, byteorder='big', length=1)
+        return new_byte
         # characters = "abcdef" + string.digits
         # new_value = ""
         # print(value)
@@ -389,18 +387,17 @@ class SMPMutator:
         #     new_value += randomLetter
         # value = new_value
         # return value
-    
 
     # e.g. b'\xf1\xff\xff\x04\x12' -> b'\xff\xff\x04\x12'
     def mutationDelete(self, value):
         length = len(value)
         int_list = [value[i] for i in range(length)]
-        remove_idx = random.randint(0,length-1)
+        remove_idx = random.randint(0, length - 1)
         int_list.pop(remove_idx)
         new_byte = b""
         for item in int_list:
-            new_byte += int.to_bytes(item,byteorder='big', length=1)
-        return  new_byte
+            new_byte += int.to_bytes(item, byteorder='big', length=1)
+        return new_byte
         # origin_len = len(value)
         # output = ''.join([s for s in value if random.random() < 0.7])
         # value = output
@@ -409,18 +406,18 @@ class SMPMutator:
         #     for i in range(origin_len - len(value)):
         #         value = "0" + value
         # return value
-    
+
     # e.g. b'\xf1\xff\xff\x04\x12' -> b'\xf1\xff\xff\x04\xc0'
     def mutationReplace(self, value):
         length = len(value)
         int_list = [value[i] for i in range(length)]
-        replace_idx = random.randint(0,length-1)
-        replace_value = random.randint(0,255)
-        int_list[replace_idx] = replace_value 
+        replace_idx = random.randint(0, length - 1)
+        replace_value = random.randint(0, 255)
+        int_list[replace_idx] = replace_value
         new_byte = b""
         for item in int_list:
-            new_byte += int.to_bytes(item,byteorder='big', length=1)
-        return  new_byte
+            new_byte += int.to_bytes(item, byteorder='big', length=1)
+        return new_byte
         # characters = "abcdef" + string.digits
         # origin_len = len(value)
         # index_list = [i for i in range(0, origin_len)]
@@ -440,8 +437,8 @@ class SMPMutator:
         random.shuffle(int_list)
         new_byte = b""
         for item in int_list:
-            new_byte += int.to_bytes(item,byteorder='big', length=1)
-        return  new_byte
+            new_byte += int.to_bytes(item, byteorder='big', length=1)
+        return new_byte
         # origin_len = len(value)
         # l = list(value)
         # random.shuffle(l)
@@ -476,16 +473,16 @@ class SMPMutator:
 #     packet_code = [0x01, 0x02]
 #     smpmutator.mutate(mutation_vector,packet_code)
 
-    # seed = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
-    # pkt_to_state = [seed.pkt_sequnce[0],seed.pkt_sequnce[2],seed.pkt_sequnce[4],seed.pkt_sequnce[6]]
-    # pkt_wait_mutation = [seed.pkt_sequnce[8]]
+# seed = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
+# pkt_to_state = [seed.pkt_sequnce[0],seed.pkt_sequnce[2],seed.pkt_sequnce[4],seed.pkt_sequnce[6]]
+# pkt_wait_mutation = [seed.pkt_sequnce[8]]
 
-    # print("------------------------------------------before mutatation------------------------------------------")
-    # for smpacket in pkt_wait_mutation:
-    #     smpacket.PrintSMPacket()
+# print("------------------------------------------before mutatation------------------------------------------")
+# for smpacket in pkt_wait_mutation:
+#     smpacket.PrintSMPacket()
 
-    # print("------------------------------------------after mutatation------------------------------------------")
-    # mutation_sequence  = smpmutator.mutate_old(pkt_wait_mutation)
-    # for smpacket in mutation_sequence:
-    #     smpacket.raw_packet = smpacket.to_raw()
-    #     smpacket.PrintSMPacket()
+# print("------------------------------------------after mutatation------------------------------------------")
+# mutation_sequence  = smpmutator.mutate_old(pkt_wait_mutation)
+# for smpacket in mutation_sequence:
+#     smpacket.raw_packet = smpacket.to_raw()
+#     smpacket.PrintSMPacket()
