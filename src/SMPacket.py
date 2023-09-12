@@ -92,12 +92,12 @@ class SMPSocket:
         self.socket = 0
 
     def send(self, data):
-        ser = serial.Serial("COM11", 115200)
+        ser = serial.Serial("COM3", 115200)
         write_len = ser.write(data)
         ser.close()
 
     def recv(self):
-        ser = serial.Serial("COM11", 115200, timeout=1)
+        ser = serial.Serial("COM3", 115200, timeout=1)
         real_buf = b''
         while True:
             com_input = ser.read()
@@ -106,14 +106,15 @@ class SMPSocket:
             else:
                 if (real_buf == b''):
                     continue
-                ser.close()
-                return real_buf
+                if (real_buf[-4:] == b"fxxk"):
+                    ser.close()
+                    return real_buf
 
     def close(self):
         pass
 
     def reset(self):
-        ser = serial.Serial("COM11", 115200)
+        ser = serial.Serial("COM3", 115200)
         ser.write(b'\x05')
         ser.close()
 

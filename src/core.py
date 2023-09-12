@@ -116,8 +116,12 @@ class SMPFuzzer():
 
 if __name__ == '__main__':
     fuzzer = SMPFuzzer()
-    #fuzzer.process_fuzzing()
-    fuzzer.test_fuzzing()
+    # fuzzer.socket.send(b"0100f00101f1")
+    # while (1):
+    #     res = fuzzer.socket.recv()
+    #     print(res)
+    # fuzzer.process_fuzzing()
+    # fuzzer.test_fuzzing()
 
     # testp = SMPacket("0756be784bc11345c6fb16")
     # vec = fuzzer.bytes_to_vec(bytes.fromhex("0300102030405060708090a0b0c0d0e0f000"))

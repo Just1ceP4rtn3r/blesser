@@ -145,9 +145,9 @@ class SMPStateMachine(StateMachine):
             self.stateName_map[state.name] = state
 
         self.traverse_state_machine(self.not_pair_state, state_array)
-        for key, value in self.toState_path_map.items():
-            print("to state:", key, "\npath:", value)
-            print("\n\n")
+        # for key, value in self.toState_path_map.items():
+        #     print("to state:", key, "\npath:", value)
+        #     print("\n\n")
         super().__init__(self)
 
     # def traverse_state_machine(self):
@@ -316,7 +316,7 @@ class SMPStateMachine(StateMachine):
         analyse = SMPSanitizer().messageAnalyse(self.current_req.content, self.current_rsp.content)
         if analyse == False:
             print("Contrary to documents!")
-            
+
         if (not self.is_newstate(current_mutation_bytes, current_transitions)):
             print("Found new state\n\n\n")
 
