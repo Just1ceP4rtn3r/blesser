@@ -27,8 +27,8 @@ class SMPMutator:
             "decrement": 0.5,
             "flip": 0.5,
             "swap": 0.5,
-            "insert": 0.5,
-            "delete": 0.5,
+            # "insert": 0.5,
+            # "delete": 0.5,
             "replace": 0.5,
             "shuffle": 0.5
         }
@@ -110,6 +110,12 @@ class SMPMutator:
         # # state probabilities, ∑ state probabilities = 1?
         self.state_prob = {}
 
+    def initStateProb(self, states):
+        for state in states:
+            if state not in self.state_prob:
+                # if we achive a new state
+                self.state_prob[state] = 0.5
+
     # TODO: change the probability of packet/state/field
     def calculateStateProb(self, states):
         for state in states:
@@ -155,13 +161,13 @@ class SMPMutator:
         for field in mutation_fields:
             field_type = field[0]
             field_name = field[1]
-            field_value = packet_code[chosen_packet].content[field_name]
+            field_value = packet_codes[chosen_packet].content[field_name]
             # 根据概率选择一个数据包之中的某些变异字段，需要变异再去选择对应的变异方法
             # * 目前方案，从待选的变异方法之中选出一个来进行变异
             # 可以考虑另一种方法，将选出的变异方法进行组合，对同一个字段进行变异（但是这样未必是更有效的变异）
             mutation_method = random.choice(mutation_methods)
 
-            print(mutation_method)
+            # print(mutation_method)
 
             if "random" == mutation_method:
                 value = self.mutationRandom(field_value)
@@ -173,10 +179,10 @@ class SMPMutator:
                 value = self.mutationFlip(field_value)
             elif "swap" == mutation_method:
                 value = self.mutationSwap(field_value)
-            # elif "insert" == mutation_method:
-            #     value = self.mutationInsert(field_value)
-            # elif "delete" == mutation_method:
-            #     value = self.mutationDelete(field_value)
+            elif "insert" == mutation_method:
+                value = self.mutationInsert(field_value)
+            elif "delete" == mutation_method:
+                value = self.mutationDelete(field_value)
             elif "replace" == mutation_method:
                 value = self.mutationReplace(field_value)
             elif "shuffle" == mutation_method:
@@ -185,7 +191,6 @@ class SMPMutator:
 
             new_mutation_vector[chosen_packet][field_type] = value
 
-        print(new_mutation_vector, chosen_packet)
         return (new_mutation_vector, chosen_packet)
 
     def mutate_old(self, data):

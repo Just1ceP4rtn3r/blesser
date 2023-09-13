@@ -200,7 +200,7 @@ class SMPSanitizer:
         # 检测2：This value defines the maximum encryption key size in octets that the device can support.
         # The maximum key size shall be in the range 7 to 16 octets.
         if response["code"] == 0x01 or response["code"] == 0x02:
-            if response["max_enc_key_size"] < 0x07:
+            if "max_enc_key_size" in response and int(response["max_enc_key_size"].hex(), 16) < 0x07:
                 return False
 
         # 检测3：The Peripheral shall not set to one any flag in the Initiator Key Distribution / Generation or
@@ -228,7 +228,7 @@ class SMPSanitizer:
         # 检测5：If BD_ADDR is a public device address, then AddrType shall be set to 0x00.
         # If BD_ADDR is a static random device address then AddrType shall be set to 0x01.
         if response["code"] == 0x09:
-            if response["authreq"] >= 0x02:
+            if int(response["authreq"].hex(), 16) >= 0x02:
                 return False
 
         return True

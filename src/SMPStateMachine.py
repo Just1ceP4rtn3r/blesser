@@ -264,21 +264,21 @@ class SMPStateMachine(StateMachine):
         self.stateName_map[new_state.name] = new_state
         self.toState_path_map[new_state.name] = {current_mutation_bytes: current_transitions + [transition]}
 
-    def step_with_mutation(self, mutation_packet):
-        self.current_req = mutation_packet
-        if (self.current_req != None):
-            self.socket.send(self.current_req.raw_packet)
-        resp = self.socket.recv()
-        self.current_rsp = SMPacket(resp.hex())
-        print(self.current_rsp.content)
+    # def step_with_mutation(self, mutation_packet):
+    #     self.current_req = mutation_packet
+    #     if (self.current_req != None):
+    #         self.socket.send(self.current_req.raw_packet)
+    #     resp = self.socket.recv()
+    #     self.current_rsp = SMPacket(resp.hex())
+    #     print(self.current_rsp.content)
 
-        # if self.current_state == self.not_pair_state:
-        #     if (len(self.current_rsp.content["data"]) >= 5) and  (self.current_rsp.content["data"][2] & 0b00000011 == 0 ) and (self.current_rsp.content["data"][5] != 0):
-        #         print('error')
+    #     # if self.current_state == self.not_pair_state:
+    #     #     if (len(self.current_rsp.content["data"]) >= 5) and  (self.current_rsp.content["data"][2] & 0b00000011 == 0 ) and (self.current_rsp.content["data"][5] != 0):
+    #     #         print('error')
 
-        # TODO: if found new state or sanitizer() == true
-        if (not self.is_newstate()):
-            print("Found new state\n\n\n")
+    #     # TODO: if found new state or sanitizer() == true
+    #     if (not self.is_newstate()):
+    #         print("[DEBUG]: Found new state\n\n")
 
     # step the statemachine to the next state with an existing transition
     def step_with_transition(self, transition):
@@ -288,13 +288,17 @@ class SMPStateMachine(StateMachine):
         #     self.socket.send(self.current_req.raw_packet)
         resp = self.ALLRESP.pop()
         self.current_rsp = SMPacket(resp.hex())
-        print(self.current_rsp.content)
+        print("[DEBUG]: Receive Packet:\n", self.current_rsp.content)
         self.send(transition.event)
 
     def get_tostate_path(self, state_name):
         idx = random.randint(0, len(self.toState_path_map[state_name]) - 1)
         path = list(self.toState_path_map[state_name].keys())[idx]
-        return path
+        if (len(self.toState_path_map[state_name][path]) != 0):
+            last_transition = self.toState_path_map[state_name][path][-1]
+        else:
+            last_transition = None
+        return (path, last_transition)
 
     # move the statemachine to the specified state
     def goto_state(self, state_name, tostate_bytes, mutation_bytes, mutation_packet):
@@ -306,20 +310,24 @@ class SMPStateMachine(StateMachine):
             assert (self.current_state == transition.target)
         assert (self.current_state.name == state_name)
 
-        # wait for the response of the mutation packet
         self.current_req = mutation_packet
-        resp = self.ALLRESP.pop()
-        self.current_rsp = SMPacket(resp.hex())
-        print(self.current_rsp.content)
+        while (True):
+            if (len(self.ALLRESP) == 0):
+                break
+            # wait for the response of the mutation packet
+            resp = self.ALLRESP.pop()
+            self.current_rsp = SMPacket(resp.hex())
+            print("[DEBUG]: Receive Packet:\n", self.current_rsp.content)
 
-        # TODO: if found new state or sanitizer() == true
-        if (self.current_req is not None and self.current_rsp is not None):
-            analyse = SMPSanitizer().messageAnalyse(self.current_req.content, self.current_rsp.content)
-            if analyse == False:
-                print("Contrary to documents!")
+            # TODO: if found new state or sanitizer() == true
+            if (self.current_req is not None and self.current_rsp is not None):
+                analyse = SMPSanitizer().messageAnalyse(self.current_req.content, self.current_rsp.content)
+                if analyse == False:
+                    print("[DEBUG]: Contrary to documents!\n\n")
 
-        if (self.is_newstate(current_mutation_bytes, current_transitions)):
-            print("Found new state\n\n\n")
+            if (self.is_newstate(current_mutation_bytes, current_transitions)):
+                print("[DEBUG]: Found new state\n\n")
+            self.current_req = None
 
     def reset(self):
         if (self.current_state.name == self.not_pair_state.name):
