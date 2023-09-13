@@ -133,7 +133,7 @@ class SMPSocket_TEST:
         print(f"send {data}")
 
     def recv(self):
-        return b"123"
+        return bytes.fromhex("0104002d100f0f")
 
     def close(self):
         pass
@@ -157,6 +157,7 @@ class SMPacket:
         self.content = {"code": fields[0]}
         self.packet_type = self.content["code"]
         self.parse_fields(SMP_CODE[self.packet_type])
+        self.get_raw_data()
 
     def parse(self, data):
         code = struct.unpack("<B", data[:1])[0]
@@ -244,10 +245,11 @@ class SMPacket:
                 t = list(t)
                 t.reverse()
                 raw_data += bytes(t)
+                self.content[key] = bytes(t)
         return raw_data
 
     # 仅比较resp中非随机数的部分
-    def CompareTo(self, packet):
+    def EqualTo(self, packet):
         if (self.packet_type != packet.packet_type):
             return False
         else:
@@ -292,7 +294,7 @@ class SMPacket_V01:
                 self.content[item] = smp_pkt.get_field(item + "_raw")[0]
 
     # TODO: 仅比较resp中非随机数的部分
-    def CompareTo(self, packet):
+    def EqualTo(self, packet):
         return False
         differ = set(self.content.items()) ^ set(packet.content.items())
         if (differ != set()):

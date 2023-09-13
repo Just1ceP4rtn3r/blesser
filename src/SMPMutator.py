@@ -6,7 +6,7 @@ import string
 import sys
 import copy
 
-from SMPacket import SMPacketSequnce
+from SMPacket import SMPacketSequnce, SMPacket
 
 
 class SMPMutator:
@@ -119,15 +119,15 @@ class SMPMutator:
 
     # @Input
     # mutation_vector: 见core.py定义,保存需要变异的字段id以及变异的值，e.g., 0x01: [{0x00: value}, {field_id: value}]
-    # packet_codes: 允许的变异的packet codes. e.g., [0x01, 0x02]
+    # packet_codes: 允许的变异的packet codes. e.g., {0x01:SMPacket, 0x02:SMPacket}
     # @Output
     # new_mutation_vector: 添加变异后的字段，与mutation_vector格式保持一致
-    def mutate(self, mutation_vector, packet_codes, courpus):
+    def mutate(self, mutation_vector, packet_codes):
         # size of each fields of packets. e.g., mut_map[`smp_pairing_req`] = [1, 1, 1, 1, 1, 1]
         mut_map = [[], [1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1], [16], [16], [1], [16], [2, 8], [16], [1, 6], [16], [1], [32, 32],
                    [16], [1], []]
         new_mutation_vector = copy.deepcopy(mutation_vector)
-        chosen_packet = random.choice(packet_codes)
+        chosen_packet = random.choice(list(packet_codes.keys()))
 
         # get mutation field list according to field probability
         mutation_fields = []
@@ -135,48 +135,55 @@ class SMPMutator:
         for field in self.field_prob[self.code_msgtype_map[chosen_packet]].items():
             if random.random() < field[1]:
                 # mutation_fields.append(field[0])
-                mutation_fields.append(idx)
+                mutation_fields.append((idx, field[0]))
+                break
             idx += 1
+        if (len(mutation_fields) == 0):
+            fields = self.field_prob[self.code_msgtype_map[chosen_packet]]
+            f = random.randint(0, len(fields) - 1)
+            mutation_fields.append((f, list(fields.keys())[f]))
 
         # Selection of mutation method based on probability of mutation methods
         mutation_methods = self.methodSelection(self.method_prob)
 
         # TODO & TO zc:
         # 使用不同的method对不同的fields进行变异，并保存到new_mutation_vector中，注意，value为byte类型
-        for idx, size in enumerate(mut_map[chosen_packet]):
-            new_mutation_vector[chosen_packet][idx] = b'\x00'
+        # for idx, size in enumerate(mut_map[chosen_packet]):
+        #     new_mutation_vector[chosen_packet][idx] = b'\x00'
 
         # for field, field_size in (zip(new_mutation_vector[chosen_packet].items(), mut_map[chosen_packet])):
-        # for field, field_size in (zip(mutation_fields, mut_map[chosen_packet])):
-        #     field_type = field[0]
-        #     field_value = field[1]
-        #     # 根据概率选择一个数据包之中的某些变异字段，需要变异再去选择对应的变异方法
-        #     # * 目前方案，从待选的变异方法之中选出一个来进行变异
-        #     # 可以考虑另一种方法，将选出的变异方法进行组合，对同一个字段进行变异（但是这样未必是更有效的变异）
-        #     if field_type in mutation_fields:
-        #         mutation_method = random.choice(mutation_methods)
+        for field in mutation_fields:
+            field_type = field[0]
+            field_name = field[1]
+            field_value = packet_code[chosen_packet].content[field_name]
+            # 根据概率选择一个数据包之中的某些变异字段，需要变异再去选择对应的变异方法
+            # * 目前方案，从待选的变异方法之中选出一个来进行变异
+            # 可以考虑另一种方法，将选出的变异方法进行组合，对同一个字段进行变异（但是这样未必是更有效的变异）
+            mutation_method = random.choice(mutation_methods)
 
-        #         if "random" == mutation_method:
-        #             value = self.mutationRandom(field_value)
-        #         elif "increment" == mutation_method:
-        #             value = self.mutatioIncrement(field_value)
-        #         elif "decrement" == mutation_method:
-        #             value = self.mutationDecrement(field_value)
-        #         elif "flip" == mutation_method:
-        #             value = self.mutationFlip(field_value)
-        #         elif "swap" == mutation_method:
-        #             value = self.mutationSwap(field_value)
-        #         elif "insert" == mutation_method:
-        #             value = self.mutationInsert(field_value)
-        #         elif "delete" == mutation_method:
-        #             value = self.mutationDelete(field_value)
-        #         elif "replace" == mutation_method:
-        #             value = self.mutationReplace(field_value)
-        #         elif "shuffle" == mutation_method:
-        #             value = self.mutationShuffle(field_value)
-        #         # print("value",value)
+            print(mutation_method)
 
-        #         new_mutation_vector[chosen_packet][field_type] = value
+            if "random" == mutation_method:
+                value = self.mutationRandom(field_value)
+            elif "increment" == mutation_method:
+                value = self.mutatioIncrement(field_value)
+            elif "decrement" == mutation_method:
+                value = self.mutationDecrement(field_value)
+            elif "flip" == mutation_method:
+                value = self.mutationFlip(field_value)
+            elif "swap" == mutation_method:
+                value = self.mutationSwap(field_value)
+            # elif "insert" == mutation_method:
+            #     value = self.mutationInsert(field_value)
+            # elif "delete" == mutation_method:
+            #     value = self.mutationDelete(field_value)
+            elif "replace" == mutation_method:
+                value = self.mutationReplace(field_value)
+            elif "shuffle" == mutation_method:
+                value = self.mutationShuffle(field_value)
+            # print("value",value)
+
+            new_mutation_vector[chosen_packet][field_type] = value
 
         print(new_mutation_vector, chosen_packet)
         return (new_mutation_vector, chosen_packet)
@@ -288,7 +295,7 @@ class SMPMutator:
         res = b""
         for _ in value:
             new_byte = random.randint(0, int('0xff', 16))
-            res += chr(new_byte).encode('utf-8')
+            res += bytes.fromhex(hex(new_byte)[2:])
         return res
         # value = value.decode('utf-8')
         # max_value = ""
@@ -450,29 +457,36 @@ class SMPMutator:
         # return value
 
 
-# if __name__ == '__main__':
-#     smpmutator = SMPMutator()
-#     mutation_vector = {
-#         0x01: {0: b'\xf1\xff\xff\x04\x12', 1: b'\x00', 2: b'\x2d', 3: b'\x10', 4: b'\x0f', 5: b'\x0f'},
-#         0x02: {0: b'\xff\xff\xff\x03\x13', 1: b'\x00', 2: b'\x05', 3: b'\x10', 4: b'\x0b', 5: b'\x0b'},
-#         0x03: {},
-#         0x04: {},
-#         0x05: {},
-#         0x06: {},
-#         0x07: {},
-#         0x08: {},
-#         0x09: {},
-#         0x0a: {},
-#         # Peripheral -> Central; The Security Request command is used by the Peripheral to request that the Central initiates security with the requested security properties, see Section 2.4.6. The Security Request command is defined in Figure 3.17.
-#         0x0b: {},
-#         # Central -> Peripheral | Peripheral -> Central;
-#         0x0c: {},
-#         # Central -> Peripheral | Peripheral -> Central;
-#         0x0d: {},
-#         0x0e: {},
-#     }
-#     packet_code = [0x01, 0x02]
-#     smpmutator.mutate(mutation_vector,packet_code)
+if __name__ == '__main__':
+    smpmutator = SMPMutator()
+    mutation_vector = {
+        0x01: {
+            0: b'\xf1',
+            1: b'\x00',
+            2: b'\x2d',
+            3: b'\x10',
+            4: b'\x0f',
+            5: b'\x0f'
+        },
+        0x02: {},
+        0x03: {},
+        0x04: {},
+        0x05: {},
+        0x06: {},
+        0x07: {},
+        0x08: {},
+        0x09: {},
+        0x0a: {},
+        # Peripheral -> Central; The Security Request command is used by the Peripheral to request that the Central initiates security with the requested security properties, see Section 2.4.6. The Security Request command is defined in Figure 3.17.
+        0x0b: {},
+        # Central -> Peripheral | Peripheral -> Central;
+        0x0c: {},
+        # Central -> Peripheral | Peripheral -> Central;
+        0x0d: {},
+        0x0e: {},
+    }
+    packet_code = {0x02: SMPacket("0104002d100f0f")}
+    smpmutator.mutate(mutation_vector, packet_code)
 
 # seed = SMPacketSequnce(sys.path[0] + "/packet_sequence/earphoe_legacy_justwork.pcapng")
 # pkt_to_state = [seed.pkt_sequnce[0],seed.pkt_sequnce[2],seed.pkt_sequnce[4],seed.pkt_sequnce[6]]

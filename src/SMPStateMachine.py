@@ -8,7 +8,7 @@ import warnings
 import random
 
 import SMPSanitizer
-from SMPacket import SMPacket, SMPSocket
+from SMPacket import SMPacket, SMPSocket, SMPSocket_TEST
 from SMPSanitizer import SMPSanitizer
 
 
@@ -233,22 +233,20 @@ class SMPStateMachine(StateMachine):
         for transition in self.current_state.transitions:
             if (self.current_req is None):
                 if (self.transition_map[transition.event][0] is not None):
-                    return True
-                else:
-                    if (self.current_rsp == self.transition_map[transition.event][1] or
-                            self.current_rsp.CompareTo(self.transition_map[transition.event][1])):
+                    continue
+                elif (self.current_rsp is not None and self.transition_map[transition.event][1] is not None):
+                    if (self.current_rsp.EqualTo(self.transition_map[transition.event][1])):
                         return False
             if (self.current_rsp is None):
                 if (self.transition_map[transition.event][1] is not None):
-                    return True
-                else:
-                    if (self.current_req == self.transition_map[transition.event][0] or
-                            self.current_req.CompareTo(self.transition_map[transition.event][0])):
+                    continue
+                elif (self.current_req is not None and self.transition_map[transition.event][0] is not None):
+                    if (self.current_req.EqualTo(self.transition_map[transition.event][0])):
                         return False
             if (self.current_req is not None and self.current_rsp is not None and
                     self.transition_map[transition.event][0] is not None and
                     self.transition_map[transition.event][1] is not None and
-                    self.current_rsp.CompareTo(self.transition_map[transition.event][1])):
+                    self.current_rsp.EqualTo(self.transition_map[transition.event][1])):
                 return False
 
         self.create_state(f"state_{self.state_count}", f"{self.current_state.name}_to_state_{self.state_count}",
@@ -259,6 +257,7 @@ class SMPStateMachine(StateMachine):
     # TODO: How to merge the same state?
     def create_state(self, name, event, current_mutation_bytes, current_transitions):
         new_state = State(name)
+        new_state._set_id(name)
         transition = self.current_state.to(new_state, event=event)[0]
         self.states.append(new_state)
         self.transition_map[event] = (self.current_req, self.current_rsp)
@@ -290,8 +289,7 @@ class SMPStateMachine(StateMachine):
         resp = self.ALLRESP.pop()
         self.current_rsp = SMPacket(resp.hex())
         print(self.current_rsp.content)
-        if (not self.is_newstate()):
-            self.send(transition.event)
+        self.send(transition.event)
 
     def get_tostate_path(self, state_name):
         idx = random.randint(0, len(self.toState_path_map[state_name]) - 1)
@@ -315,11 +313,12 @@ class SMPStateMachine(StateMachine):
         print(self.current_rsp.content)
 
         # TODO: if found new state or sanitizer() == true
-        analyse = SMPSanitizer().messageAnalyse(self.current_req.content, self.current_rsp.content)
-        if analyse == False:
-            print("Contrary to documents!")
+        if (self.current_req is not None and self.current_rsp is not None):
+            analyse = SMPSanitizer().messageAnalyse(self.current_req.content, self.current_rsp.content)
+            if analyse == False:
+                print("Contrary to documents!")
 
-        if (not self.is_newstate(current_mutation_bytes, current_transitions)):
+        if (self.is_newstate(current_mutation_bytes, current_transitions)):
             print("Found new state\n\n\n")
 
     def reset(self):
@@ -342,12 +341,18 @@ class SMPStateMachine(StateMachine):
 #         f.write(smp_state_machine._graph().__str__())
 
 if __name__ == '__main__':
-    socket = SMPSocket()
+    socket = SMPSocket_TEST()
     smp_state_machine = SMPStateMachine("../example1.dot", socket)
 
-    x = smp_state_machine.not_pair_state.to(smp_state_machine.receive_pairing_dhkey_check_state, event="asdfdsfa")
+    smp_state_machine.ALLRESP = [bytes.fromhex("0104002d100f0f")] * 100
+    # goto state testing
+    for state_name in list(smp_state_machine.toState_path_map.keys()):
+        print(f"goto state: {state_name}")
+        tostate_bytes = smp_state_machine.get_tostate_path(state_name)
+        smp_state_machine.goto_state(state_name, tostate_bytes, tostate_bytes, None)
+        smp_state_machine.reset()
 
     # for state in smp_state_machine.states:
     #     print(state)
-    # with open("test.dot", "w") as f:
-    #     f.write(smp_state_machine._graph().__str__())
+    with open("test.dot", "w") as f:
+        f.write(smp_state_machine._graph().__str__())

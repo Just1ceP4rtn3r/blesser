@@ -86,9 +86,10 @@ class SMPFuzzer():
             for transition in self.state_machine.stateName_map[state_name].transitions:
                 req = self.state_machine.transition_map[transition.event][0]
                 if (req is not None):
-                    packets_mutatable.append(req.code)
-            mutation_vec, mutation_packet_code = self.mutator.mutate(self.bytes_to_vec(tostate_bytes), packets_mutatable,
-                                                                     self.state_machine.corpus)
+                    req_packet = self.state_machine.corpus[req.code]
+                    assert (req_packet != '')
+                    packets_mutatable[req.code] = req_packet
+            mutation_vec, mutation_packet_code = self.mutator.mutate(self.bytes_to_vec(tostate_bytes), packets_mutatable)
             mutation_bytes = self.vec_to_bytes(mutation_vec)
             corpus = self.state_machine.corpus[mutation_packet_code]
             assert (corpus != '')
@@ -111,11 +112,13 @@ class SMPFuzzer():
     def test_fuzzing(self):
         state_name = "not_pair_state"
         tostate_bytes = self.state_machine.get_tostate_path(state_name)
-        packets_mutatable = []
+        packets_mutatable = {}
         for transition in self.state_machine.stateName_map[state_name].transitions:
             req = self.state_machine.transition_map[transition.event][0]
             if (req is not None):
-                packets_mutatable.append(req.code)
+                req_packet = self.state_machine.corpus[req.code]
+                assert (req_packet != '')
+                packets_mutatable[req.code] = req_packet
         mutation_vec, mutation_packet_code = self.mutator.mutate(self.bytes_to_vec(tostate_bytes), packets_mutatable)
         mutation_bytes = self.vec_to_bytes(mutation_vec)
         corpus = self.state_machine.corpus[mutation_packet_code]
