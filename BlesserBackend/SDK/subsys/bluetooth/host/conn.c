@@ -2120,6 +2120,11 @@ static int start_security(struct bt_conn *conn)
 	return -EINVAL;
 }
 
+int bt_conn_send_smp_packet(struct bt_conn *conn)
+{
+	return bt_smp_send_packet(conn);
+}
+
 int bt_conn_set_security(struct bt_conn *conn, bt_security_t sec)
 {
 	int err;

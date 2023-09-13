@@ -42,7 +42,9 @@
 #include "smp.h"
 
 // syncxxx-8-24
-#include "../../../../../../Blesser/Include/Instruction.h"
+#include "../../../../../../test/central_uart/Include/Instruction.h"
+
+extern struct BlesserInstruction CMD_FROM_BLESSER;
 
 #define LOG_LEVEL CONFIG_BT_SMP_LOG_LEVEL
 #include <zephyr/logging/log.h>
@@ -6449,6 +6451,91 @@ int bt_passkey_set(unsigned int passkey)
     return 0;
 }
 #endif /* CONFIG_BT_FIXED_PASSKEY */
+
+int bt_smp_send_packet(struct bt_conn *conn)
+{ // struct smp_recv_handler *handler
+	// int err;
+	struct bt_smp *smp;
+	struct net_buf *buf;
+
+	smp = smp_chan_get(conn);
+
+	// if (packet[0] == 0x01 || packet[0] == 0x02) {
+	// 	smp_init(smp);
+	// 	buf = bt_l2cap_create_pdu_timeout(NULL, 0, SMP_TIMEOUT);
+	// 	void *ptr = net_buf_add(buf, len);
+	// 	memcpy(ptr, packet, len);
+	// 	smp_send(smp, buf, NULL, NULL);
+	// } else if (packet[0] == 0x03) {
+	// 	legacy_send_pairing_confirm(smp);
+	// } else if (packet[0] == 0x04) {
+	// 	smp_send_pairing_random(smp);
+	// }
+    // else if (packet[0] == 0x05) {
+		smp_error(smp, BT_SMP_RESET);
+	// } //6、7 both in legacy_distribute_keys()
+	// else if (packet[0] == 0x06) {
+	// 	legacy_distribute_keys(smp);
+	// // } else if (packet[0] == 0x07) {
+	// // 	smp_error(smp, BT_SMP_reset);
+	// } else if (packet[0] == 0x08) {
+	// 	struct bt_smp_ident_info *id_info;
+	// 	struct bt_smp_ident_addr_info *id_addr_info;
+	// 	struct net_buf *buf;
+	// 	buf = smp_create_pdu(smp, BT_SMP_CMD_IDENT_INFO, sizeof(*id_info));
+	// 	if (!buf) {
+	// 		LOG_ERR("Unable to allocate Ident Info buffer");
+	// 		return BT_SMP_ERR_UNSPECIFIED;
+	// 	}
+	// 	id_info = net_buf_add(buf, sizeof(*id_info));
+	// 	memcpy(id_info->irk, bt_dev.irk[conn->id], 16);
+	// 	smp_send(smp, buf, NULL, NULL);
+	// } else if (packet[0] == 0x09) {
+	// 	struct bt_smp_ident_info *id_info;
+	// 	struct bt_smp_ident_addr_info *id_addr_info;
+	// 	struct net_buf *buf;
+	// 	buf = smp_create_pdu(smp, BT_SMP_CMD_IDENT_ADDR_INFO, sizeof(*id_addr_info));
+	// 	if (!buf) {
+	// 		LOG_ERR("Unable to allocate Ident Addr Info buffer");
+	// 		return BT_SMP_ERR_UNSPECIFIED;
+	// 	}
+	// 	id_addr_info = net_buf_add(buf, sizeof(*id_addr_info));
+	// 	bt_addr_le_copy(&id_addr_info->addr, &bt_dev.id_addr[conn->id]);
+	// 	smp_send(smp, buf, smp_id_sent, NULL);
+	// } else if (packet[0] == 0x0a) {
+	// 	struct bt_conn *conn = smp->chan.chan.conn;
+	// 	struct bt_keys *keys = conn->le.keys;
+	// 	struct bt_smp_signing_info *info;
+	// 	struct net_buf *buf;
+	// 	buf = smp_create_pdu(smp, BT_SMP_CMD_SIGNING_INFO, sizeof(*info));
+	// 	if (!buf) {
+	// 		LOG_ERR("Unable to allocate Signing Info buffer");
+	// 		return BT_SMP_ERR_UNSPECIFIED;
+	// 	}
+	// 	info = net_buf_add(buf, sizeof(*info));
+	// 	if (bt_rand(info->csrk, sizeof(info->csrk))) {
+	// 		return BT_SMP_ERR_UNSPECIFIED;
+	// 	}
+	// 	if (atomic_test_bit(smp->flags, SMP_FLAG_BOND)) {
+	// 		bt_keys_add_type(keys, BT_KEYS_LOCAL_CSRK);
+	// 		memcpy(keys->local_csrk.val, info->csrk, 16);
+	// 		keys->local_csrk.cnt = 0U;
+	// 	}
+	// 	smp_send(smp, buf, smp_sign_info_sent, NULL);
+	// } else if (packet[0] == 0x0b) {
+	// 	// smp_send_security_req(conn);
+	// } else if (packet[0] == 0x0c) {
+	// 	sc_send_public_key(conn);
+	// } else if (packet[0] == 0x0d) {
+	// 	compute_and_send_central_dhcheck(smp);
+	// } else if (packet[0] == 0x0e) {
+	// 	;
+	// } else if (packet[0] == 0x0f) {
+	// 	;
+	// }
+
+	return 0;
+}
 
 int bt_smp_start_security(struct bt_conn* conn)
 {

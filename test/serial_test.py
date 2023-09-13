@@ -1,11 +1,11 @@
 import serial
 import serial.tools.list_ports
 
-ser = serial.Serial("COM3", 115200)
+ser = serial.Serial("COM5", 115200)
 
 
 def send():
-    a = input("byte: ")
+    # a = input("byte: ")
     ser.write(bytes.fromhex("0100f00101f1"))
 
 

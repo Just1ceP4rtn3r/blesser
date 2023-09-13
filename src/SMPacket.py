@@ -90,7 +90,7 @@ class SMPSocket:
 
     def __init__(self):
         self.socket = 0
-        self.ser = serial.Serial("COM3", 115200, timeout=3)
+        self.ser = serial.Serial("COM5", 115200, timeout=3)
 
     def send(self, data):
         write_len = self.ser.write(data)
@@ -118,10 +118,8 @@ class SMPSocket:
     def close(self):
         pass
 
-    def reset(self):
-        ser = serial.Serial("COM3", 115200)
-        ser.write(b'\x05')
-        ser.close()
+    def reset(self):     
+        self.ser.write(b'\x01')
 
 
 class SMPSocket_TEST:
@@ -335,6 +333,8 @@ class SMPacketSequnce:
             self.pkt_sequnce.append(SMPacket(entire_pkt, direction=direction))
 
 
-if __name__ == '__main__':
-    testp = SMPacket("0756be784bc11345c6fb16")
-    print(testp.content)
+# if __name__ == '__main__':
+#     SMPSocket().send(bytes.fromhex("0100f00101f1"))
+    # SMPSocket().reset()
+    # testp = SMPacket("0756be784bc11345c6fb16")
+    # print(testp.content)

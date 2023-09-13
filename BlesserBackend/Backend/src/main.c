@@ -96,11 +96,18 @@ void thread_blesser_backend(void)
         {
             if (default_conn)
             {
-                // if app_buf = "010000...."
-                parse(&CMD_FROM_BLESSER, app_buf, recv_len);
-                // do fuzz with instruction
-                bt_conn_set_security(default_conn, BT_SECURITY_L2);
-                // if app_buf = "1"
+                if (app_buf[0] == 0x01 && recv_len == 1)
+                {                
+                    // if app_buf = "1"
+                    bt_conn_send_smp_packet(default_conn);
+                }
+                else
+                {
+                    // if app_buf = "010000...."
+                    parse(&CMD_FROM_BLESSER, app_buf, recv_len);
+                    // do fuzz with instruction
+                    bt_conn_set_security(default_conn, BT_SECURITY_L2);
+                }
 
                 recv_flag = 0;
             }
