@@ -245,7 +245,8 @@ class SMPacket:
                 t = list(t)
                 t.reverse()
                 raw_data += bytes(t)
-                self.content[key] = bytes(t)
+                if (key != "code"):
+                    self.content[key] = bytes(t)
         return raw_data
 
     # 仅比较resp中非随机数的部分
