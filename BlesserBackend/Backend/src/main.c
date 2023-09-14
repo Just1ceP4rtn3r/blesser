@@ -54,6 +54,9 @@ int parse(struct BlesserInstruction* instruction, uint8_t* recv, int len)
 }
 
 struct BlesserInstruction CMD_FROM_BLESSER;
+uint8_t RESP_size = 0;
+uint8_t RESP_idx = 0;
+struct ResponsePacket RESP[20];
 
 // uart config
 /* 1000 msec = 1 sec */
@@ -99,7 +102,23 @@ void thread_blesser_backend(void)
                 if (app_buf[0] == 0x01 && recv_len == 1)
                 {                
                     // if app_buf = "1"
-                    bt_conn_send_smp_packet(default_conn);
+                    // bt_conn_send_smp_packet(default_conn);
+                    int xx = bt_conn_disconnect(default_conn,BT_HCI_ERR_AUTH_FAIL);
+                    RESP_size = 0;
+                    RESP_idx = 0;
+                    printk("%d\n", xx);
+                    // bt_conn_auth_cancel(default_conn);
+                }
+                else if (app_buf[0] == 0xff && recv_len == 1)
+                {               
+                    if(RESP_size >0 && RESP_idx < RESP_size){
+                        int err = uart_tx(uart, RESP[RESP_idx].buf,RESP[RESP_idx].packet_size, SYS_FOREVER_US);
+                        RESP_idx++;
+                    }
+                }
+                else if (app_buf[0] == 0x00 && recv_len == 1)
+                {
+                    bt_conn_set_security(default_conn, BT_SECURITY_L2);
                 }
                 else
                 {
@@ -140,6 +159,13 @@ static void uart_cb(const struct device* dev, struct uart_event* evt, void* user
         uart_rx_enable(uart, rx_buf, sizeof rx_buf, RECEIVE_TIMEOUT);
         break;
 
+    case UART_TX_DONE:
+        if(RESP_size >0 && RESP_idx < RESP_size){
+            int err = uart_tx(uart, RESP[RESP_idx].buf,RESP[RESP_idx].packet_size, SYS_FOREVER_US);
+            RESP_idx++;
+        }
+        break;
+
     default:
         break;
     }
@@ -170,6 +196,7 @@ static void device_found(const bt_addr_le_t* addr, int8_t rssi, uint8_t type, st
     // }
 
     if (strcmp(addr_str, "F4:5A:DE:3A:CC:5F (random)"))
+    // if (strcmp(addr_str, "50:e7:b7:f4:de:a9 (random)"))
     {
         printk("Not same\n");
         return;

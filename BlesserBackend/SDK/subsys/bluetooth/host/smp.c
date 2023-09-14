@@ -45,6 +45,8 @@
 #include "../../../../../../test/central_uart/Include/Instruction.h"
 
 extern struct BlesserInstruction CMD_FROM_BLESSER;
+extern uint8_t RESP_size ;
+extern struct ResponsePacket RESP[20];
 
 #define LOG_LEVEL CONFIG_BT_SMP_LOG_LEVEL
 #include <zephyr/logging/log.h>
@@ -5122,20 +5124,51 @@ syncxxx-8-30
 1. 删除部分条件判断
 2. 增加UART反馈给状态机
 */
+K_MUTEX_DEFINE(packet_buf_mutex);
+
+// uint8_t packet_buf[100] = {0};
+
+
+
+// static void uart_cb_smp(const struct device* dev, struct uart_event* evt, void* user_data)
+// {
+//     switch (evt->type)
+//     {
+//     case UART_RX_RDY:
+//         // printk("UART_RX_RDY event\nUART_RX_LEN: %d\n", evt->data.rx.len
+
+//     case UART_RX_DISABLED:
+
+//         break;
+
+//     default:
+//         break;
+//     }
+// }
+
+
+
 static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf, struct bt_smp_hdr* hdr)
 {
     const struct device *uart1 = DEVICE_DT_GET(DT_NODELABEL(uart0));
-    uint8_t tail[4] = {0x66, 0x78, 0x78, 0x6b};
-    uint8_t * packet_buf;
-
+    // const struct device *uart1 = DEVICE_DT_GET(DT_NODELABEL(uart0));
+    uint8_t tail[8] = {0x66, 0x78, 0x78, 0x6b, 0xaa, 0xbb, 0xdd,0xee};
+    // uart_callback_set(uart1, uart_cb_smp, ((void *)0));
 
 	// printk("[DBG]: bt_smp_recv_packet called\nbuf len: %d\n", buf->len);
 	// struct bt_smp *smp = CONTAINER_OF(chan, struct bt_smp, chan);
 	// struct net_buf *old_ptr;
 	// int len = buf->len;
-
+    // k_mutex_lock(&packet_buf_mutex, K_FOREVER);
     int packet_buf_size = sizeof(hdr->code)+buf->len+sizeof(tail);
+
+    // uint8_t packet_buf[packet_buf_size];
+
+    // memset(packet_buf,0,packet_buf_size);
+
+    uint8_t *packet_buf;
     packet_buf = (uint8_t *)malloc(packet_buf_size);
+    // memset(packet_buf, 0, packet_buf_size);
     if (packet_buf == NULL) {
             printk("[ERROR]: Memory allocation failed\n");
             return -1;
@@ -5143,20 +5176,52 @@ static int blesser_uart_response(struct bt_l2cap_chan *chan, struct net_buf *buf
 
     memcpy(packet_buf, &(hdr->code), 1);
     memcpy(packet_buf+1, buf->data, buf->len);
-    memcpy(packet_buf+1+buf->len , tail, 4);
+    printk("%d\n", buf->len);
+    memcpy(packet_buf+1+buf->len , tail, 8);
+
+
 
 
 
     // printk("[DBG]: Response Packet %d:\n", sizeof(packet_buf)-sizeof(tail));
-    printk("[DBG]: Response Packet %d:\n", packet_buf_size);
+    
+    printk("[DBG]: Response Packet %d:", packet_buf_size);
+
+    printk("%x \n", packet_buf[0]);
 	// for (int i = 0; i <  packet_buf_size; i++) {
 	// 	printk("%x ", packet_buf[i]);
 	// }
     // printk("\n\n");
 
-	int err = uart_tx(uart1, packet_buf, packet_buf_size, SYS_FOREVER_US);
+    int slice_size = 8;
+    int idx = 0;
+    // for(int i =0; i< packet_buf_size/8;i++)
+    // {
+    //     uint8_t * slice_buf =(uint8_t *)malloc(8);
+    //     memcpy(slice_buf, packet_buf+idx, 8);
+    //     idx += 8; 
+
+    //     int err = uart_tx(uart1, slice_buf, 8, SYS_FOREVER_US);
+
+    //     for (int j = 0; j <  8; j++) {
+    //         printk("%x ", slice_buf[j]);
+    //     }
+    //     printk("\n\n");
+
+    //     free(slice_buf);
+    // }
+
+
+    memcpy(RESP[RESP_size].buf,packet_buf, packet_buf_size);
+    RESP[RESP_size].packet_size = packet_buf_size;
+    RESP_size++;
+
+
+    
+    // k_mutex_unlock(&packet_buf_mutex);
 
     free(packet_buf);
+    
 	return -1;
 }
 static int bt_smp_recv(struct bt_l2cap_chan* chan, struct net_buf* buf)

@@ -93,6 +93,8 @@ class SMPSocket:
         self.ser = serial.Serial("COM5", 115200, timeout=3)
 
     def send(self, data):
+        if(data == b''):
+            data = b'\x00'
         write_len = self.ser.write(data)
 
     def recv(self):
@@ -102,8 +104,8 @@ class SMPSocket:
                 com_input = self.ser.read()
                 if com_input:
                     real_buf += com_input
-                    if (real_buf[-4:] == b"fxxk"):
-                        real_buf = real_buf[:-4]
+                    if (real_buf[-8:] == bytes([0x66, 0x78, 0x78, 0x6b, 0xaa, 0xbb, 0xdd,0xee]) ):
+                        real_buf = real_buf[:-8]
                         return real_buf
                 else:
                     return b''

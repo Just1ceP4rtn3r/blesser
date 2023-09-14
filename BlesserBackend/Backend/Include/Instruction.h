@@ -59,3 +59,10 @@ struct BlesserInstruction{
     char mutation_count;
     struct mutation mutations[MAX_MUTATION_COUNT];
 };
+
+
+
+struct ResponsePacket{
+    char packet_size;
+    char buf[MAX_MUTATION_VALUES_LEN];
+};

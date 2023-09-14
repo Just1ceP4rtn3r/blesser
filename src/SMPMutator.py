@@ -273,10 +273,16 @@ class SMPMutator:
         state = ""
         # 通过比较概率大小（item[1]）来选择其中概率最大的状态(item[0])，选择了某个状态后，减少该状态的概率，增加其他状态的概率
         max_prob = 0
+        mutation_states = []
+
         for item in self.state_prob.items():
-            if item[1] > max_prob:
-                max_prob = item[1]
-                state = item[0]
+            if random.random() < item[1]:
+                mutation_states.append(item[0])
+        state = random.choice(mutation_states)
+        # for item in self.state_prob.items():
+        #     if item[1] > max_prob:
+        #         max_prob = item[1]
+        #         state = item[0]
         for item in self.state_prob.items():
             if (item[0] == state):
                 self.state_prob[item[0]] = item[1] - 0.02

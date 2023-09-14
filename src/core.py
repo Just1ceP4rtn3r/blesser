@@ -1,6 +1,7 @@
 from SMPMutator import SMPMutator
 from SMPStateMachine import SMPStateMachine
 from SMPacket import SMPSocket, SMPSocket_TEST, SMPacket
+import time
 import random
 import threading
 from copy import deepcopy
@@ -80,7 +81,8 @@ class SMPFuzzer():
 
     def process_fuzzing(self):
         while (True):
-            state_name = self.mutator.stateSelection()
+            # state_name = self.mutator.stateSelection()
+            state_name = "not_pair_state"
             print("[DEBUG]: Chosen State:\n", state_name)
             tostate_bytes, last_transition = self.state_machine.get_tostate_path(state_name)
             packets_mutatable = {}
@@ -112,6 +114,9 @@ class SMPFuzzer():
             assert (corpus != '')
             mutation_packet = corpus.MutatePacket(mutation_vec)
             self.socket.send(mutation_bytes)
+            # send \xff for receving responses
+            time.sleep(2)
+            self.socket.send(b'\xff')
             while (True):
                 packet = fuzzer.socket.recv()
                 if (packet == b''):
@@ -173,8 +178,8 @@ if __name__ == '__main__':
     # while (1):
     #     res = fuzzer.socket.recv()
     #     print(res)
-    fuzzer.state_machine.ALLRESP = [bytes.fromhex("0104002d100f0f")] * 10
-    fuzzer.test_fuzzing()
+    # fuzzer.state_machine.ALLRESP = [bytes.fromhex("0104002d100f0f")] * 10
+    fuzzer.process_fuzzing()
 
     # fuzzer.test_fuzzing()
 

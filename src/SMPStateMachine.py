@@ -327,9 +327,16 @@ class SMPStateMachine(StateMachine):
 
             if (self.is_newstate(current_mutation_bytes, current_transitions)):
                 print("[DEBUG]: Found new state\n\n")
-            self.current_req = None
+            
+
+            if(self.current_req is not None and self.current_req.code == 0x0c):
+                self.current_req = None
+            else:
+                break
+                
 
     def reset(self):
+        self.ALLRESP.clear()
         if (self.current_state.name == self.not_pair_state.name):
             return
         elif (self.current_state.name != self.final_state.name):
