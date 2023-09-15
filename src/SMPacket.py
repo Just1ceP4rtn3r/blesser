@@ -95,6 +95,8 @@ class SMPSocket:
     def send(self, data):
         if(data == b''):
             data = b'\x00'
+        
+        data += bytes([0x66, 0x78, 0x78, 0x6b])
         write_len = self.ser.write(data)
 
     def recv(self):
@@ -120,8 +122,15 @@ class SMPSocket:
     def close(self):
         pass
 
+    def wait_for_resp(self):     
+        reset_data = b'\xff'
+        reset_data += bytes([0x66, 0x78, 0x78, 0x6b])
+        self.ser.write(reset_data)
+
     def reset(self):     
-        self.ser.write(b'\x01')
+        reset_data = b'\x01'
+        reset_data += bytes([0x66, 0x78, 0x78, 0x6b])
+        self.ser.write(reset_data)
 
 
 class SMPSocket_TEST:

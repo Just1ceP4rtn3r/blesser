@@ -4,6 +4,7 @@ from SMPacket import SMPSocket, SMPSocket_TEST, SMPacket
 import time
 import random
 import threading
+import os
 from copy import deepcopy
 
 
@@ -81,8 +82,8 @@ class SMPFuzzer():
 
     def process_fuzzing(self):
         while (True):
-            # state_name = self.mutator.stateSelection()
-            state_name = "not_pair_state"
+            state_name = self.mutator.stateSelection()
+            #state_name = "receive_pairing_rsp_state"
             print("[DEBUG]: Chosen State:\n", state_name)
             tostate_bytes, last_transition = self.state_machine.get_tostate_path(state_name)
             packets_mutatable = {}
@@ -113,22 +114,32 @@ class SMPFuzzer():
             corpus = self.state_machine.corpus[mutation_packet_code]
             assert (corpus != '')
             mutation_packet = corpus.MutatePacket(mutation_vec)
+            #mutation_bytes = b'\x0c\x00\xf8\x01\xbf\xee\xfeY\x10{-g+a\xec\xf0\x17\xc8\x10\x82XW\xc38\x9f\xb8\x90\xa1\x15q\x80\t\x08u\\\t\xfc*\xd0F\x8d\xb0\x8e"3\xae\x11\x98>\x84\xd5\x0e\xb4+\x1b\xcf-\x12L\xb0\xcb\x1e\x0f\xcf\x02\xab'
             self.socket.send(mutation_bytes)
             # send \xff for receving responses
             time.sleep(2)
-            self.socket.send(b'\xff')
+            self.socket.wait_for_resp()
             while (True):
                 packet = fuzzer.socket.recv()
                 if (packet == b''):
                     break
                 self.state_machine.ALLRESP.insert(0, packet)
 
-            self.state_machine.goto_state(state_name, tostate_bytes, mutation_bytes, mutation_packet)
+            try:
+                self.state_machine.goto_state(state_name, tostate_bytes, mutation_bytes, mutation_packet)
 
-            self.mutator.calculateStateProb(list(self.state_machine.toState_path_map.keys()))
-            # reset the socket
-            self.socket.reset()
-            self.state_machine.reset()
+                self.mutator.calculateStateProb(list(self.state_machine.toState_path_map.keys()))
+                # reset the socket
+                self.socket.reset()
+                self.state_machine.reset()
+
+                with open("test.dot", "w") as f:
+                    f.write(self.state_machine._graph().__str__())
+                os.system("dot -Tpng test.dot -o test.png")
+            except Exception as e:
+                print("[ERROR]: ",e)
+                pass
+
 
     def test_fuzzing(self):
         while (True):
@@ -170,7 +181,6 @@ class SMPFuzzer():
             # reset the socket
             self.socket.reset()
             self.state_machine.reset()
-
 
 if __name__ == '__main__':
     fuzzer = SMPFuzzer()

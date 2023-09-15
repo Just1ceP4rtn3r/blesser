@@ -2,6 +2,9 @@ import os
 import sys
 from statemachine import StateMachine, State
 from statemachine.transition import Transition
+from statemachine.states import States
+from typing import Dict,Any
+from statemachine.dispatcher import ObjectConfig,resolver_factory
 import re
 import networkx as nx
 import warnings
@@ -132,7 +135,7 @@ class SMPStateMachine(StateMachine):
     # receive_pairing_failed_state.to(final_state, event="receive_pairing_failed_state_to_final_state")
     # transition_map["receive_pairing_failed_state_to_final_state"] = (None, None)
     receive_pairing_dhkey_check_state.to(final_state, event="receive_pairing_dhkey_check_state_to_final_state")
-    transition_map["receive_pairing_dhkey_check_state_to_final_state"] = (TESTPACKET, TESTPACKET)
+    transition_map["receive_pairing_dhkey_check_state_to_final_state"] = (None, None)
 
     final_state.to(not_pair_state, event="final_state_to_not_pair_state")
     transition_map["final_state_to_not_pair_state"] = (None, None)
@@ -256,13 +259,31 @@ class SMPStateMachine(StateMachine):
 
     # TODO: How to merge the same state?
     def create_state(self, name, event, current_mutation_bytes, current_transitions):
-        new_state = State(name)
+        new_state = State(name,value=name)
         new_state._set_id(name)
+
+
         transition = self.current_state.to(new_state, event=event)[0]
         self.states.append(new_state)
         self.transition_map[event] = (self.current_req, self.current_rsp)
         self.stateName_map[new_state.name] = new_state
         self.toState_path_map[new_state.name] = {current_mutation_bytes: current_transitions + [transition]}
+
+        machine = ObjectConfig(self, skip_attrs=self._get_protected_attrs())
+        model = ObjectConfig(self.model, skip_attrs={self.state_field})
+        default_resolver = resolver_factory(machine, model)
+
+
+        for s in self.states:
+            s._setup(self, default_resolver)
+
+        self.states_map: Dict[Any, State] = {
+            state.value: state for state in self.states
+        }
+
+        for state in self.states:
+            for transition in state.transitions:
+                transition._setup(self, default_resolver)
 
     # def step_with_mutation(self, mutation_packet):
     #     self.current_req = mutation_packet

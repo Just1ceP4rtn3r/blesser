@@ -37,14 +37,16 @@ int parse(struct BlesserInstruction* instruction, uint8_t* recv, int len)
         instruction->mutations[instruction->mutation_count].cmd_id = *(char*)(recv + offset);
         instruction->mutations[instruction->mutation_count].field_id = *(char*)(recv + offset + 1);
         int value_size = mapper[instruction->mutations[instruction->mutation_count].cmd_id][instruction->mutations[instruction->mutation_count].field_id];
-        memcpy(instruction->mutations[instruction->mutation_count].mutation_values, recv + offset + 2, value_size);
 
         printk("%u, %u, ", instruction->mutations[instruction->mutation_count].cmd_id, instruction->mutations[instruction->mutation_count].field_id);
-        for (int i = 0; i < value_size; i++)
-        {
-            printk("%x ", instruction->mutations[instruction->mutation_count].mutation_values[i]);
-        }
+        // for (int i = 0; i < value_size; i++)
+        // {
+        //     printk("%x ", instruction->mutations[instruction->mutation_count].mutation_values[i]);
+        // }
         printk("\n");
+        memcpy(instruction->mutations[instruction->mutation_count].mutation_values, recv + offset + 2, value_size);
+
+
 
         instruction->mutation_count++;
 
@@ -72,7 +74,8 @@ const struct device* uart = DEVICE_DT_GET(DT_NODELABEL(uart0));
 
 /* Define the receive buffer */
 static uint8_t rx_buf[RECEIVE_BUFF_SIZE] = {0};
-static uint8_t app_buf[RECEIVE_BUFF_SIZE] = {0};
+uint8_t app_buf[RECEIVE_BUFF_SIZE] = {0};
+uint8_t app_buf_size = 0;
 
 static void start_scan(void);
 
@@ -97,6 +100,11 @@ void thread_blesser_backend(void)
         k_mutex_lock(&app_buf_mutex, K_FOREVER);
         if (recv_flag)
         {
+            printk("recv_len: %d\n", recv_len);
+            for (int i = 0; i < recv_len; i++)
+            {
+                printk("%x ", app_buf[i]);
+            }
             if (default_conn)
             {
                 if (app_buf[0] == 0x01 && recv_len == 1)
@@ -106,7 +114,7 @@ void thread_blesser_backend(void)
                     int xx = bt_conn_disconnect(default_conn,BT_HCI_ERR_AUTH_FAIL);
                     RESP_size = 0;
                     RESP_idx = 0;
-                    printk("%d\n", xx);
+                    // printk("%d\n", xx);
                     // bt_conn_auth_cancel(default_conn);
                 }
                 else if (app_buf[0] == 0xff && recv_len == 1)
@@ -146,16 +154,30 @@ static void uart_cb(const struct device* dev, struct uart_event* evt, void* user
     {
     case UART_RX_RDY:
         // printk("UART_RX_RDY event\nUART_RX_LEN: %d\n", evt->data.rx.len);
-        memcpy(app_buf, evt->data.rx.buf + evt->data.rx.offset, evt->data.rx.len);
-        // memset(app_buf + evt->data.rx.len, 0, 1);
+        memcpy(app_buf+app_buf_size, evt->data.rx.buf + evt->data.rx.offset, evt->data.rx.len);
+        app_buf_size += evt->data.rx.len;
+
         k_mutex_lock(&app_buf_mutex, K_FOREVER);
-        recv_flag = 1;
-        recv_len = evt->data.rx.len;
-        uart_rx_disable(uart);
+        if(app_buf_size > 4){
+            char tail[4] = {0};
+            memcpy(tail, app_buf+app_buf_size-4, 4);
+
+            if(tail[0] == 0x66 && tail[1] ==0x78 && tail[2] == 0x78 && tail[3] == 0x6b )
+            {
+                        // memset(app_buf + evt->data.rx.len, 0, 1);
+                
+                recv_flag = 1;
+                recv_len = app_buf_size-4;
+                uart_rx_disable(uart);
+                
+            }
+
+        }
         k_mutex_unlock(&app_buf_mutex);
         break;
 
     case UART_RX_DISABLED:
+        app_buf_size = 0;
         uart_rx_enable(uart, rx_buf, sizeof rx_buf, RECEIVE_TIMEOUT);
         break;
 

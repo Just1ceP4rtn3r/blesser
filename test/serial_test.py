@@ -7,12 +7,15 @@ ser = serial.Serial("COM5", 115200)
 
 def send(c):
     # a = input("byte: ")
+    c += bytes([0x66, 0x78, 0x78, 0x6b])
     ser.write(c)
 
 
 def reset():
+    reset_data = b'\x01'
+    reset_data += bytes([0x66, 0x78, 0x78, 0x6b])
     # a = input("byte: ")
-    ser.write(b'\x01')
+    ser.write(reset_data)
 
 def recv():
     com_input = b''
@@ -26,8 +29,9 @@ def recv():
 
 
 if __name__ == "__main__":
-    send(b'\x00')
-    time.sleep(2)
-    send(b'\xff')
-    recv()
+    reset()
+    # send(b'\x00')
+    # time.sleep(2)
+    # send(b'\xff')
+    # recv()
     

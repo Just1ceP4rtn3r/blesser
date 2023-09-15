@@ -306,7 +306,10 @@ class SMPMutator:
         res = b""
         for _ in value:
             new_byte = random.randint(0, int('0xff', 16))
-            res += bytes.fromhex(hex(new_byte)[2:])
+            t = hex(new_byte)[2:]
+            t = t.zfill(len(t) if (len(t) % 2 == 0) else (len(t) // 2 + 1) * 2)
+            t = bytes.fromhex(t)
+            res += t
         return res
         # value = value.decode('utf-8')
         # max_value = ""
