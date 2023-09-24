@@ -7,6 +7,7 @@ import sys
 import copy
 
 from SMPacket import SMPacketSequnce, SMPacket
+import SMPSanitizer
 
 
 class SMPMutator:
@@ -148,9 +149,15 @@ class SMPMutator:
             fields = self.field_prob[self.code_msgtype_map[chosen_packet]]
             f = random.randint(0, len(fields) - 1)
             mutation_fields.append((f, list(fields.keys())[f]))
+        
+
+        # mutation_fields = [(4,"initiator_key_distribution")]
 
         # Selection of mutation method based on probability of mutation methods
         mutation_methods = self.methodSelection(self.method_prob)
+
+        if(mutation_methods == []):
+            mutation_methods.append("random")
 
         # TODO & TO zc:
         # 使用不同的method对不同的fields进行变异，并保存到new_mutation_vector中，注意，value为byte类型
@@ -190,6 +197,19 @@ class SMPMutator:
             # print("value",value)
 
             new_mutation_vector[chosen_packet][field_type] = value
+
+            if (chosen_packet == 0x01 and (field_type == 4 or field_type == 5)):
+                flag = [1] * 8
+                new_value = '00000000'
+                # for i in range(8):
+                #     flag[i] = random.choice([0,1])
+                #     new_value += str(flag[i])
+
+                
+                # for num in range(0, 8):
+                #     value = value ^ (1 << random.randint(0, 8))
+                
+                new_mutation_vector[chosen_packet][field_type] = bytes([int(new_value,2)])
 
         return (new_mutation_vector, chosen_packet)
 
@@ -278,6 +298,9 @@ class SMPMutator:
         for item in self.state_prob.items():
             if random.random() < item[1]:
                 mutation_states.append(item[0])
+
+        if(len(mutation_states) == 0):
+            mutation_states.append(self.state_prob[list(self.state_prob.keys())[0]][0])
         state = random.choice(mutation_states)
         # for item in self.state_prob.items():
         #     if item[1] > max_prob:

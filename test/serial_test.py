@@ -29,8 +29,8 @@ def recv():
 
 
 if __name__ == "__main__":
-    reset()
-    # send(b'\x00')
+    #reset()
+    send(b'\x00')
     # time.sleep(2)
     # send(b'\xff')
     # recv()

@@ -11,6 +11,7 @@ import warnings
 import random
 
 import SMPSanitizer
+import config
 from SMPacket import SMPacket, SMPSocket, SMPSocket_TEST
 from SMPSanitizer import SMPSanitizer
 
@@ -24,6 +25,9 @@ class SMPStateMachine(StateMachine):
 
     ALLRESP = []
 
+    new_state_size = 0
+    new_bug = 0
+
     # {tranisition.event: (req_1, rsp_1)}
     transition_map = {}
 
@@ -35,7 +39,7 @@ class SMPStateMachine(StateMachine):
     # Entrypoint, now we have a L2CAP connection
     not_pair_state = State('not_pair_state', initial=True)
 
-    toState_path_map = {not_pair_state.name: {b"": []}}
+    toState_path_map = {}
     stateName_map = {}
     # End, close the L2CAP connection
     final_state = State('final_state')
@@ -60,20 +64,31 @@ class SMPStateMachine(StateMachine):
 
     ######################################################## Transitions ########################################################
 
-    TESTPACKET = SMPacket("0104002d100f0f")
-    smp_pairing_request = SMPacket("0104002d100f0f")
-    smp_pairing_response = SMPacket("02030009100707")
-    smp_sent_pairing_public_key = SMPacket(
-        "0cf801bfeefe59107b2d672b61ecf017c810825857c3389fb890a11571800908755c09fc2ad0468db08e2233ae11983e84d50eb42b1bcf2d124cb0cb1e0fcf02ab"
-    )
-    smp_rcvd_pairing_public_key = SMPacket(
-        "0c259ab29dd53b256c79b127296ee58518fdd25b958870ff4718013bb056a6dfb863fe7294b220def877ea7858617de1e314cae98891472625fbeb55db3977152d"
-    )
-    smp_rcvd_pairing_confirm = SMPacket("0302b5c6f970394a385fc54f1c7cd527b7")
-    smp_sent_pairing_random = SMPacket("0422744b1273a328ab19f50b4b21646ad6")
-    smp_rcvd_pairing_random = SMPacket("043381d61f4192b61113c5291e0e6dd63d")
-    smp_sent_DHKey_check = SMPacket("0da583413f2b8f75ce73de42a8a5bff0be")
-    smp_rcvd_DHKey_check = SMPacket("0dda53ef23954c2f84fc5f6f42048bf088")
+    TESTPACKET = config.smp_pairing_request  
+    smp_pairing_request = config.smp_pairing_request
+    smp_pairing_response = config.smp_pairing_response
+    smp_sent_pairing_public_key = config.smp_sent_pairing_public_key
+    smp_rcvd_pairing_public_key = config.smp_rcvd_pairing_public_key
+    smp_rcvd_pairing_confirm = config.smp_rcvd_pairing_confirm
+    smp_sent_pairing_random = config.smp_sent_pairing_random
+    smp_rcvd_pairing_random = config.smp_rcvd_pairing_random
+    smp_sent_DHKey_check = config.smp_sent_DHKey_check
+    smp_rcvd_DHKey_check = config.smp_rcvd_DHKey_check
+
+    # TESTPACKET = SMPacket("0104002d100f0f")
+    # smp_pairing_request = SMPacket("0104002d100f0f")
+    # smp_pairing_response = SMPacket("02030009100707")
+    # smp_sent_pairing_public_key = SMPacket(
+    #     "0cf801bfeefe59107b2d672b61ecf017c810825857c3389fb890a11571800908755c09fc2ad0468db08e2233ae11983e84d50eb42b1bcf2d124cb0cb1e0fcf02ab"
+    # )
+    # smp_rcvd_pairing_public_key = SMPacket(
+    #     "0c259ab29dd53b256c79b127296ee58518fdd25b958870ff4718013bb056a6dfb863fe7294b220def877ea7858617de1e314cae98891472625fbeb55db3977152d"
+    # )
+    # smp_rcvd_pairing_confirm = SMPacket("0302b5c6f970394a385fc54f1c7cd527b7")
+    # smp_sent_pairing_random = SMPacket("0422744b1273a328ab19f50b4b21646ad6")
+    # smp_rcvd_pairing_random = SMPacket("043381d61f4192b61113c5291e0e6dd63d")
+    # smp_sent_DHKey_check = SMPacket("0da583413f2b8f75ce73de42a8a5bff0be")
+    # smp_rcvd_DHKey_check = SMPacket("0dda53ef23954c2f84fc5f6f42048bf088")
     # TODO: complete the corpus
     corpus = {
         0x01: smp_pairing_request,
@@ -140,7 +155,7 @@ class SMPStateMachine(StateMachine):
     final_state.to(not_pair_state, event="final_state_to_not_pair_state")
     transition_map["final_state_to_not_pair_state"] = (None, None)
 
-    def __init__(self, dot, socket: SMPSocket):
+    def __init__(self, dot, socket: SMPSocket, ini_mutation_bytes):
         # self.translate(dot)
         self.socket = socket
         # state_array: the state that has been traversed
@@ -148,6 +163,9 @@ class SMPStateMachine(StateMachine):
 
         for state in self.states:
             self.stateName_map[state.name] = state
+        
+
+        self.toState_path_map ={self.not_pair_state.name: {ini_mutation_bytes: []}} 
 
         self.traverse_state_machine(self.not_pair_state, state_array)
         # for key, value in self.toState_path_map.items():
@@ -343,10 +361,13 @@ class SMPStateMachine(StateMachine):
             # TODO: if found new state or sanitizer() == true
             if (self.current_req is not None and self.current_rsp is not None):
                 analyse = SMPSanitizer().messageAnalyse(self.current_req.content, self.current_rsp.content)
-                if analyse == False:
-                    print("[DEBUG]: Contrary to documents!\n\n")
+                if analyse < 0:
+                    self.new_bug += 1
+                    print("[DEBUG]: Contrary to documents!\n")
+                    print("Error code:",analyse ,"\n")
 
             if (self.is_newstate(current_mutation_bytes, current_transitions)):
+                self.new_state_size += 1
                 print("[DEBUG]: Found new state\n\n")
             
 

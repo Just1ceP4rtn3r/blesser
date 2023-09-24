@@ -1,11 +1,15 @@
 from SMPMutator import SMPMutator
 from SMPStateMachine import SMPStateMachine
 from SMPacket import SMPSocket, SMPSocket_TEST, SMPacket
+from config import *
 import time
 import random
 import threading
 import os
+import sys
+
 from copy import deepcopy
+
 
 
 #########################
@@ -47,8 +51,14 @@ class SMPFuzzer():
     }
 
     def __init__(self):
+
+        ini_mutation_vec = deepcopy(self.mutation_vector)
+        ini_mutation_vec[0x01] = {0: smp_pairing_request.content['io_capability'], 1: smp_pairing_request.content['oob_data_flags'], 2: smp_pairing_request.content['authreq'] , 
+                                   3: smp_pairing_request.content['max_enc_key_size'], 4: smp_pairing_request.content['initiator_key_distribution'], 5: smp_pairing_request.content['responder_key_distribution']}
+        ini_mutation_bytes = self.vec_to_bytes(ini_mutation_vec)
+
         self.socket = SMPSocket()
-        self.state_machine = SMPStateMachine("SMP.dot", self.socket)
+        self.state_machine = SMPStateMachine("SMP.dot", self.socket, b'')
         self.mutator = SMPMutator()
         self.mutator.initStateProb(list(self.state_machine.toState_path_map.keys()))
 
@@ -81,64 +91,94 @@ class SMPFuzzer():
         return vec
 
     def process_fuzzing(self):
-        while (True):
-            state_name = self.mutator.stateSelection()
-            #state_name = "receive_pairing_rsp_state"
-            print("[DEBUG]: Chosen State:\n", state_name)
-            tostate_bytes, last_transition = self.state_machine.get_tostate_path(state_name)
-            packets_mutatable = {}
-            for transition in self.state_machine.stateName_map[state_name].transitions:
-                req = self.state_machine.transition_map[transition.event][0]
-                if (req is not None):
-                    req_packet = self.state_machine.corpus[req.code]
-                    assert (req_packet != '')
-                    packets_mutatable[req.code] = req_packet
-            if (len(packets_mutatable) == 0 and last_transition and
-                    self.state_machine.transition_map[last_transition.event][1] is not None):
-                rsp = self.state_machine.transition_map[last_transition.event][1]
-                if (rsp.code == 0x02):
-                    packets_mutatable[0x0c] = self.state_machine.corpus[0x0c]
-                if (rsp.code == 0x03):
-                    packets_mutatable[0x04] = self.state_machine.corpus[0x04]
-                if (rsp.code == 0x0c):
-                    packets_mutatable[0x04] = self.state_machine.corpus[0x04]
-                if (rsp.code == 0x04):
-                    packets_mutatable[0x0d] = self.state_machine.corpus[0x0d]
-
-            if (len(packets_mutatable) == 0):
-                continue
-
-            mutation_vec, mutation_packet_code = self.mutator.mutate(self.bytes_to_vec(tostate_bytes), packets_mutatable)
-            print("[DEBUG]: Mutation Vector:\n", mutation_vec)
-            mutation_bytes = self.vec_to_bytes(mutation_vec)
-            corpus = self.state_machine.corpus[mutation_packet_code]
-            assert (corpus != '')
-            mutation_packet = corpus.MutatePacket(mutation_vec)
-            #mutation_bytes = b'\x0c\x00\xf8\x01\xbf\xee\xfeY\x10{-g+a\xec\xf0\x17\xc8\x10\x82XW\xc38\x9f\xb8\x90\xa1\x15q\x80\t\x08u\\\t\xfc*\xd0F\x8d\xb0\x8e"3\xae\x11\x98>\x84\xd5\x0e\xb4+\x1b\xcf-\x12L\xb0\xcb\x1e\x0f\xcf\x02\xab'
-            self.socket.send(mutation_bytes)
-            # send \xff for receving responses
-            time.sleep(2)
-            self.socket.wait_for_resp()
+        with open("output.log", 'a+') as out_f:
+            sys.stdout = sys.__stdout__
+            # reset the socket
+            self.socket.reset()
+            self.state_machine.reset()
+            round = 1
+            print("---------------------Begin Fuzzing---------------------")
+            time.sleep(8)
             while (True):
-                packet = fuzzer.socket.recv()
-                if (packet == b''):
-                    break
-                self.state_machine.ALLRESP.insert(0, packet)
+                print(f"---------------------Round {round}---------------------")
+                round += 1
+                state_name = self.mutator.stateSelection()
+                # state_name = "receive_pairing_rsp_state"
+                # state_name = "not_pair_state"
+                print("[DEBUG]: Chosen State:\n", state_name)
+                tostate_bytes, last_transition = self.state_machine.get_tostate_path(state_name)
+                packets_mutatable = {}
+                for transition in self.state_machine.stateName_map[state_name].transitions:
+                    req = self.state_machine.transition_map[transition.event][0]
+                    if (req is not None):
+                        req_packet = self.state_machine.corpus[req.code]
+                        assert (req_packet != '')
+                        packets_mutatable[req.code] = req_packet
+                if (len(packets_mutatable) == 0 and last_transition and
+                        self.state_machine.transition_map[last_transition.event][1] is not None):
+                    rsp = self.state_machine.transition_map[last_transition.event][1]
+                    if (rsp.code == 0x02):
+                        packets_mutatable[0x0c] = self.state_machine.corpus[0x0c]
+                    if (rsp.code == 0x03):
+                        packets_mutatable[0x04] = self.state_machine.corpus[0x04]
+                    if (rsp.code == 0x0c):
+                        packets_mutatable[0x04] = self.state_machine.corpus[0x04]
+                    if (rsp.code == 0x04):
+                        packets_mutatable[0x0d] = self.state_machine.corpus[0x0d]
 
-            try:
-                self.state_machine.goto_state(state_name, tostate_bytes, mutation_bytes, mutation_packet)
+                if (len(packets_mutatable) == 0):
+                    continue
 
-                self.mutator.calculateStateProb(list(self.state_machine.toState_path_map.keys()))
-                # reset the socket
-                self.socket.reset()
-                self.state_machine.reset()
+                mutation_vec, mutation_packet_code = self.mutator.mutate(self.bytes_to_vec(tostate_bytes), packets_mutatable)
+                print("[DEBUG]: Mutation Vector:\n", mutation_vec)
+                mutation_bytes = self.vec_to_bytes(mutation_vec)
+                corpus = self.state_machine.corpus[mutation_packet_code]
+                assert (corpus != '')
+                mutation_packet = corpus.MutatePacket(mutation_vec)
+                # mutation_bytes = b'\x0c\x00\xbf\xae\x0f\xecu\\qW\x8d-\x8e\x17\x1bX\x1e\x82\xfc\x08\xf8\x80\xee8-+\xcf\x12\xab\x90{\xd0F\xfe\xb0\xa1>L\x153\xf0+\x10\xcb\xc3\xcf\x9f\xb8\xd5"\x0e\x11\x84\x01a\xb0\xc8\x10'
+                self.socket.send(mutation_bytes)
+                # send \xff for receving responses
+                time.sleep(2)
+                self.socket.wait_for_resp()
+                while (True):
+                    packet = fuzzer.socket.recv()
+                    if (packet == b''):
+                        break
+                    self.state_machine.ALLRESP.insert(0, packet)
 
-                with open("test.dot", "w") as f:
-                    f.write(self.state_machine._graph().__str__())
-                os.system("dot -Tpng test.dot -o test.png")
-            except Exception as e:
-                print("[ERROR]: ",e)
-                pass
+
+                # self.state_machine.goto_state(state_name, tostate_bytes, mutation_bytes, mutation_packet)
+
+                # self.mutator.calculateStateProb(list(self.state_machine.toState_path_map.keys()))
+                # # reset the socket
+                # self.socket.reset()
+                # self.state_machine.reset()
+
+                # with open("test.dot", "w") as f:
+                #     f.write(self.state_machine._graph().__str__())
+                # os.system("dot -Tpng test.dot -o test.png")
+                try:
+                    self.state_machine.goto_state(state_name, tostate_bytes, mutation_bytes, mutation_packet)
+
+                    self.mutator.calculateStateProb(list(self.state_machine.toState_path_map.keys()))
+                    # reset the socket
+                    self.socket.reset()
+                    self.state_machine.reset()
+
+                    with open("test.dot", "w") as f:
+                        f.write(self.state_machine._graph().__str__())
+                    os.system("dot -Tpng test.dot -o test.png")
+                except Exception as e:
+                    print("[ERROR]: ",e)
+                    # reset the socket
+                    self.socket.reset()
+                    self.state_machine.reset()
+                
+                print(f"**Find States: {self.state_machine.new_state_size}**")
+                print(f"**Find Bugs: {self.state_machine.new_bug}**")
+                out_f.flush()
+                time.sleep(8)
+            
 
 
     def test_fuzzing(self):
@@ -184,7 +224,7 @@ class SMPFuzzer():
 
 if __name__ == '__main__':
     fuzzer = SMPFuzzer()
-    # fuzzer.socket.send(bytes.fromhex("0100f00101f1"))
+    # fuzzer.socket.send(b'\x01\x00\x04\x01\x01\x00\x01\x02-\x01\x03\x10\x01\x04\x0f\x01\x05\x0f')
     # while (1):
     #     res = fuzzer.socket.recv()
     #     print(res)

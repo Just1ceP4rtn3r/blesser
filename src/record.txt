@@ -1,0 +1,8 @@
+---------------------Round 3---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {2: b'O'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x01', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x02', 'responder_key_distribution': b'\x01'}
+[DEBUG]: Contrary to documents!

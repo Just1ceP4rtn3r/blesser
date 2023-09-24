@@ -195,13 +195,13 @@ class SMPSanitizer:
         # 检测1：If a packet is received with a Code that is reserved for future use it shall be ignored
         if response["code"] > 0x0e:
             print("in")
-            return False
+            return -1
 
         # 检测2：This value defines the maximum encryption key size in octets that the device can support.
         # The maximum key size shall be in the range 7 to 16 octets.
         if response["code"] == 0x01 or response["code"] == 0x02:
             if "max_enc_key_size" in response and int(response["max_enc_key_size"].hex(), 16) < 0x07:
-                return False
+                return -2
 
         # 检测3：The Peripheral shall not set to one any flag in the Initiator Key Distribution / Generation or
         # Responder Key Distribution / Generation field of the Pairing Response command that the Central has set
@@ -210,28 +210,28 @@ class SMPSanitizer:
             for num in range(1, 5):
                 if self.is_bit_set(request["initiator_key_distribution"], num) == False and self.is_bit_set(
                         response["initiator_key_distribution"], num) == True:
-                    return False
+                    return -3
             for num in range(1, 5):
                 if self.is_bit_set(request["responder_key_distribution"], num) == False and self.is_bit_set(
                         response["responder_key_distribution"], num) == True:
-                    return False
+                    return -3
 
         # 检测4：The Bonding_Flags field is a 2-bit field that indicates the type of bonding
         # being requested by the initiating device as defined in Table. (smp_pairing_req && smp_pairing_rsp)
         if request["code"] == 0x01 or request["code"] == 0x02:
             if self.is_bit_set(request["authreq"], 2) == True:
-                return False
+                return -4
         if response["code"] == 0x01 or response["code"] == 0x02:
             if self.is_bit_set(response["authreq"], 2) == True:
-                return False
+                return -4
 
         # 检测5：If BD_ADDR is a public device address, then AddrType shall be set to 0x00.
         # If BD_ADDR is a static random device address then AddrType shall be set to 0x01.
         if response["code"] == 0x09:
             if int(response["authreq"].hex(), 16) >= 0x02:
-                return False
+                return -5
 
-        return True
+        return 0
 
     # 通过状态机变化检测有趣的信息
     def stateAnalyse(self, stateMachine, curState, request, response):

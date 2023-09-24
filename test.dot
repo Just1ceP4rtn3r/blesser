@@ -9,19 +9,15 @@ final_state [fillcolor=white, fontname=Arial, fontsize="10pt", label=final_state
 final_state -> not_pair_state  [color=blue, fontname=Arial, fontsize="9pt", label=final_state_to_not_pair_state];
 not_pair_state [fillcolor=turquoise, fontname=Arial, fontsize="10pt", label=not_pair_state, penwidth=2, peripheries=1, shape=rectangle, style="rounded, filled"];
 not_pair_state -> receive_pairing_rsp_state  [color=blue, fontname=Arial, fontsize="9pt", label=not_pair_to_receive_pairing_rsp];
-not_pair_state -> state_1  [color=blue, fontname=Arial, fontsize="9pt", label=not_pair_state_to_state_1];
 receive_pairing_confirm_state [fillcolor=white, fontname=Arial, fontsize="10pt", label=receive_pairing_confirm_state, peripheries=1, shape=rectangle, style="rounded, filled"];
 receive_pairing_confirm_state -> receive_pairing_random_state  [color=blue, fontname=Arial, fontsize="9pt", label=receive_pairing_confirm_state_to_receive_pairing_random_state];
+receive_pairing_confirm_state -> final_state  [color=blue, fontname=Arial, fontsize="9pt", label=receive_pairing_confirm_state_to_final_state];
 receive_pairing_dhkey_check_state [fillcolor=white, fontname=Arial, fontsize="10pt", label=receive_pairing_dhkey_check_state, peripheries=1, shape=rectangle, style="rounded, filled"];
 receive_pairing_dhkey_check_state -> final_state  [color=blue, fontname=Arial, fontsize="9pt", label=receive_pairing_dhkey_check_state_to_final_state];
 receive_pairing_public_key_state [fillcolor=white, fontname=Arial, fontsize="10pt", label=receive_pairing_public_key_state, peripheries=1, shape=rectangle, style="rounded, filled"];
 receive_pairing_public_key_state -> receive_pairing_confirm_state  [color=blue, fontname=Arial, fontsize="9pt", label=receive_pairing_public_key_to_receive_pairing_confirm_state];
 receive_pairing_random_state [fillcolor=white, fontname=Arial, fontsize="10pt", label=receive_pairing_random_state, peripheries=1, shape=rectangle, style="rounded, filled"];
 receive_pairing_random_state -> receive_pairing_dhkey_check_state  [color=blue, fontname=Arial, fontsize="9pt", label=receive_pairing_random_state_to_receive_pairing_dhkey_check_state];
-receive_pairing_random_state -> state_0  [color=blue, fontname=Arial, fontsize="9pt", label=receive_pairing_random_state_to_state_0];
-receive_pairing_random_state -> final_state  [color=blue, fontname=Arial, fontsize="9pt", label=receive_pairing_random_state_to_final_state];
 receive_pairing_rsp_state [fillcolor=white, fontname=Arial, fontsize="10pt", label=receive_pairing_rsp_state, peripheries=1, shape=rectangle, style="rounded, filled"];
 receive_pairing_rsp_state -> receive_pairing_public_key_state  [color=blue, fontname=Arial, fontsize="9pt", label=receive_pairing_rsp_to_receive_pairing_public_key];
-state_0 [fillcolor=white, fontname=Arial, fontsize="10pt", label=state_0, peripheries=1, shape=rectangle, style="rounded, filled"];
-state_1 [fillcolor=white, fontname=Arial, fontsize="10pt", label=state_1, peripheries=1, shape=rectangle, style="rounded, filled"];
 }

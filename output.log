@@ -1,0 +1,11 @@
+---------------------Begin Fuzzing---------------------
+---------------------Round 1---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_confirm_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'"tK\x12s\xa3(\xab\x19\xf5\x0bK!dj\xd7'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[ERROR]:  pop from empty list
+**Find States: 0**
+**Find Bugs: 0**

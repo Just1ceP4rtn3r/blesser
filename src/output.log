@@ -1,0 +1,103 @@
+---------------------Begin Fuzzing---------------------
+---------------------Round 1---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_confirm_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b't"\x12K\xa3s\xab(\xf5\x19K\x0bd!\xd6j'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[ERROR]:  pop from empty list
+**Find States: 0**
+**Find Bugs: 0**
+---------------------Round 2---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_dhkey_check_state
+---------------------Round 3---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x05'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[DEBUG]: Found new state
+
+
+**Find States: 1**
+**Find Bugs: 0**
+---------------------Round 4---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_dhkey_check_state
+---------------------Round 5---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_confirm_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'"tK\x12s\xa3(\xab\x19\xf5\x0bK!dj\xd6'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[ERROR]:  pop from empty list
+**Find States: 1**
+**Find Bugs: 0**
+---------------------Round 6---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 7---------------------
+[DEBUG]: Chosen State:
+ state_0
+---------------------Round 8---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 9---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_confirm_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'"tK\x12s\xa3(\xab\x19\xf5\x0bK!dj\xd7'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[ERROR]:  pop from empty list
+**Find States: 1**
+**Find Bugs: 0**
+---------------------Round 10---------------------
+[DEBUG]: Chosen State:
+ state_0
+---------------------Round 11---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 12---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_random_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\xa5\x83A?+\x8fu\xces\xdeB\xa8\xa5\xbf\xf0\xbe'}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[ERROR]:  pop from empty list
+**Find States: 1**
+**Find Bugs: 0**
+---------------------Round 13---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 14---------------------
+[DEBUG]: Chosen State:
+ state_0
+---------------------Round 15---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_confirm_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x1c\xdd>L\xbcH\xdb\xbex.\xb3)\xcc\x9cs\x83'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[ERROR]:  pop from empty list
+**Find States: 1**
+**Find Bugs: 0**
+---------------------Round 16---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\xb5\x99\x13\x9e\x81\xe3\xc48\xeb\x17\xa0-/\xc7\xb5\x96'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 1**
+**Find Bugs: 0**
+---------------------Round 17---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'"tK\x12s\xa3(\xab\x19\xf5\x0bK!dj\xd5'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
