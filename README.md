@@ -19,7 +19,7 @@ Blesser is a stateful fuzzer tool designed to help developers and security resea
 - nRF Command Line Tools v1.2.4
 - **nRF Connect SDK v2.3.0**
 
-#### Hardware Requirements
+##### Hardware Requirements
 - nRF52840 DK
 - nRF52840 Dongle(for testing)
 
@@ -48,17 +48,20 @@ cd blesser
 See details at [nRF Connect SDK/Get started](https://www.nordicsemi.com/Products/Development-software/nRF-Connect-SDK/GetStarted#infotabs)
 
 
-4. Use the nRF Connect for VS Code plug-in to create an application. Move all the files in the blesser/BlessBackend/Backend folder to the newly created application folder, overwriting the original files.
+4. Use the nRF Connect for VS Code plug-in to create an application. 
+
+Move all the files in the blesser/BlessBackend/Backend folder to the newly created application folder, overwriting the original files.
 
 ```shell
 mv -f blesser/BlessBackend/Backend/* {your_application_folder}/
 ```
 
-   Move the files in the blesser/BlessBackend/SDK to the zephyr directory of the dependent nRF Connect SDK and overwrite the original files.
+Move the files in the blesser/BlessBackend/SDK to the zephyr directory of the dependent nRF Connect SDK and overwrite the original files.
 
 ```shell
 mv -f blesser/BlessBackend/SDK/* {your_nRF_Connect_SDK_folder}/zephyr/
 ```
+
 
 5. Connect the nRF52840 DK and flash the modified application to the development board.
     At this point, the lower-level customized message communication module starts to run.
