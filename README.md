@@ -19,7 +19,7 @@ Blesser is a stateful fuzzer tool designed to help developers and security resea
 - nRF Command Line Tools v1.2.4
 - **nRF Connect SDK v2.3.0**
 
-##### Hardware Requirements
+#### Hardware Requirements
 - nRF52840 DK
 - nRF52840 Dongle(for testing)
 
