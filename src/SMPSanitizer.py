@@ -218,9 +218,6 @@ class SMPSanitizer:
 
         # 检测4：The Bonding_Flags field is a 2-bit field that indicates the type of bonding
         # being requested by the initiating device as defined in Table. (smp_pairing_req && smp_pairing_rsp)
-        if request["code"] == 0x01 or request["code"] == 0x02:
-            if self.is_bit_set(request["authreq"], 2) == True:
-                return -4
         if response["code"] == 0x01 or response["code"] == 0x02:
             if self.is_bit_set(response["authreq"], 2) == True:
                 return -4
