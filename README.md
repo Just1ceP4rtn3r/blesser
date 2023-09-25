@@ -39,13 +39,16 @@ git clone https://github.com/Just1ceP4rtn3r/blesser.git
 cd blesser
 ```
 
-3. lnstall the nRF Connect SDK,including the following steps:
+3. lnstall the nRF Connect SDK,including the following steps(See details at [nRF Connect SDK/Get started](https://www.nordicsemi.com/Products/Development-software/nRF-Connect-SDK/GetStarted#infotabs)):
 - Install [nRF Command Line Tools](https://www.nordicsemi.com/Products/Development-tools/nRF-Command-Line-Tools/Download)
+
 - Install [nRF Connect for Desktop](https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download)
+
 - Install nRF Connect SDK through the TooIchain Manager in nRF Connect for Desktop
+
 - Install Visual Studio Code
+
 - Install nRF Connect Extension Pack(Download from inside VS Code or using Toolchain Manager in nRF Connect for Desktop)
-See details at [nRF Connect SDK/Get started](https://www.nordicsemi.com/Products/Development-software/nRF-Connect-SDK/GetStarted#infotabs)
 
 
 4. Use the nRF Connect for VS Code plug-in to create an application. 
