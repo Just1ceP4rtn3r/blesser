@@ -207,11 +207,11 @@ class SMPSanitizer:
         # Responder Key Distribution / Generation field of the Pairing Response command that the Central has set
         # to zero in the Initiator Key Distribution / Generation and Responder Key Distribution / Generation fields of the Pairing Request command.
         if request["code"] == 0x01 and response["code"] == 0x02:
-            for num in range(1, 5):
+            for num in range(1, 9):
                 if self.is_bit_set(request["initiator_key_distribution"], num) == False and self.is_bit_set(
                         response["initiator_key_distribution"], num) == True:
                     return -3
-            for num in range(1, 5):
+            for num in range(1, 9):
                 if self.is_bit_set(request["responder_key_distribution"], num) == False and self.is_bit_set(
                         response["responder_key_distribution"], num) == True:
                     return -3
