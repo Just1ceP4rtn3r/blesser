@@ -1,0 +1,1020 @@
+---------------------Begin Fuzzing---------------------
+---------------------Round 1---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x8a\xad\xde\x14\xf1\x95\x00z\x08\x14q\xb3\xaa\xf4\xeb\xe9'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\xe5YZ\xc78\xc5\xc6S\x07j\xb0\x803\xaa\x1cn\xa7\x0f\xb8\x81\xc3\x8b\xf7\xc3\xda\x06\x8b\x00A\rT \x08\xa6g\xec\x94\x1aE\\\xfah\x8f\xfac\x14\x1a\xc3\x05\x8c]\\\xadP\x11\xb7\x9a9\xbd\xe0C\xc5Kx'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'z\xa7\x14G\xeaj\x01\x83l\x07kf`&\x129'}
+[DEBUG]: Found new state
+
+
+**Find States: 1**
+**Find Bugs: 0**
+2023-09-25 16:40:07
+---------------------Round 2---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Found new state
+
+
+**Find States: 2**
+**Find Bugs: 0**
+2023-09-25 16:40:22
+---------------------Round 3---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x81'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[DEBUG]: Found new state
+
+
+**Find States: 3**
+**Find Bugs: 0**
+2023-09-25 16:40:38
+---------------------Round 4---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_rsp_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc3\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+**Find States: 3**
+**Find Bugs: 0**
+2023-09-25 16:40:53
+---------------------Round 5---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {0: b'M'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+**Find States: 3**
+**Find Bugs: 0**
+2023-09-25 16:41:09
+---------------------Round 6---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_confirm_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\xc8\x05\xf6\xc1\xd6dd\xcb/\xa7\xf7\xfat:\x16\xbb'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 3**
+**Find Bugs: 0**
+2023-09-25 16:41:24
+---------------------Round 7---------------------
+[DEBUG]: Chosen State:
+ state_2
+---------------------Round 8---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_rsp_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 3**
+**Find Bugs: 0**
+2023-09-25 16:41:39
+---------------------Round 9---------------------
+[DEBUG]: Chosen State:
+ state_2
+---------------------Round 10---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {1: b'\x00'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+**Find States: 3**
+**Find Bugs: 0**
+2023-09-25 16:41:54
+---------------------Round 11---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_random_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9r\x9d\x84'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 3**
+**Find Bugs: 0**
+2023-09-25 16:42:10
+---------------------Round 12---------------------
+[DEBUG]: Chosen State:
+ state_1
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b'\xa8]}\x9f\x92\xfd\x96~\x8c\xd8c\n;Y\xb4\xccc\xcd6\xbaC\x16;D\xb1<\xea5\xe6\xc6\xfc\x8eT\xec\xd3\xf6\xc3\\P\xc2\x9d\xae\x01sJ/\x11UAF+V\x8e\xdf\td\x02C\xd0\x1e\x97\x14\xdf\xf4'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 3**
+**Find Bugs: 0**
+2023-09-25 16:42:25
+---------------------Round 13---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_dhkey_check_state
+---------------------Round 14---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x05'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+**Find States: 3**
+**Find Bugs: 0**
+2023-09-25 16:42:40
+---------------------Round 15---------------------
+[DEBUG]: Chosen State:
+ state_2
+---------------------Round 16---------------------
+[DEBUG]: Chosen State:
+ state_1
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\x19\x8aS\x8a\xf8k/n\xb3\xd0\x8fF\xdc\x92|\xc1\x9c0\xd0\x832\xc1\x8f!\xff\xa7\x8e\xac\xadG!\x1a\xf2;\x9am\x91\xee\x84LV\x0f\x87C\xf3L\x98\xcf\x99V\xb8A\xf8\xa8\xfb\xbe65\xc34A\xd7\x89\x02'}
+[DEBUG]: Found new state
+
+
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'*P\xd7M\x04 \xdb!\xbb\x07\xd9\xe96]?\x06'}
+[DEBUG]: Found new state
+
+
+**Find States: 5**
+**Find Bugs: 0**
+2023-09-25 16:42:56
+---------------------Round 17---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_rsp_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b'\xc3;\xccc\x8e\x11\x96<Y\x9d\x8c\x92D\xba\xd8\x8e\xf4\x16\x14F\xecc\x9f\x1eU\xd3\xea]\xd0\xa8T\xae\xc2\t6/\xcdJCC\xe6\xb4\xdf\xf6\x02}P\\\n\x97~\xc6+\xfcA5V\xdfs\xb1\x01d;\xfd'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+**Find States: 5**
+**Find Bugs: 0**
+2023-09-25 16:43:11
+---------------------Round 18---------------------
+[DEBUG]: Chosen State:
+ state_3
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x16'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b"\xd8\xeaD[\xdc\xf3w(\xf8\x96\xed\x1a\xe8\xfa\x0e\xf8\x1c6\xda\xf5]\xbf1\x0b|\xa8a\x0f&]^5\xa0\x08\xc73\x10\xfcNg:\xbb\x06\x12\xe8>\x10\xcb\x8dV\x02\xb5B\xedW\r+\xd18\xf9''\xae\x02"}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'Y\xc3\xe1\x9b\x99\x81\x8b\xb3\x0b/\xb5\xaf\x7f"N{'}
+[DEBUG]: Found new state
+
+
+**Find States: 6**
+**Find Bugs: 0**
+2023-09-25 16:43:27
+---------------------Round 19---------------------
+[DEBUG]: Chosen State:
+ state_0
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b"\x17\xf1\xae\x7f!:$\xee\xfd\xdeK\x1d'Y\xbf\xa1"}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\x0c\xed\xfcez\xe7L\xec3;\x820\x1e\x98.\x9e\xf5\xa4\xa7\xb9F\xf0\x10A\xd6\xf8#7\xfe9\x8dh\xb1Zs\xd1%zs\xe0Tg\xe9\xc1\xb9\xbf\xc2\xfa\x11P\xaa\xe4Z\xf1\x1e\xb1E8~\xde\x98\xdba\x17'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'@\x9a\xe5\xe1nm\xc2\xfe\x95Y\xd0\x13\xc3c8\xbb'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'\xa3\x9a\xe58Q\x04?|\xb4\x0f\xcaD2o\x8b*'}
+[DEBUG]: Found new state
+
+
+**Find States: 7**
+**Find Bugs: 0**
+2023-09-25 16:43:43
+---------------------Round 20---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {3: b'\x11'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+**Find States: 7**
+**Find Bugs: 0**
+2023-09-25 16:43:58
+---------------------Round 21---------------------
+[DEBUG]: Chosen State:
+ state_4
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:\xae\xbb\x16'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\x8b\xaa)`T<\xedG\xb1\xa3\xfe(\xa63\x89\xb9,\x9fg\xb5\xa9;o\xaaEW\x9e\x83{4\xfe\x106+|\x93\xbamM\xcf\xebL\xb4\x9esT\xd0\xb9b\x9dyJde\xe4l\xfa-m\xd3\x14\x82\xdf\xaf'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b"'\xb0|\x82v \xf0Y\x89d\x7f\xe2'\x10>\x16"}
+[DEBUG]: Found new state
+
+
+**Find States: 8**
+**Find Bugs: 0**
+2023-09-25 16:44:14
+---------------------Round 22---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x17'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\x8d\xc2\xda\x1f\x80\xa8\x80\x83<\xd0g\x90\xb1 H\xc9Q`\xf8B/\xa4\xee\xb2C\xe6\xc6P\xd5\xcb\xee\x87\xa9\xa6_\xa8\x11\x8dx\x80\x97\xa7\x9a\xb3]\xc7\xff<\x0f\x12\xear\xbbM"\xd5C\x07\x11\x8d\xe9q\x95>'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'/g#\xdf\xef\xdfN,\x17\x10\x05\x19\xa3\x94\xdb\xb0'}
+**Find States: 8**
+**Find Bugs: 0**
+2023-09-25 16:44:30
+---------------------Round 23---------------------
+[DEBUG]: Chosen State:
+ state_5
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'[\x87\xc9\xd4B\x8e\xf2:\xdb\xfb\x92wG-\x1e\x01'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\xa3\x0cK\xe1I\xa6\xe0Y\x90Q\xd2\x9d\xdd\x1c\xdf\xe4\xbb\xdf\xb9\x19\x1a\'_\xd6\xb7\xeaO>\xfa4\xb8\x15\x9el\x85\xd8\x12,\xd6\x9b:\xc7\x80\xe8\x18b"_GW:\x0f\xe7\xc5\xedL\xf9P\xf4\xe0\x1d\xa7\x0e\xd2'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'#\xea\xad\xeb\x99\xc6\x9d\xc6\xa2UcPD\xa6\xe4\x99'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'\xbd\xd6\xaaC%\xcaW]eY\xdd\x001_\xa4&'}
+[DEBUG]: Found new state
+
+
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:44:46
+---------------------Round 24---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 25---------------------
+[DEBUG]: Chosen State:
+ state_8
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'[\x87\xc9\xd4B\x8e\xf2:\xdb\xfb\x92wG-\x1e\x01'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9r\x9d\x83'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:45:01
+---------------------Round 26---------------------
+[DEBUG]: Chosen State:
+ state_5
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:45:16
+---------------------Round 27---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x16\xbb\xc1t\xf6\x05\xfa\xc8d\xcb\xf7/\xa7\xd6d:'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:45:31
+---------------------Round 28---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_random_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'H\x94\x02\x9bB\xab\xc6\x06\xed\xa5X\xd4r\xf9\x83\x9d'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:45:46
+---------------------Round 29---------------------
+[DEBUG]: Chosen State:
+ state_8
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'[\x87\xc9\xd4B\x8e\xf2:\xdb\xfb\x92wG-\x1e\x01'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9\x91\x9d\x83'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:46:01
+---------------------Round 30---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\xc8\x05\xf6\xc1\xd6dd\xcb/\xa7\xf7\xfat:\x16\xbb'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b"z.\x93\xafP}\xac9\xd9\x00CNu\xe4\xa8!%\xea\xb0\x1fM\xff\x97\xc1\x8djys\xb3\x04Q\xbf\xda\xed\xf8\x90\xfc\xaf\xbd\xbfxB{\xa1\x1c\x88\xed\xe5\xfdsK\xc2\xb7\r\xe7%J'\xe4\xc9*U\x88\xb5"}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'\xfaJ//B\x0c\x9a\x1d\x10\xf4t\x9ey\xb2\x9b\xa7'}
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:46:17
+---------------------Round 31---------------------
+[DEBUG]: Chosen State:
+ state_1
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd:'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:46:32
+---------------------Round 32---------------------
+[DEBUG]: Chosen State:
+ state_2
+---------------------Round 33---------------------
+[DEBUG]: Chosen State:
+ state_8
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'[\x87\xc9\xd4B\x8e\xf2:\xdb\xfb\x92wG-\x1e\x01'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'Z%8=\xe8\x16\x8ar\xd3\xceh\xea\xe8\xbc\xa7\x12'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:46:47
+---------------------Round 34---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x99'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+**Find States: 9**
+**Find Bugs: 0**
+2023-09-25 16:47:03
+---------------------Round 35---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 36---------------------
+[DEBUG]: Chosen State:
+ state_7
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'PK"\xdb\x86\xceQ\xcc\x0e4\xdd@|\x1f\xa0\x0c\xf9\xb4F-\x8a\xe1s@+\r ^f\xfb\xe1\xcd\x97\xab\xder\xf5a\xfa\xb1\x19\xa6\x81I^\xac\xffvV=(\xa0\xfc<_\xfb\xb89\x15\'\xcf\xb0\xefl'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'7\xff\x87\xc2\xc4\xf7i[4\xf4\xc8D\xbeZ\n\x12'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'\xeap\x88!\xba\x9f\xa2/8\xc6\x88g\xf8,\xb7x'}
+[DEBUG]: Found new state
+
+
+**Find States: 10**
+**Find Bugs: 0**
+2023-09-25 16:47:19
+---------------------Round 37---------------------
+[DEBUG]: Chosen State:
+ state_6
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b"\x17\xf1\xae\x7f!:$\xee\xfd\xdeK\x1d'Y\xbf\xa1"}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\xa5\x9d\xed\xd4\xab\x06B\x02Hr\xc6\xf9X\x83\x94\x9b'}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\x0eqR\xa0%>F@Y\xadm\xa6?d\xf7\x0e3\xd4\xbe\xb0\x17f\xb2\x8c\xcc.\\\n\xf6r\x05~\x12\xba\x98\xef\xdaD-#c\x8c\x8f\x07\x90+\xaf\xdb\xc4\x93\xb1<?/o\x87\xe4D1\x04G\xde{\xab'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b"'\xaa\xd3{en\xc7\x11nb\xee\xc7Z\xb6\xa3Z"}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'\xc72\xdc.\xe0-L\x1c\x1c\xf2\xeb/\xfa\x1f6t'}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[DEBUG]: Found new state
+
+
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:47:35
+---------------------Round 38---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:47:50
+---------------------Round 39---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_dhkey_check_state
+---------------------Round 40---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_dhkey_check_state
+---------------------Round 41---------------------
+[DEBUG]: Chosen State:
+ state_9
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9r\x9d\x82'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:48:05
+---------------------Round 42---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x17'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:48:20
+---------------------Round 43---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {0: b'U'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:48:36
+---------------------Round 44---------------------
+[DEBUG]: Chosen State:
+ state_5
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\xc8\x05\xf6\xc1\xd6dd\xcb/\xa7\xf7\xfat:\x16\xbb'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:48:51
+---------------------Round 45---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:49:07
+---------------------Round 46---------------------
+[DEBUG]: Chosen State:
+ state_7
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7\xb8t\xbb\x16'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\xc9\x88Te\xe2G\xb7\xe7\xf4\xdc\x8e\xbe\xaa\xa5\xe7\x88\xfa\x06-2a\xa5\x0f\xca\x04\xe3B_\xde\xab<Z\x89.`${\x9a\xec\xad\x8dZ??V\xf3\xf2\x89\xc6\xc4l\xc4O\xe5\xdf\x01\xba\xb7\xc9\xc4p\x00\xc8\xa9'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'\xf1\x10\xf6\xd9\xde\xb6\xde.\xaaD\x1aT\xab\xf0\x96\x98'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'\xc5x\x9b\x16\xc0\xc76\x1b\xebp\x9b_\xfe3\xf71'}
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:49:23
+---------------------Round 47---------------------
+[DEBUG]: Chosen State:
+ state_8
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'[\x87\xc9\xd4B\x8e\xf2:\xdb\xfb\x92wG-\x1e\x01'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'\x1d9\x07\xa9\xb8Q\xfe4\x1e6\x15\xbe\xfd\x85\x08\xda'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:49:38
+---------------------Round 48---------------------
+[DEBUG]: Chosen State:
+ state_9
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'H\x94\x02\x9bB\xab\xc6\x06\xed\xa5X\xd4r\xf9\x83\x9d'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:49:53
+---------------------Round 49---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_random_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9r\x9d\x84'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:50:08
+---------------------Round 50---------------------
+[DEBUG]: Chosen State:
+ state_10
+---------------------Round 51---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 52---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 53---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 54---------------------
+[DEBUG]: Chosen State:
+ state_3
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\r\xd7\xa9\x8a\xd6\xfc\x9ce\xa7\xebk\xbc\xb9\x99\xe3M'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:50:23
+---------------------Round 55---------------------
+[DEBUG]: Chosen State:
+ state_5
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\xc8\x05\xf6\xc1\xd6dd\xcb/\xa7\xf7\xfat:\x16\xbb'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:50:38
+---------------------Round 56---------------------
+[DEBUG]: Chosen State:
+ not_pair_state
+[DEBUG]: Mutation Vector:
+ {1: {2: b','}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:50:53
+---------------------Round 57---------------------
+[DEBUG]: Chosen State:
+ state_5
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\xe3\xd05#8b~9\xebI\xdb\xa68\x08\xff\xef'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:51:08
+---------------------Round 58---------------------
+[DEBUG]: Chosen State:
+ state_3
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\xfad\xcb\xa7d:\xc1\x05/t\xf7\xd6\x16\xc8\xf6\xbb'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:51:23
+---------------------Round 59---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_random_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xceX\xf9r\x9d\x83'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:51:39
+---------------------Round 60---------------------
+[DEBUG]: Chosen State:
+ state_7
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b't\xf6\xf7d\x16/\xbb\xc8\xd6\xfa\x05\xc1\xa7\xcbd:'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:51:54
+---------------------Round 61---------------------
+[DEBUG]: Chosen State:
+ state_3
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x16'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:52:09
+---------------------Round 62---------------------
+[DEBUG]: Chosen State:
+ state_4
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\xfa\xbb\xd6dt\xc1\xa7/\xc8\xf6\xcb\x16:\xf7d\x05'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:52:24
+---------------------Round 63---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 64---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 65---------------------
+[DEBUG]: Chosen State:
+ state_0
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:@\xbb\x16'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:52:39
+---------------------Round 66---------------------
+[DEBUG]: Chosen State:
+ state_0
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x17'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:52:54
+---------------------Round 67---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_confirm_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\xc8\x05\xf6\xc1\xd6dd\xcb/\xa7\xf7\xfat:\x16\xbb'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:53:09
+---------------------Round 68---------------------
+[DEBUG]: Chosen State:
+ state_2
+---------------------Round 69---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_rsp_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b'\xec\xb5\xab^\xddh`\xb8\x13k\x11\xf5\xd6\xc1R\xa1\xb6\x1eO\t[k[\x04\xedj@\xfb<\x03z\x8e&Q\xd2\x1a\xa2\xa3+g]M[6\x8c\x87>\xf7\xda\x9a\xf6\x81\x92\xa4\x88\xc1[|\xbf8v\x97p&'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:53:24
+---------------------Round 70---------------------
+[DEBUG]: Chosen State:
+ state_0
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6n\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x16'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:53:39
+---------------------Round 71---------------------
+[DEBUG]: Chosen State:
+ state_2
+---------------------Round 72---------------------
+[DEBUG]: Chosen State:
+ state_0
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x16'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:53:54
+---------------------Round 73---------------------
+[DEBUG]: Chosen State:
+ state_5
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:54:09
+---------------------Round 74---------------------
+[DEBUG]: Chosen State:
+ state_6
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b"\x17\xf1\xae\x7f!:$\xee\xfd\xdeK\x1d'Y\xbf\xa1"}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9r\x9d\x83'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:54:24
+---------------------Round 75---------------------
+[DEBUG]: Chosen State:
+ state_1
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd<'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:54:40
+---------------------Round 76---------------------
+[DEBUG]: Chosen State:
+ state_3
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x17'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:54:55
+---------------------Round 77---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_rsp_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd<'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:55:10
+---------------------Round 78---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_dhkey_check_state
+---------------------Round 79---------------------
+[DEBUG]: Chosen State:
+ state_5
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x16'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:55:25
+---------------------Round 80---------------------
+[DEBUG]: Chosen State:
+ state_8
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'[\x87\xc9\xd4B\x8e\xf2:\xdb\xfb\x92wG-\x1e\x01'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9r\x9d\x83'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:55:40
+---------------------Round 81---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'l\x14\xddy\x02T/\xa50\xbcwM\xc9pw\xfc\x11\xf5\x02>\x82\x889t\xec\xda\x04\x83\x961\xdd\xd3m\xa7u\x0f\x85\x7f\x9b\xde\xf9z\x9a\x04uc\xa9u\xbf!i4r\x8e\\\xb9\x89u\xb7\xb7\x93\x00\xbe\xa8'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'\xe5\x90\xaa}\xa86\xf6X\x9a\x9b\xe6\xc7h\x9cq\x83'}
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:55:56
+---------------------Round 82---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_confirm_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\xd4\x16\x9c\xe9\xf2M\x8b5\x11V|c\x8f\xb2$\x1a'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\x0cnI\x96\xe8L\xe2x`*\xdb\xf8$}\xa9\x9a\nv\xa9\x8fp\xa2VRF\x0e\x19\xde\xaf\xfd\xfbH\x10\xb5\xbb\x9d\xf3-\xd1\x97\x80\x1a\x1b\xb8\xd8\xb4\xd0\xd8V\xb6WXG\x0bD\xdbFn\xea#\xe9\x97P-'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'\xf6\xed\x15"\x82\xc0\xc5\xbe\xf9|\xaf\xbd\x8dM>4'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'D\xea\xdcD\xa2\xe9\xd5\x06\xaa{6\x1466\x0c.'}
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:56:11
+---------------------Round 83---------------------
+[DEBUG]: Chosen State:
+ state_9
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9\xf7\x9d\x83'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:56:27
+---------------------Round 84---------------------
+[DEBUG]: Chosen State:
+ state_6
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b"\x17\xf1\xae\x7f!:$\xee\xfd\xdeK\x1d'Y\xbf\xa1"}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9r\x9d\x84'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:56:42
+---------------------Round 85---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_dhkey_check_state
+---------------------Round 86---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x16'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 11**
+**Find Bugs: 0**
+2023-09-25 16:56:57
+---------------------Round 87---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_random_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\x94H\x9b\x02\xabB\x06\xc6\xa5\xed\xd4X\xf9r\x9d\x84'}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\xd8\x9f9\xc2[\xf1\x04E\xaf\xd7|\x0b\xea\xdd\xa7GR!\xb4a\x1d\xd7x\xb7\x8c\x8d\x14\xd9\xb0\x9e\xe6\xbf?\x8e\xc0P\x19\xe3Z\x0b\x80\xb9\xeb\xee\x0e\x1a\xbdS\xb6\xf82z\xac\x19vUU8\x84\x81\xa6\x11\x1f('}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'\x06g\x00\xbc!\xb3\xce\xcdWL(\x83\x04\x86\x82\x99'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'nngc\x88T\x01EZ\xcfRg\x0c\x9aZ\x0e'}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+[DEBUG]: Found new state
+
+
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:57:13
+---------------------Round 88---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 89---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_random_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'H\x94\x02\x9bB\xab\xc6\x06\xed\xa5X\xd4r\xf9\x83\x9d'}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'9a\xe7\xc3\\\xde\x12cK\xa4\x0b\xedt\xc0\x90\x10\xae\xde\xa5\xb89\x16\xcbz\xd4\xb4\xbd\x8d\xa7\xeb\xe4\xe4\x07b\x05\xfd\xbc\ry\xf7\x05\xc5&\x15\xf0\x18\xdb\x83\xdd\xd1\x8dI\x9f\xad\xeb\x93]\xa7\xbbZ\xc8\xf2S\x87'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'\x18d\x93\x01<\xb6\xb4\xaf\x02\x02\xc7^\x1b\x1a)`'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'\x10\x88\xc1\x0f\x04\xfd~y)\x0cAz\xd3\x98\xf5#'}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:57:28
+---------------------Round 90---------------------
+[DEBUG]: Chosen State:
+ state_1
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b'\x04dcM\x83\xc9>p\xc7\xb3{\xba\x0cF\x13\x9b\x12\xae\xac\xbat\xd9\x9d\x1c#\xec\xf1v\xa3\xfe.&\x11[h[\x89xs\x05\xcc\x15\x84\xae\x8d\xd3T[\x81\x8b6\xcc\x0e\x07\xb9\xa1\x94\xc9!\xf4L+\xbb\xc3'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:57:44
+---------------------Round 91---------------------
+[DEBUG]: Chosen State:
+ state_2
+---------------------Round 92---------------------
+[DEBUG]: Chosen State:
+ state_2
+---------------------Round 93---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_public_key_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'G\xf5\xab\xefk\xa8\xc0$4\xc0bA\x849\x86\x01'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:57:59
+---------------------Round 94---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_rsp_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b'\xc3\x8cds\t\x84\xf8\x97\xc6S2\x88\x90\x9f\x99\xfe\xc56=\xb6(\x90\xd6\xf5\xa2\xa1(\x93\x19\x0c\xefw\xf1\xc6,\xc1d1hk]\xfa\xef\xa0p\xe1\x97\x8aI\xf29\xc0j\xa7\x9a\x9ab<\x9f\x9f.\x83\x983'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:58:14
+---------------------Round 95---------------------
+[DEBUG]: Chosen State:
+ state_11
+---------------------Round 96---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_random_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\x14U\xde\xc7pQ~w\xc8\xdbD6\xc9T\x83;'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:58:29
+---------------------Round 97---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 98---------------------
+[DEBUG]: Chosen State:
+ state_3
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'dt\xf6\xc8\x16d/\x05\xbb\xd6\xfa\xc1:\xa7\xcb\xf7'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:58:44
+---------------------Round 99---------------------
+[DEBUG]: Chosen State:
+ state_0
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:58:59
+---------------------Round 100---------------------
+[DEBUG]: Chosen State:
+ state_0
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:59:14
+---------------------Round 101---------------------
+[DEBUG]: Chosen State:
+ state_8
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'[\x87\xc9\xd4B\x8e\xf2:\xdb\xfb\x92wG-\x1e\x01'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'\x94\xfbe\x92\xe9-\xd7\xa8\xc4\xee\x82\x9a\xfc\xe5\xc8k'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:59:30
+---------------------Round 102---------------------
+[DEBUG]: Chosen State:
+ state_1
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3\x14]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 16:59:45
+---------------------Round 103---------------------
+[DEBUG]: Chosen State:
+ state_7
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\xbb/td\xa7\x05\xc8\xd6\x16\xf6\xf7\xfa:d\xcb\xc1'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'v\xd6\x10\x00\x86R\xe2U@\xbb\xb8K\xcd\x9d\xda\xdd\xd2Y\x1e\xae\x80\xa7t\xeey\x99Of~\xe5\x98\x82:\x01}\xd9\x9f\xc1\xb6\x9aBM\xd5+x\n\xb7}}\x90\x9eVK\xd2\xc0[\xfd\xb7\x13\xd1\x98)_^'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'\xb4\xf3\xc6g\xe9\x94fH\xcbe\xdb_I\xb4\x8a\x87'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'\x84\x8dw(\xb3\x80EjG\x12NW\x9b\xc7Ll'}
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 17:00:01
+---------------------Round 104---------------------
+[DEBUG]: Chosen State:
+ state_0
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x15'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'_\xd0\xc5\x7f\x80\x19C\xd5\x9f\xd2\x8a\xdc\x85\xcag&\x81J\x0cb\xb7\x89\xd0vy\xbe\xf0U\x91\xeb/\x88\xc7\x8e\xad\xf8\x06\x0fE\x9e\x10=\xc7M\x01\xfc!!\xe6E\x0f\xbb\xe4Tc\xfff2\x9b\x9f\xfau7\xb2'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'\x8fy\x18A\xdc!,D\xee`\xb3\xe7G\x11l\xe4'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'D\xdf9\x11\x1c\xb0\xca%\x9a\xcb\x99y\xca*\xc1x'}
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 17:00:17
+---------------------Round 105---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_dhkey_check_state
+---------------------Round 106---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_random_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\x83X\xf9\x06B\xc6\x02\x9b\x9dr\x94\xed\xab\xa5\xd4H'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 17:00:32
+---------------------Round 107---------------------
+[DEBUG]: Chosen State:
+ state_4
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'\x05\xc8\xc1\xf6d\xd6\xcbd\xa7/\xfa\xf7:t\xbb\x17'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 17:00:47
+---------------------Round 108---------------------
+[DEBUG]: Chosen State:
+ state_2
+---------------------Round 109---------------------
+[DEBUG]: Chosen State:
+ final_state
+---------------------Round 110---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_dhkey_check_state
+---------------------Round 111---------------------
+[DEBUG]: Chosen State:
+ receive_pairing_confirm_state
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b'9\xcb\x98\x87\xee\xf7\x02\xb5r\x04\x9e\xb3U\xba\x00\xe4'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\x91O!M\xf3\x83\x1eD\x9a\xbdcA\xe6\xea\xc2\xdax\xe4\x95\x8cT\xfc7\xbf\xec\x89N\x8b\xde~\xad\x9a\xd5\xed\x0c\x0fq\xd1?v\xb7\x1c\\\x9c\x9e\xad\xc8-\xdd\xa0q\x081l\x19F0\xf1\xf4\xf9\xeb\x18c0'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'<B@>"\xcd\xf6\'\xb2\xdei\x9c\x02\x16Bm'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'\xb4\x9c\x1dJ\x1b\x9c\xe1\x05n\xdcGn\xc5\x16Q\x14'}
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 17:01:02
+---------------------Round 112---------------------
+[DEBUG]: Chosen State:
+ state_6
+[DEBUG]: Mutation Vector:
+ {1: {}, 2: {}, 3: {}, 4: {0: b"\x17\xf1\xae\x7f!:$\xee\xfd\xdeK\x1d'Y\xbf\xa1"}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {}, 13: {0: b'\xa9\x15\x80f\xfa\x13*\x81e\x9b\xf8-\x11\xb8w\x9e'}, 14: {}}
+[DEBUG]: Receive Packet:
+ {'code': 2, 'io_capability': b'\x03', 'oob_data_flags': b'\x00', 'authreq': b'\x08', 'max_enc_key_size': b'\x10', 'initiator_key_distribution': b'\x03', 'responder_key_distribution': b'\x03'}
+[DEBUG]: Receive Packet:
+ {'code': 12, 'long_term_key': b'\x05\x81\xc5\x8c\x83\x14\x80\xc9\xbcl\xb4\xa0VM\xce\x14\xc8\xd4Y8S\x84tJ\x81J!\r\xee?m\x989\xd9u\xd3\x1f\xdb8E\xbf7\xe9\x99\x0eI}\r3\\\xe7\x8a\xa4\xd8RC\xc1\xee\xf9\r\x05d\x8am'}
+[DEBUG]: Receive Packet:
+ {'code': 3, 'cfm_value': b'\x99\x9d3\x1e8z`\x18\xf8\xdcm\xbc7vG|'}
+[DEBUG]: Receive Packet:
+ {'code': 4, 'random_value': b'o\x038Hw1\x1aDY\x183\x1c\xd1\x9b\xbbF'}
+[DEBUG]: Receive Packet:
+ {'code': 5}
+**Find States: 12**
+**Find Bugs: 0**
+2023-09-25 17:01:18
+---------------------Round 113---------------------
+[DEBUG]: Chosen State:
+ state_8
+[DEBUG]: Mutation Vector:
+ {1: {0: b'\x04'}, 2: {}, 3: {}, 4: {0: b'[\x87\xc9\xd4B\x8e\xf2:\xdb\xfb\x92wG-\x1e\x01'}, 5: {}, 6: {}, 7: {}, 8: {}, 9: {}, 10: {}, 11: {}, 12: {0: b';\xc3c\xcc\x11\x8e<\x96\x9dY\x92\x8c\xbaD\x8e\xd8\x16\xf4F\x14c\xec\x1e\x9f\xd3U]\xea\xa8\xd0\xaeT\t\xc2/6J\xcdCC\xb4\xe6\xf6\xdf}\x02\\P\x97\n\xc6~\xfc+5A\xdfV\xb1sd\x01\xfd;'}, 13: {0: b'\x02\xa5r\xab\xf9\x06\x83\x9dH\xedBX\x9b\xd4\xc6\x94'}, 14: {}}
+[ERROR]:  pop from empty list
+**Find States: 12**
+**Find Bugs: 0**

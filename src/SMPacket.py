@@ -90,12 +90,12 @@ class SMPSocket:
 
     def __init__(self):
         self.socket = 0
-        self.ser = serial.Serial("COM5", 115200, timeout=3)
+        self.ser = serial.Serial("COM3", 115200, timeout=3)
 
     def send(self, data):
-        if(data == b''):
+        if (data == b''):
             data = b'\x00'
-        
+
         data += bytes([0x66, 0x78, 0x78, 0x6b])
         write_len = self.ser.write(data)
 
@@ -106,7 +106,7 @@ class SMPSocket:
                 com_input = self.ser.read()
                 if com_input:
                     real_buf += com_input
-                    if (real_buf[-8:] == bytes([0x66, 0x78, 0x78, 0x6b, 0xaa, 0xbb, 0xdd,0xee]) ):
+                    if (real_buf[-8:] == bytes([0x66, 0x78, 0x78, 0x6b, 0xaa, 0xbb, 0xdd, 0xee])):
                         real_buf = real_buf[:-8]
                         return real_buf
                 else:
@@ -122,12 +122,12 @@ class SMPSocket:
     def close(self):
         pass
 
-    def wait_for_resp(self):     
+    def wait_for_resp(self):
         reset_data = b'\xff'
         reset_data += bytes([0x66, 0x78, 0x78, 0x6b])
         self.ser.write(reset_data)
 
-    def reset(self):     
+    def reset(self):
         reset_data = b'\x01'
         reset_data += bytes([0x66, 0x78, 0x78, 0x6b])
         self.ser.write(reset_data)
@@ -347,6 +347,6 @@ class SMPacketSequnce:
 
 # if __name__ == '__main__':
 #     SMPSocket().send(bytes.fromhex("0100f00101f1"))
-    # SMPSocket().reset()
-    # testp = SMPacket("0756be784bc11345c6fb16")
-    # print(testp.content)
+# SMPSocket().reset()
+# testp = SMPacket("0756be784bc11345c6fb16")
+# print(testp.content)

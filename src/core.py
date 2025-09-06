@@ -11,7 +11,6 @@ import sys
 from copy import deepcopy
 
 
-
 #########################
 # Sanitizer Module
 #########################
@@ -53,8 +52,14 @@ class SMPFuzzer():
     def __init__(self):
 
         ini_mutation_vec = deepcopy(self.mutation_vector)
-        ini_mutation_vec[0x01] = {0: smp_pairing_request.content['io_capability'], 1: smp_pairing_request.content['oob_data_flags'], 2: smp_pairing_request.content['authreq'] , 
-                                   3: smp_pairing_request.content['max_enc_key_size'], 4: smp_pairing_request.content['initiator_key_distribution'], 5: smp_pairing_request.content['responder_key_distribution']}
+        ini_mutation_vec[0x01] = {
+            0: smp_pairing_request.content['io_capability'],
+            1: smp_pairing_request.content['oob_data_flags'],
+            2: smp_pairing_request.content['authreq'],
+            3: smp_pairing_request.content['max_enc_key_size'],
+            4: smp_pairing_request.content['initiator_key_distribution'],
+            5: smp_pairing_request.content['responder_key_distribution']
+        }
         ini_mutation_bytes = self.vec_to_bytes(ini_mutation_vec)
 
         self.socket = SMPSocket()
@@ -92,7 +97,7 @@ class SMPFuzzer():
 
     def process_fuzzing(self):
         with open("output.log", 'a+') as out_f:
-            sys.stdout = sys.__stdout__
+            sys.stdout = out_f
             # reset the socket
             self.socket.reset()
             self.state_machine.reset()
@@ -146,7 +151,6 @@ class SMPFuzzer():
                         break
                     self.state_machine.ALLRESP.insert(0, packet)
 
-
                 # self.state_machine.goto_state(state_name, tostate_bytes, mutation_bytes, mutation_packet)
 
                 # self.mutator.calculateStateProb(list(self.state_machine.toState_path_map.keys()))
@@ -169,17 +173,16 @@ class SMPFuzzer():
                         f.write(self.state_machine._graph().__str__())
                     os.system("dot -Tpng test.dot -o test.png")
                 except Exception as e:
-                    print("[ERROR]: ",e)
+                    print("[ERROR]: ", e)
                     # reset the socket
                     self.socket.reset()
                     self.state_machine.reset()
-                
+
                 print(f"**Find States: {self.state_machine.new_state_size}**")
                 print(f"**Find Bugs: {self.state_machine.new_bug}**")
                 out_f.flush()
-                time.sleep(8)
-            
-
+                time.sleep(10)
+                print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 
     def test_fuzzing(self):
         while (True):
@@ -221,6 +224,7 @@ class SMPFuzzer():
             # reset the socket
             self.socket.reset()
             self.state_machine.reset()
+
 
 if __name__ == '__main__':
     fuzzer = SMPFuzzer()
