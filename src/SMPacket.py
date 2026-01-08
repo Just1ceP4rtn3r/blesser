@@ -90,7 +90,7 @@ class SMPSocket:
 
     def __init__(self):
         self.socket = 0
-        self.ser = serial.Serial("COM3", 115200, timeout=3)
+        self.ser = serial.Serial("COM6", 115200, timeout=3)
 
     def send(self, data):
         if (data == b''):

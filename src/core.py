@@ -103,7 +103,7 @@ class SMPFuzzer():
             self.state_machine.reset()
             round = 1
             print("---------------------Begin Fuzzing---------------------")
-            time.sleep(8)
+            time.sleep(3)
             while (True):
                 print(f"---------------------Round {round}---------------------")
                 round += 1
@@ -181,7 +181,7 @@ class SMPFuzzer():
                 print(f"**Find States: {self.state_machine.new_state_size}**")
                 print(f"**Find Bugs: {self.state_machine.new_bug}**")
                 out_f.flush()
-                time.sleep(10)
+                time.sleep(5)
                 print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
 
     def test_fuzzing(self):

@@ -2,7 +2,7 @@ import serial
 import serial.tools.list_ports
 import time
 
-ser = serial.Serial("COM3", 115200)
+ser = serial.Serial("COM6", 115200)
 
 
 def send(c):
@@ -31,7 +31,7 @@ def recv():
 
 if __name__ == "__main__":
     reset()
-    #send(b'\x00')
+    # send(b'\x00')
     # time.sleep(2)
     # send(b'\xff')
     # recv()
